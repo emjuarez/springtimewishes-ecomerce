@@ -3,6 +3,7 @@ import {useVariantUrl} from '~/lib/variants';
 import {Link} from 'react-router';
 import {ProductPrice} from './ProductPrice';
 import {useAside} from './Aside';
+import '../styles/cart.css'
 
 /**
  * A single line item in the cart. It displays the product image, title, price.
@@ -12,54 +13,117 @@ import {useAside} from './Aside';
  *   line: CartLine;
  * }}
  */
+// export function CartLineItem({layout, line}) {
+//   const {id, merchandise} = line;
+//   const {product, title, image, selectedOptions} = merchandise;
+//   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
+//   const {close} = useAside();
+
+//   return (
+//     <li key={id} className="cart-line">
+//       <div className='row'>
+//           <Link
+//             prefetch="intent"
+//             to={lineItemUrl}
+//             onClick={() => {
+//               if (layout === 'aside') {
+//                 close();
+//               }
+//             }}
+//           >
+//             <p>
+//               <strong>{product.title}</strong>
+//             </p>
+//           </Link>
+//           <ProductPrice price={line?.cost?.totalAmount} />
+//       </div>
+//       <div className='row'>
+//         {image && (
+//           <Image
+//             alt={title}
+//             aspectRatio="1/1"
+//             data={image}
+//             height={100}
+//             loading="lazy"
+//             width={100}
+//           />
+//         )}
+//         <div>
+//           <ul>
+//             {selectedOptions.map((option) => (
+//               <li key={option.name}>
+//                 <small>
+//                   {option.name}: {option.value}
+//                 </small>
+//               </li>
+//             ))}
+//           </ul>
+//           <CartLineQuantity line={line} />
+//         </div>
+
+//       </div>
+//     </li>
+//   );
+// }
+
 export function CartLineItem({layout, line}) {
   const {id, merchandise} = line;
   const {product, title, image, selectedOptions} = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
   const {close} = useAside();
 
+  // Ordenar opciones: Color primero, luego Size
+  const sortedOptions = selectedOptions.sort((a, b) => {
+    const order = ['Color', 'Size'];
+    return order.indexOf(a.name) - order.indexOf(b.name);
+  });
+
   return (
     <li key={id} className="cart-line">
-      {image && (
-        <Image
-          alt={title}
-          aspectRatio="1/1"
-          data={image}
-          height={100}
-          loading="lazy"
-          width={100}
-        />
-      )}
-
-      <div>
-        <Link
-          prefetch="intent"
-          to={lineItemUrl}
-          onClick={() => {
-            if (layout === 'aside') {
-              close();
-            }
-          }}
-        >
-          <p>
-            <strong>{product.title}</strong>
-          </p>
-        </Link>
-        <ProductPrice price={line?.cost?.totalAmount} />
-        <ul>
-          {selectedOptions.map((option) => (
-            <li key={option.name}>
-              <small>
-                {option.name}: {option.value}
-              </small>
-            </li>
-          ))}
-        </ul>
-        <CartLineQuantity line={line} />
+      <div className='row'>
+          <Link
+            prefetch="intent"
+            to={lineItemUrl}
+            onClick={() => {
+              if (layout === 'aside') {
+                close();
+              }
+            }}
+          >
+            <p>
+              <strong>{product.title}</strong>
+            </p>
+          </Link>
+          <ProductPrice price={line?.cost?.totalAmount} />
+      </div>
+      <div className='row'>
+        {image && (
+          <Image
+            alt={title}
+            aspectRatio="1/1"
+            data={image}
+            height={100}
+            loading="lazy"
+            width={100}
+          />
+        )}
+        <div>
+          <ul>
+            {sortedOptions.map((option) => (
+              <li key={option.name}>
+                <small>
+                  {option.name}: {option.value}
+                </small>
+              </li>
+            ))}
+          </ul>
+          <CartLineQuantity line={line} />
+        </div>
       </div>
     </li>
   );
 }
+
 
 /**
  * Provides the controls to update the quantity of a line item in the cart.

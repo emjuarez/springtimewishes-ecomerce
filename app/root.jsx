@@ -139,6 +139,36 @@ function loadDeferredData({context}) {
   };
 }
 
+//SOLUCION TEMPORAL CART 
+
+
+// function loadDeferredData({context}) {
+//   const {storefront, customerAccount, cart} = context;
+
+//   // defer the footer query (below the fold)
+//   const footer = storefront
+//     .query(FOOTER_QUERY, {
+//       cache: storefront.CacheLong(),
+//       variables: {
+//         footerMenuHandle: 'footer', // Adjust to your footer menu handle
+//       },
+//     })
+//     .catch((error) => {
+//       // Log query errors, but don't throw them so the page can still render
+//       console.error(error);
+//       return null;
+//     });
+  
+//   return {
+//     cart: cart.get().catch((error) => {
+//       console.error('Cart error:', error);
+//       return null;
+//     }),
+//     isLoggedIn: customerAccount.isLoggedIn(),
+//     footer,
+//   };
+// }
+
 /**
  * @param {{children?: React.ReactNode}}
  */

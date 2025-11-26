@@ -2,6 +2,8 @@ import {Await, useLoaderData, Link} from 'react-router';
 import {Suspense} from 'react';
 import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
+import '../styles/home.css'
+import {ImageCarousel} from '~/components/ImageCarousel';
 
 /**
  * @type {Route.MetaFunction}
@@ -49,23 +51,61 @@ function loadDeferredData({context}) {
   const recommendedProducts = context.storefront
     .query(RECOMMENDED_PRODUCTS_QUERY)
     .catch((error) => {
-      // Log query errors, but don't throw them so the page can still render
+      console.error(error);
+      return null;
+    });
+
+  const chapterOneCollection = context.storefront
+    .query(CHAPTER_ONE_COLLECTION_QUERY, {
+      variables: {
+        handle: 'chapter-i-whispers-of-the-forest', // ← Usa este handle exacto
+      },
+    })
+    .catch((error) => {
       console.error(error);
       return null;
     });
 
   return {
     recommendedProducts,
+    chapterOneCollection,
   };
 }
+
 
 export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
+  const carouselImages = [
+    {
+      src: '/images/carousel/banner-home1.jpg',
+      alt: 'Slide 1',
+    },
+    {
+      src: '/images/carousel/banner-home2.jpg',
+      alt: 'Slide 2',
+    },
+    {
+      src: '/images/carousel/banner-home3.jpg',
+      alt: 'Slide 3',
+    },
+  ];
+
   return (
     <div className="home">
-      <FeaturedCollection collection={data.featuredCollection} />
-      <RecommendedProducts products={data.recommendedProducts} />
+    <div className='homeMaindiv'>
+      <div className="firstSection">
+        <ImageCarousel 
+          images={carouselImages} 
+          autoplay={false} 
+          loop={true} 
+        />
+      </div>
+      {/* <FeaturedCollection collection={data.featuredCollection} /> */}
+      <div className="secondSection">
+        <ChapterOneCollection collection={data.chapterOneCollection} />
+      </div>
+    </div>
     </div>
   );
 }
@@ -120,6 +160,115 @@ function RecommendedProducts({products}) {
   );
 }
 
+// function ChapterOneCollection({collection}) {
+//   return (
+//     <>
+//       <Suspense fallback={<div>Loading...</div>}>
+//         <Await resolve={collection}>
+//           {(response) => {
+//             if (!response?.collection) return null;
+//             const col = response.collection;
+//             return (
+//               <>
+//                 <div className="collectionTitleDiv">
+//                   <h2>{col.title}</h2>
+//                 </div>
+//                 <div className="recommended-products-grid">
+//                     {col.products.nodes.map((product) => (
+//                       <ProductItem key={product.id} product={product} />
+//                     ))}
+//                 </div>
+//               </>
+//             );
+//           }}
+//         </Await>
+//       </Suspense>
+//     </>
+//   );
+// }
+
+// function ChapterOneCollection({collection}) {
+//   return (
+//     <div className="chapter-one-collection">
+//       <Suspense fallback={<div>Loading...</div>}>
+//         <Await resolve={collection}>
+//           {(response) => {
+//             console.log('ChapterOne Response:', response); // Debug
+//             if (!response?.collection) return null;
+//             const col = response.collection;
+//             console.log('Products:', col.products.nodes); // Debug
+//             return (
+//               <div>
+//                 <h2>{col.title}</h2>
+//                 {col.description && <p>{col.description}</p>}
+//                 <div className="chapter-one-collection-grid">
+//                   {col.products.nodes.length > 0 ? (
+//                     col.products.nodes.map((product) => (
+//                       <ProductItem key={product.id} product={product} />
+//                     ))
+//                   ) : (
+//                     <p>No hay productos en esta colección</p>
+//                   )}
+//                 </div>
+//               </div>
+//             );
+//           }}
+//         </Await>
+//       </Suspense>
+//     </div>
+//   );
+// }
+function ChapterOneCollection({collection}) {
+  console.log('ChapterOne collection prop:', collection); // Ver qué llega
+  
+  return (
+    <>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Await resolve={collection}>
+          {(response) => {
+            console.log('ChapterOne FULL response:', response); // Ver respuesta completa
+            console.log('ChapterOne collection data:', response?.collection); // Ver colección
+            console.log('ChapterOne products:', response?.collection?.products); // Ver productos
+            
+            if (!response?.collection) {
+              console.log('No collection found in response');
+              return <p>No se encontró la colección</p>;
+            }
+            
+            const col = response.collection;
+            
+            if (!col.products || !col.products.nodes) {
+              console.log('No products structure found');
+              return <p>No hay estructura de productos</p>;
+            }
+            
+            console.log('Number of products:', col.products.nodes.length);
+            
+            return (
+              <>
+                <div className="collectionTitleDiv">
+                  <h2 className='title'>{col.title}</h2>
+                </div>
+                <div className="recommended-products-grid">
+                  {col.products.nodes.length > 0 ? (
+                    col.products.nodes.map((product) => {
+                      console.log('Rendering product:', product.title);
+                      return <ProductItem key={product.id} product={product} />;
+                    })
+                  ) : (
+                    <p>Array de productos vacío</p>
+                  )}
+                </div>
+              </>
+            );
+          }}
+        </Await>
+      </Suspense>
+    </>
+  );
+}
+
+
 const FEATURED_COLLECTION_QUERY = `#graphql
   fragment FeaturedCollection on Collection {
     id
@@ -171,6 +320,78 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
     }
   }
 `;
+
+// const CHAPTER_ONE_COLLECTION_QUERY = `#graphql
+//   fragment ChapterOneCollection on Collection {
+//     id
+//     title
+//     handle
+//     description
+//     products(first: 10) {
+//       nodes {
+//         id
+//         title
+//         handle
+//         priceRange {
+//           minVariantPrice {
+//             amount
+//             currencyCode
+//           }
+//         }
+//         featuredImage {
+//           id
+//           url
+//           altText
+//           width
+//           height
+//         }
+//       }
+//     }
+//   }
+//   query ChapterOneCollection($handle: String!, $country: CountryCode, $language: LanguageCode)
+//     @inContext(country: $country, language: $language) {
+//     collection(handle: $handle) {
+//       ...ChapterOneCollection
+//     }
+//   }
+// `;
+const CHAPTER_ONE_COLLECTION_QUERY = `#graphql
+  fragment ChapterOneCollection on Collection {
+    id
+    title
+    handle
+    description
+    products(first: 10) {
+      nodes {
+        id
+        title
+        handle
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        featuredImage {
+          id
+          url
+          altText
+          width
+          height
+        }
+      }
+    }
+  }
+  query ChapterOneCollection($handle: String!, $country: CountryCode, $language: LanguageCode)
+    @inContext(country: $country, language: $language) {
+    collection(handle: $handle) {
+      ...ChapterOneCollection
+    }
+  }
+`;
+
+
+
 
 /** @typedef {import('./+types/_index').Route} Route */
 /** @typedef {import('storefrontapi.generated').FeaturedCollectionFragment} FeaturedCollectionFragment */

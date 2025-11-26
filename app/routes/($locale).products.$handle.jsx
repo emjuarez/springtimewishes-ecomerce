@@ -11,6 +11,7 @@ import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+import '../styles/product.css'
 
 /**
  * @type {Route.MetaFunction}
@@ -103,31 +104,73 @@ export default function Product() {
     selectedOrFirstAvailableVariant: selectedVariant,
   });
 
-  const {title, descriptionHtml} = product;
+  const {title, descriptionHtml, description2, careInstructions} = product;
 
   return (
     <div className="product">
-      <ProductImage image={selectedVariant?.image} />
-      <div className="product-main">
-        <h1>{title}</h1>
-        <ProductPrice
-          price={selectedVariant?.price}
-          compareAtPrice={selectedVariant?.compareAtPrice}
-        />
-        <br />
-        <ProductForm
-          productOptions={productOptions}
-          selectedVariant={selectedVariant}
-        />
-        <br />
-        <br />
-        <p>
-          <strong>Description</strong>
-        </p>
-        <br />
-        <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
-        <br />
+      <div className="product_firstSection">
+        <div className="product left">
+          <div className="price-title">
+            <h1 className=' title'>{title}</h1>
+            <ProductPrice
+              price={selectedVariant?.price}
+              compareAtPrice={selectedVariant?.compareAtPrice}
+            />
+          </div>
+          <div dangerouslySetInnerHTML={{__html: descriptionHtml}} className='info'/>
+        </div>
+        <div className="product center">
+          <ProductImage image={selectedVariant?.image} />
+        </div>
+        <div className="product right">
+          <ProductForm
+            productOptions={productOptions}
+            selectedVariant={selectedVariant}
+            description2={description2}
+            careInstructions={careInstructions}
+          />
+        </div>
       </div>
+      <table class="size-table info" role="table" aria-label="Tabla de tallas">
+        <thead>
+          <tr>
+            <th class="size-label" scope="col">SIZE</th>
+            <th class="col" scope="col">I</th>
+            <th class="col" scope="col">II</th>
+            <th class="col" scope="col">III</th>
+            <th class="col" scope="col">IV</th>
+            <th class="col" scope="col">V</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">BUST</th>
+            <td>78–81</td>
+            <td>82–86.5</td>
+            <td>82–86.5</td>
+            <td>82–86.5</td>
+            <td>100–110.2</td>
+          </tr>
+
+          <tr>
+            <th scope="row">WAIST</th>
+            <td>62–66</td>
+            <td>67–71</td>
+            <td>71.5–76.4</td>
+            <td>77–81</td>
+            <td>84–97.6</td>
+          </tr>
+
+          <tr>
+            <th scope="row">HIPS</th>
+            <td>79–81.5</td>
+            <td>88–92</td>
+            <td>94–96</td>
+            <td>99–104</td>
+            <td>105–113.2</td>
+          </tr>
+        </tbody>
+      </table>
       <Analytics.ProductView
         data={{
           products: [
@@ -220,6 +263,12 @@ const PRODUCT_FRAGMENT = `#graphql
     seo {
       description
       title
+    }
+    description2: metafield(namespace: "custom", key: "descripcion_2") {
+      value
+    }
+    careInstructions: metafield(namespace: "custom", key: "cuidados") {
+      value
     }
   }
   ${PRODUCT_VARIANT_FRAGMENT}

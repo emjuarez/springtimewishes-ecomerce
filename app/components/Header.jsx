@@ -2,6 +2,8 @@ import {Suspense} from 'react';
 import {Await, NavLink, useAsyncValue} from 'react-router';
 import {useAnalytics, useOptimisticCart} from '@shopify/hydrogen';
 import {useAside} from '~/components/Aside';
+import '../styles/header.css'
+
 
 /**
  * @param {HeaderProps}
@@ -10,16 +12,18 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   const {shop, menu} = header;
   return (
     <header className="header">
-      <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-        <strong>{shop.name}</strong>
+      <NavLink prefetch="intent" to="/" className="headerLink" end> 
+        <img src={"../../public/images/Layout/STW_logo.png"} alt="" className='headerLogo'/>
       </NavLink>
       <HeaderMenu
         menu={menu}
         viewport="desktop"
         primaryDomainUrl={header.shop.primaryDomain.url}
         publicStoreDomain={publicStoreDomain}
+        cart={cart} 
       />
-      <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+      {/* <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} /> */}
+      {/* <CartToggle cart={cart} /> */}
     </header>
   );
 }
@@ -37,6 +41,7 @@ export function HeaderMenu({
   primaryDomainUrl,
   viewport,
   publicStoreDomain,
+  cart
 }) {
   const className = `header-menu-${viewport}`;
   const {close} = useAside();
@@ -66,7 +71,7 @@ export function HeaderMenu({
             : item.url;
         return (
           <NavLink
-            className="header-menu-item"
+            className="header-menu-item title"
             end
             key={item.id}
             onClick={close}
@@ -78,29 +83,29 @@ export function HeaderMenu({
           </NavLink>
         );
       })}
+      <CartToggle cart={cart} />  {/* ← Agrega esta línea aquí */}
     </nav>
   );
 }
-
 /**
  * @param {Pick<HeaderProps, 'isLoggedIn' | 'cart'>}
  */
-function HeaderCtas({isLoggedIn, cart}) {
-  return (
-    <nav className="header-ctas" role="navigation">
-      <HeaderMenuMobileToggle />
-      <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
-        <Suspense fallback="Sign in">
-          <Await resolve={isLoggedIn} errorElement="Sign in">
-            {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
-          </Await>
-        </Suspense>
-      </NavLink>
-      <SearchToggle />
-      <CartToggle cart={cart} />
-    </nav>
-  );
-}
+// function HeaderCtas({isLoggedIn, cart}) {
+//   return (
+//     <nav className="header-ctas" role="navigation">
+//       <HeaderMenuMobileToggle />
+//       <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
+//         <Suspense fallback="Sign in">
+//           <Await resolve={isLoggedIn} errorElement="Sign in">
+//             {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
+//           </Await>
+//         </Suspense>
+//       </NavLink>
+//       <SearchToggle />
+//       <CartToggle cart={cart} />
+//     </nav>
+//   );
+// }
 
 function HeaderMenuMobileToggle() {
   const {open} = useAside();
@@ -133,6 +138,7 @@ function CartBadge({count}) {
   return (
     <a
       href="/cart"
+      className='title header-menu-item'
       onClick={(e) => {
         e.preventDefault();
         open('cart');
@@ -144,7 +150,7 @@ function CartBadge({count}) {
         });
       }}
     >
-      Cart {count === null ? <span>&nbsp;</span> : count}
+      Basket ({count === null ? <span>&nbsp;</span> : count})
     </a>
   );
 }
@@ -218,8 +224,8 @@ const FALLBACK_HEADER_MENU = {
  */
 function activeLinkStyle({isActive, isPending}) {
   return {
-    fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'black',
+    textDecoration: isActive ? 'line-through' : undefined,
+    color: isPending ? 'white' : 'white',
   };
 }
 

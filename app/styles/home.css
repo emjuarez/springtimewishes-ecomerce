@@ -4,6 +4,32 @@
     align-items: flex-start;
     width: 100%;
 }
+.mist {
+  position: fixed;
+  width: 100%;
+  height: 250px;
+  bottom: 0;
+  z-index: 2;
+  background:   linear-gradient(
+    to bottom,
+    hsla(0, 0%, 88%, 0) 0%,
+    hsla(0, 0%, 88%, 0.013) 8.1%,
+    hsla(0, 0%, 88%, 0.049) 15.5%,
+    hsla(0, 0%, 88%, 0.104) 22.5%,
+    hsla(0, 0%, 88%, 0.175) 29%,
+    hsla(0, 0%, 88%, 0.259) 35.3%,
+    hsla(0, 0%, 88%, 0.352) 41.2%,
+    hsla(0, 0%, 88%, 0.45) 47.1%,
+    hsla(0, 0%, 88%, 0.55) 52.9%,
+    hsla(0, 0%, 88%, 0.648) 58.8%,
+    hsla(0, 0%, 88%, 0.741) 64.7%,
+    hsla(0, 0%, 88%, 0.825) 71%,
+    hsla(0, 0%, 88%, 0.896) 77.5%,
+    hsla(0, 0%, 88%, 0.951) 84.5%,
+    hsla(0, 0%, 88%, 0.987) 91.9%,
+    hsl(0, 0%, 88%) 100%
+  )}
+
 .homeMaindiv {
     display: flex;
     flex-direction: column;
@@ -25,7 +51,7 @@
 /* ========== IMAGE CAROUSEL ========== */
 
 .image-carousel-container {
-  position: sticky;
+  position: relative;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -63,12 +89,13 @@
   display: flex;
   align-items: center;
   gap: 30px;
-  z-index: 10;
+  z-index: 3;
 }
 
 .carousel-arrow {
-  width: 80px;
-  height: 80px;
+    position: relative;
+  width: 60px;
+  height: 60px;
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -77,9 +104,12 @@
   justify-content: center;
   transition: all 0.3s ease;
   color: transparent;
+  z-index: 10;
 }
 .arrowImg {
     width: 100%;
+      z-index: 10;
+
 }
 
 .carousel-arrow:active {
@@ -136,7 +166,7 @@ img{
 
 }
 .swiper {
-    min-height: 90vh;
+    min-height: 100vh;
 }
 .carousel-navigation {
     width: 100%;

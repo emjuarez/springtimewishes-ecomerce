@@ -101,10 +101,10 @@ export default function Homepage() {
           loop={true} 
         />
       </div>
-      {/* <FeaturedCollection collection={data.featuredCollection} /> */}
       <div className="secondSection">
         <ChapterOneCollection collection={data.chapterOneCollection} />
       </div>
+      <div className='mist'></div>
     </div>
     </div>
   );

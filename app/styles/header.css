@@ -1,6 +1,5 @@
 aside {
-  background: var(--color-light);
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+  background-color: #E2E1DE;;
   height: 100vh;
   width: min(var(--aside-width), 100vw);
   position: fixed;
@@ -27,7 +26,7 @@ aside header .close {
   opacity: 0.8;
   text-decoration: none;
   transition: all 200ms;
-  width: 20px;
+  width: 80px;
 }
 
 aside header .close:hover {
@@ -47,7 +46,7 @@ aside header h2 {
     padding: 0 1rem;
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 4;
     font-size: 30px;
 }
 

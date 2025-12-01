@@ -80,7 +80,7 @@ export function CartLineItem({layout, line}) {
 
   return (
     <li key={id} className="cart-line">
-      <div className='row'>
+      <div className='row top'>
           <Link
             prefetch="intent"
             to={lineItemUrl}
@@ -90,7 +90,7 @@ export function CartLineItem({layout, line}) {
               }
             }}
           >
-            <p>
+            <p className='title'>
               <strong>{product.title}</strong>
             </p>
           </Link>
@@ -107,11 +107,11 @@ export function CartLineItem({layout, line}) {
             width={100}
           />
         )}
-        <div>
+        <div className='cart-line_productInfo '>
           <ul>
             {sortedOptions.map((option) => (
               <li key={option.name}>
-                <small>
+                <small className='info'>
                   {option.name}: {option.value}
                 </small>
               </li>
@@ -139,30 +139,30 @@ function CartLineQuantity({line}) {
 
   return (
     <div className="cart-line-quantity">
-      <small>Quantity: {quantity} &nbsp;&nbsp;</small>
       <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
         <button
           aria-label="Decrease quantity"
           disabled={quantity <= 1 || !!isOptimistic}
           name="decrease-quantity"
           value={prevQuantity}
+          className='cartButton info'
         >
           <span>&#8722; </span>
         </button>
       </CartLineUpdateButton>
-      &nbsp;
+      <small className='cart-line_counter info'>{quantity}</small>
       <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
         <button
           aria-label="Increase quantity"
           name="increase-quantity"
           value={nextQuantity}
           disabled={!!isOptimistic}
+          className='cartButton info'
         >
           <span>&#43;</span>
         </button>
       </CartLineUpdateButton>
-      &nbsp;
-      <CartLineRemoveButton lineIds={[lineId]} disabled={!!isOptimistic} />
+      {/* <CartLineRemoveButton lineIds={[lineId]} disabled={!!isOptimistic} /> */}
     </div>
   );
 }

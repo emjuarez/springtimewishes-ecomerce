@@ -355,6 +355,44 @@ export type RecommendedProductsQuery = {
   };
 };
 
+export type AllCollectionsQueryVariables = StorefrontAPI.Exact<{
+  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
+  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
+}>;
+
+export type AllCollectionsQuery = {
+  collections: {
+    nodes: Array<
+      Pick<
+        StorefrontAPI.Collection,
+        'id' | 'title' | 'handle' | 'description'
+      > & {
+        image?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
+        >;
+        products: {
+          nodes: Array<
+            Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle'> & {
+              priceRange: {
+                minVariantPrice: Pick<
+                  StorefrontAPI.MoneyV2,
+                  'amount' | 'currencyCode'
+                >;
+              };
+              featuredImage?: StorefrontAPI.Maybe<
+                Pick<
+                  StorefrontAPI.Image,
+                  'url' | 'altText' | 'width' | 'height'
+                >
+              >;
+            }
+          >;
+        };
+      }
+    >;
+  };
+};
+
 export type ChapterOneCollectionFragment = Pick<
   StorefrontAPI.Collection,
   'id' | 'title' | 'handle' | 'description'
@@ -1269,6 +1307,10 @@ interface GeneratedQueryTypes {
   '#graphql\n  fragment RecommendedProduct on Product {\n    id\n    title\n    handle\n    priceRange {\n      minVariantPrice {\n        amount\n        currencyCode\n      }\n    }\n    featuredImage {\n      id\n      url\n      altText\n      width\n      height\n    }\n  }\n  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    products(first: 4, sortKey: UPDATED_AT, reverse: true) {\n      nodes {\n        ...RecommendedProduct\n      }\n    }\n  }\n': {
     return: RecommendedProductsQuery;
     variables: RecommendedProductsQueryVariables;
+  };
+  '#graphql\n  query AllCollections($country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {\n    collections(first: 50, sortKey: UPDATED_AT) {\n      nodes {\n        id\n        title\n        handle\n        description\n        image {\n          url\n          altText\n          width\n          height\n        }\n        products(first: 10) {\n          nodes {\n            id\n            title\n            handle\n            priceRange {\n              minVariantPrice {\n                amount\n                currencyCode\n              }\n            }\n            featuredImage {\n              url\n              altText\n              width\n              height\n            }\n          }\n        }\n      }\n    }\n  }\n': {
+    return: AllCollectionsQuery;
+    variables: AllCollectionsQueryVariables;
   };
   '#graphql\n  fragment ChapterOneCollection on Collection {\n    id\n    title\n    handle\n    description\n    products(first: 10) {\n      nodes {\n        id\n        title\n        handle\n        priceRange {\n          minVariantPrice {\n            amount\n            currencyCode\n          }\n        }\n        featuredImage {\n          id\n          url\n          altText\n          width\n          height\n        }\n      }\n    }\n  }\n  query ChapterOneCollection($handle: String!, $country: CountryCode, $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      ...ChapterOneCollection\n    }\n  }\n': {
     return: ChapterOneCollectionQuery;

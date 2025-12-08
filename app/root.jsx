@@ -116,32 +116,6 @@ async function loadCriticalData({context}) {
  * Make sure to not throw any errors here, as it will cause the page to 500.
  * @param {Route.LoaderArgs}
  */
-function loadDeferredData({context}) {
-  const {storefront, customerAccount, cart} = context;
-
-  // defer the footer query (below the fold)
-  const footer = storefront
-    .query(FOOTER_QUERY, {
-      cache: storefront.CacheLong(),
-      variables: {
-        footerMenuHandle: 'footer', // Adjust to your footer menu handle
-      },
-    })
-    .catch((error) => {
-      // Log query errors, but don't throw them so the page can still render
-      console.error(error);
-      return null;
-    });
-  return {
-    cart: cart.get(),
-    isLoggedIn: customerAccount.isLoggedIn(),
-    footer,
-  };
-}
-
-//SOLUCION TEMPORAL CART 
-
-
 // function loadDeferredData({context}) {
 //   const {storefront, customerAccount, cart} = context;
 
@@ -158,16 +132,42 @@ function loadDeferredData({context}) {
 //       console.error(error);
 //       return null;
 //     });
-  
 //   return {
-//     cart: cart.get().catch((error) => {
-//       console.error('Cart error:', error);
-//       return null;
-//     }),
+//     cart: cart.get(),
 //     isLoggedIn: customerAccount.isLoggedIn(),
 //     footer,
 //   };
 // }
+
+function loadDeferredData({context}) {
+  const {storefront, customerAccount, cart} = context;
+
+  const footer = storefront
+    .query(FOOTER_QUERY, {
+      cache: storefront.CacheLong(),
+      variables: {
+        footerMenuHandle: 'footer',
+      },
+    })
+    .catch((error) => {
+      console.error(error);
+      return null;
+    });
+
+  // ⭐ AGREGAMOS LAS COLECCIONES AQUÍ
+  const collections = storefront
+    .query(COLLECTIONS_QUERY)
+    .then((res) => res.collections.nodes)
+    .catch(() => []);
+
+  return {
+    cart: cart.get(),
+    isLoggedIn: customerAccount.isLoggedIn(),
+    footer,
+    collections,
+  };
+}
+
 
 /**
  * @param {{children?: React.ReactNode}}
@@ -215,6 +215,9 @@ export default function App() {
   );
 }
 
+
+
+
 export function ErrorBoundary() {
   const error = useRouteError();
   let errorMessage = 'Unknown error';
@@ -239,6 +242,17 @@ export function ErrorBoundary() {
     </div>
   );
 }
+export const COLLECTIONS_QUERY = `
+  query Collections {
+    collections(first: 20) {
+      nodes {
+        id
+        title
+        handle
+      }
+    }
+  }
+`;
 
 /** @typedef {LoaderReturnData} RootLoader */
 

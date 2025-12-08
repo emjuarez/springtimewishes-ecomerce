@@ -8,7 +8,7 @@ import '../styles/header.css'
 /**
  * @param {HeaderProps}
  */
-export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
+export function Header({header, isLoggedIn, cart, publicStoreDomain, collections}) {
   const {shop, menu} = header;
   return (
     <header className="header">
@@ -22,6 +22,15 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
         publicStoreDomain={publicStoreDomain}
         cart={cart} 
       />
+      {/* Marquee debajo del nav */}
+      <Suspense fallback={<div>Cargando colecciones...</div>}>
+        <Await resolve={collections}>
+          {(resolvedCollections) => (
+            <CollectionsMarquee collections={resolvedCollections ?? []} />
+          )}
+        </Await>
+      </Suspense>
+
       {/* <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} /> */}
       {/* <CartToggle cart={cart} /> */}
     </header>
@@ -128,6 +137,23 @@ function SearchToggle() {
   );
 }
 
+function CollectionsMarquee({collections}) {
+  if (!Array.isArray(collections)) return null;
+
+  return (
+    <div className="marquee-container">
+      <div className="marquee-content">
+        {collections.map((collection) => (
+          <span key={collection.id} className="marquee-item">
+            {collection.title}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
 /**
  * @param {{count: number | null}}
  */
@@ -213,9 +239,34 @@ const FALLBACK_HEADER_MENU = {
       url: '/pages/about',
       items: [],
     },
+    { id: '1', 
+      title: 'Collections', 
+      url: '/collections' 
+    },
+    { id: '2', 
+      title: 'Blog', 
+      url: '/blogs/journal' 
+    },
+    { id: '3', 
+      title: 
+      'Policies', 
+      url: '/policies' 
+    },
+    { id: '4', 
+      title: 'About', 
+      url: '/pages/about' 
+    },
   ],
 };
-
+// const FALLBACK_HEADER_MENU = {
+//   id: 'gid://shopify/Menu/199655587896',
+//   items: [
+//     { id: '1', title: 'Collections', url: '/collections' },
+//     { id: '2', title: 'Blog', url: '/blogs/journal' },
+//     { id: '3', title: 'Policies', url: '/policies' },
+//     { id: '4', title: 'About', url: '/pages/about' },
+//   ],
+// };
 /**
  * @param {{
  *   isActive: boolean;
@@ -241,3 +292,41 @@ function activeLinkStyle({isActive, isPending}) {
 /** @typedef {import('@shopify/hydrogen').CartViewPayload} CartViewPayload */
 /** @typedef {import('storefrontapi.generated').HeaderQuery} HeaderQuery */
 /** @typedef {import('storefrontapi.generated').CartApiQueryFragment} CartApiQueryFragment */
+
+const ALL_COLLECTIONS_QUERY = `#graphql
+  query AllCollections($country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {
+    collections(first: 50, sortKey: UPDATED_AT) {
+      nodes {
+        id
+        title
+        handle
+        description
+        image {
+          url
+          altText
+          width
+          height
+        }
+        products(first: 10) {
+          nodes {
+            id
+            title
+            handle
+            priceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+            }
+            featuredImage {
+              url
+              altText
+              width
+              height
+            }
+          }
+        }
+      }
+    }
+  }
+`;

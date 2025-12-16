@@ -12,9 +12,11 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain, collections
   const {shop, menu} = header;
   return (
     <header className="header">
+      <HeaderMenuMobileToggle />
       <NavLink prefetch="intent" to="/" className="headerLink" end> 
         <img src={"../../public/images/Layout/STW_logo.png"} alt="" className='headerLogo'/>
       </NavLink>
+      {/* Menu desktop */}
       <HeaderMenu
         menu={menu}
         viewport="desktop"
@@ -30,9 +32,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain, collections
           )}
         </Await>
       </Suspense>
-
-      {/* <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} /> */}
-      {/* <CartToggle cart={cart} /> */}
+      <CartToggle cart={cart} className="cartToogleMobile"/>
     </header>
   );
 }
@@ -57,17 +57,18 @@ export function HeaderMenu({
 
   return (
     <nav className={className} role="navigation">
-      {viewport === 'mobile' && (
+      {/* {viewport === 'mobile' && (
         <NavLink
           end
           onClick={close}
           prefetch="intent"
           style={activeLinkStyle}
           to="/"
+          className="header-menu-item title"
         >
           Home
         </NavLink>
-      )}
+      )} */}
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
         if (!item.url) return null;
 
@@ -96,6 +97,8 @@ export function HeaderMenu({
     </nav>
   );
 }
+
+
 /**
  * @param {Pick<HeaderProps, 'isLoggedIn' | 'cart'>}
  */
@@ -162,22 +165,41 @@ function CartBadge({count}) {
   const {publish, shop, cart, prevCart} = useAnalytics();
 
   return (
-    <a
-      href="/cart"
-      className='title header-menu-item'
-      onClick={(e) => {
-        e.preventDefault();
-        open('cart');
-        publish('cart_viewed', {
-          cart,
-          prevCart,
-          shop,
-          url: window.location.href || '',
-        });
-      }}
-    >
-      Basket ({count === null ? <span>&nbsp;</span> : count})
-    </a>
+    <>
+      <a
+        href="/cart"
+        className='title header-menu-item cartBadgeDesktop'
+        onClick={(e) => {
+          e.preventDefault();
+          open('cart');
+          publish('cart_viewed', {
+            cart,
+            prevCart,
+            shop,
+            url: window.location.href || '',
+          });
+        }}
+      >
+        Basket ({count === null ? <span>&nbsp;</span> : count})
+      </a>
+      <a
+        href="/cart"
+        className='title header-menu-item cartBadgeMobile'
+        onClick={(e) => {
+          e.preventDefault();
+          open('cart');
+          publish('cart_viewed', {
+            cart,
+            prevCart,
+            shop,
+            url: window.location.href || '',
+          });
+        }}
+      >
+         ({count === null ? <span>&nbsp;</span> : count})
+      </a>
+    </>
+
   );
 }
 

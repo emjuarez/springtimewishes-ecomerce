@@ -1,53 +1,55 @@
-export const meta = () => {
-  return [{title: 'About Us - SpringTime Wishes'}];
-};
+import '../styles/contact.css';
+import {useEffect} from "react";
 
 export default function AboutPage() {
+  useEffect(() => {
+    const key = document.querySelector('.key-image');
+    const parrafo = document.querySelector('.parrafo');
+    const mist = document.querySelector('.BlackMist');
+
+    if (!key) return;
+
+    key.addEventListener('click', () => {
+      // 1. Desvanecer llave
+      key.classList.add('fade-out');
+
+      // 2. Elevar el fondo negro (curtain reveal)
+      setTimeout(() => {
+        mist.classList.add('reveal');
+      }, 100);
+
+      // 3. Animar texto (subir)
+      setTimeout(() => {
+        parrafo.classList.add('animate');
+      },100);
+    });
+  }, []);
+
   return (
     <div className="about-page">
       <section className="about-hero">
-        <h1>About SpringTime Wishes</h1>
-        <p>Discover our story</p>
-      </section>
+        <img className="key-image" src="/images/about/llave.png" alt="key" />
+        <p className="parrafo title">
+          Welcome to Chapter I – Whispers of the Forest<br/>
 
-      <section className="about-content">
-        <div className="about-section">
-          <h2>Our Story</h2>
-          <p>
-            SpringTime Wishes was founded with a passion for creating unique,
-            handcrafted pieces that celebrate individuality and style...
-          </p>
-        </div>
+          A beginning woven in silence, shadow, and light.<br/>
+          Each garment a verse—echoes of time, stitched with care and memory.<br/>
 
-        <div className="about-section">
-          <h2>Our Mission</h2>
-          <p>
-            We believe in sustainable fashion that doesn't compromise on quality
-            or design. Every piece is carefully crafted...
-          </p>
-        </div>
+          We are drawn to the quiet strength of the past.<br/>
+          Our pieces are inspired by medieval silhouettes—gowns that grazed mossy earth, corsets that held breath and resolve, skirts that moved like water through trees.
+          But these are not costumes. They are interpretations: garments shaped for the present, softened by time, and made to be lived in.<br/>
 
-        <div className="about-section">
-          <h2>Our Values</h2>
-          <ul>
-            <li>Sustainability</li>
-            <li>Quality craftsmanship</li>
-            <li>Unique designs</li>
-            <li>Customer satisfaction</li>
-          </ul>
-        </div>
-      </section>
+          We believe in clothing as ritual.<br/>
+          In textures that carry the hush of leaves, the weight of dusk, and the bloom of morning.<br/>
+          Fragments of the past embedded in the present.<br/>
+          The lapse of the seasons told through our garments.<br/>
 
-      <section className="about-team">
-        <h2>Meet the Team</h2>
-        <div className="team-grid">
-          <div className="team-member">
-            <img src="/images/team/member-1.jpg" alt="Team member" />
-            <h3>Name</h3>
-            <p>Founder & Designer</p>
-          </div>
-          {/* Más miembros del equipo */}
-        </div>
+          Springtime Wishes is an ongoing tale.<br/>
+          This is its first breath.<br/>
+
+          Designed and sewn in Mexico.
+        </p>
+        <div className="BlackMist"></div>
       </section>
     </div>
   );

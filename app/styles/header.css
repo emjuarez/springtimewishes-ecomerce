@@ -73,7 +73,7 @@ aside header h2 {
   display: none;
   grid-gap: 1rem;
   justify-content: space-around;
-  width: 80%;
+  width: 72%;
   @media (min-width: 45em) {
     display: flex;
     grid-gap: 1rem;
@@ -96,4 +96,78 @@ aside header h2 {
 
 .header-ctas > * {
   min-width: fit-content;
+}
+/* Mobile First */
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.header-menu-mobile-toggle {
+  display: block;
+  background: none;
+  border: none;
+  font-size: 40px !important;
+  cursor: pointer;
+  color: white;
+}
+
+.mobile-cart {
+  display: block;
+}
+
+/* Ocultar menú desktop en mobile */
+.header-menu-desktop {
+  display: none;
+}
+
+
+
+/* Menú mobile en el Aside */
+.header-menu-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* padding: 2rem; */
+  padding: 25% 0% 0% 5%;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .header-menu-mobile-toggle {
+    display: none;
+  }
+  
+  .mobile-cart {
+    display: none;
+  }
+  .header-menu-mobile {
+    display: none;
+
+  }
+  .header-menu-desktop {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1rem;
+  }
+  .cartToogleMobile {
+    display: none;
+  }
+  .cartBadgeMobile {
+    display: none;
+  }
+  .cartBadgeDesktop {
+    display: contents;
+  }
+}
+@media (max-width:768px) {
+  .headerLink {
+    width: 46%;
+  }
+  .cartBadgeDesktop {
+    display: none;
+  }
 }

@@ -2,6 +2,7 @@ import {useLoaderData} from 'react-router';
 import {getPaginationVariables} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {ProductItem} from '~/components/ProductItem';
+import {PRODUCT_ITEM_FRAGMENT} from '~/lib/fragments';
 
 /**
  * @type {Route.MetaFunction}
@@ -76,34 +77,37 @@ export default function Collection() {
   );
 }
 
-const COLLECTION_ITEM_FRAGMENT = `#graphql
-  fragment MoneyCollectionItem on MoneyV2 {
-    amount
-    currencyCode
-  }
-  fragment CollectionItem on Product {
-    id
-    handle
-    title
-    featuredImage {
-      id
-      altText
-      url
-      width
-      height
-    }
-    priceRange {
-      minVariantPrice {
-        ...MoneyCollectionItem
-      }
-      maxVariantPrice {
-        ...MoneyCollectionItem
-      }
-    }
-  }
-`;
+// const COLLECTION_ITEM_FRAGMENT = `#graphql
+//   fragment MoneyCollectionItem on MoneyV2 {
+//     amount
+//     currencyCode
+//   }
+//   fragment CollectionItem on Product {
+//     id
+//     handle
+//     title
+//     featuredImage {
+//       id
+//       altText
+//       url
+//       width
+//       height
+//     }
+//     priceRange {
+//       minVariantPrice {
+//         ...MoneyCollectionItem
+//       }
+//       maxVariantPrice {
+//         ...MoneyCollectionItem
+//       }
+//     }
+//   }
+// `;
+
 
 // NOTE: https://shopify.dev/docs/api/storefront/latest/objects/product
+
+
 const CATALOG_QUERY = `#graphql
   query Catalog(
     $country: CountryCode
@@ -115,7 +119,7 @@ const CATALOG_QUERY = `#graphql
   ) @inContext(country: $country, language: $language) {
     products(first: $first, last: $last, before: $startCursor, after: $endCursor) {
       nodes {
-        ...CollectionItem
+        ...ProductItem
       }
       pageInfo {
         hasPreviousPage
@@ -125,7 +129,7 @@ const CATALOG_QUERY = `#graphql
       }
     }
   }
-  ${COLLECTION_ITEM_FRAGMENT}
+  ${PRODUCT_ITEM_FRAGMENT}
 `;
 
 /** @typedef {import('./+types/collections.all').Route} Route */

@@ -2,47 +2,25 @@ import {Await, useLoaderData, Link} from 'react-router';
 import {Suspense, useEffect} from 'react';
 import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
+import {PRODUCT_ITEM_FRAGMENT} from '~/lib/fragments'; 
 import '../styles/home.css'
 import {ImageCarousel} from '~/components/ImageCarousel';
-
 /**
  * @type {Route.MetaFunction}
  */
 export const meta = () => {
   return [{title: 'Hydrogen | Home'}];
 };
-
 /**
  * @param {Route.LoaderArgs} args
  */
 export async function loader(args) {
   // Start fetching non-critical data without blocking time to first byte
   const deferredData = loadDeferredData(args);
-
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
-
   return {...deferredData, ...criticalData};
 }
-
-/**
- * Load data necessary for rendering content above the fold. This is the critical data
- * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
- * @param {Route.LoaderArgs}
- */
-
-// async function loadCriticalData({context}) {
-//   const [{collections}] = await Promise.all([
-//     context.storefront.query(FEATURED_COLLECTION_QUERY),
-//     // Add other queries here, so that they are loaded in parallel
-//   ]);
-
-//   return {
-//     featuredCollection: collections.nodes[0],
-//   };
-// }
-
-
 async function loadCriticalData({context}) {
   const {collections} = await context.storefront.query(ALL_COLLECTIONS_QUERY);
   return {collections: collections.nodes};
@@ -60,25 +38,7 @@ function loadDeferredData({context}) {
       console.error(error);
       return null;
     });
-
-  const chapterOneCollection = context.storefront
-    .query(CHAPTER_ONE_COLLECTION_QUERY, {
-      variables: {
-        handle: 'chapter-i-whispers-of-the-forest', // ← Usa este handle exacto
-      },
-    })
-    .catch((error) => {
-      console.error(error);
-      return null;
-    });
-
-  return {
-    recommendedProducts,
-    chapterOneCollection,
-  };
 }
-
-
 export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
@@ -113,7 +73,6 @@ export default function Homepage() {
     },
     
   ];
-
   useEffect(() => {
       const key = document.querySelector('.homeKey');
       const parrafo = document.querySelector('.parrafo');
@@ -131,29 +90,27 @@ export default function Homepage() {
         }, 100);
       });
   }, []);
-
   return (
     <div className="home">
-    <div className='homeMaindiv'>
-      <div className="firstSection">
-        <ImageCarousel 
-          images={carouselImages} 
-          autoplay={false} 
-          loop={true} 
-        />
+      <div className='homeMaindiv'>
+        <div className="firstSection">
+          <ImageCarousel 
+            images={carouselImages} 
+            autoplay={false} 
+            loop={true} 
+          />
+        </div>
+        <div className="secondSection">
+          {/* <ChapterOneCollection collection={data.chapterOneCollection} /> */}
+          <AllCollections collections={data.collections} />
+        </div>
+        <div className='mist'></div>
+        <div className='mist1'></div>
+        <img src={"../../public/images/home/llave.png"} alt="" className='homeKey'/>
       </div>
-      <div className="secondSection">
-        {/* <ChapterOneCollection collection={data.chapterOneCollection} /> */}
-        <AllCollections collections={data.collections} />
-      </div>
-      <div className='mist'></div>
-      <div className='mist1'></div>
-      <img src={"../../public/images/home/llave.png"} alt="" className='homeKey'/>
-    </div>
     </div>
   );
 }
-
 /**
  * @param {{
  *   collection: FeaturedCollectionFragment;
@@ -202,7 +159,6 @@ function RecommendedProducts({products}) {
     </div>
   );
 }
-
 function ChapterOneCollection({collection}) {
   console.log('ChapterOne collection prop:', collection); // Ver qué llega
   
@@ -252,7 +208,6 @@ function ChapterOneCollection({collection}) {
     </>
   );
 }
-
 function AllCollections({collections}) {
   console.log('AllCollections prop:', collections);
 
@@ -306,7 +261,6 @@ function AllCollections({collections}) {
     </>
   );
 }
-
 export const COLLECTIONS_QUERY = `
   query Collections {
     collections(first: 20) {
@@ -318,7 +272,6 @@ export const COLLECTIONS_QUERY = `
     }
   }
 `;
-
 const FEATURED_COLLECTION_QUERY = `#graphql
   fragment FeaturedCollection on Collection {
     id
@@ -342,34 +295,18 @@ const FEATURED_COLLECTION_QUERY = `#graphql
   }
 `;
 const RECOMMENDED_PRODUCTS_QUERY = `#graphql
-  fragment RecommendedProduct on Product {
-    id
-    title
-    handle
-    priceRange {
-      minVariantPrice {
-        amount
-        currencyCode
-      }
-    }
-    featuredImage {
-      id
-      url
-      altText
-      width
-      height
-    }
-  }
+  ${PRODUCT_ITEM_FRAGMENT}
   query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
     products(first: 4, sortKey: UPDATED_AT, reverse: true) {
       nodes {
-        ...RecommendedProduct
+        ...ProductItem
       }
     }
   }
 `;
 const ALL_COLLECTIONS_QUERY = `#graphql
+  ${PRODUCT_ITEM_FRAGMENT}
   query AllCollections($country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {
     collections(first: 50, sortKey: UPDATED_AT) {
       nodes {
@@ -385,64 +322,13 @@ const ALL_COLLECTIONS_QUERY = `#graphql
         }
         products(first: 10) {
           nodes {
-            id
-            title
-            handle
-            priceRange {
-              minVariantPrice {
-                amount
-                currencyCode
-              }
-            }
-            featuredImage {
-              url
-              altText
-              width
-              height
-            }
+            ...ProductItem
           }
         }
       }
     }
   }
 `;
-const CHAPTER_ONE_COLLECTION_QUERY = `#graphql
-  fragment ChapterOneCollection on Collection {
-    id
-    title
-    handle
-    description
-    products(first: 10) {
-      nodes {
-        id
-        title
-        handle
-        priceRange {
-          minVariantPrice {
-            amount
-            currencyCode
-          }
-        }
-        featuredImage {
-          id
-          url
-          altText
-          width
-          height
-        }
-      }
-    }
-  }
-  query ChapterOneCollection($handle: String!, $country: CountryCode, $language: LanguageCode)
-    @inContext(country: $country, language: $language) {
-    collection(handle: $handle) {
-      ...ChapterOneCollection
-    }
-  }
-`;
-
-
-
 
 /** @typedef {import('./+types/_index').Route} Route */
 /** @typedef {import('storefrontapi.generated').FeaturedCollectionFragment} FeaturedCollectionFragment */

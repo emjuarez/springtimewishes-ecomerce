@@ -2,18 +2,23 @@ import {Link} from 'react-router';
 import {Image, Money} from '@shopify/hydrogen';
 import {useVariantUrl} from '~/lib/variants';
 
-/**
- * @param {{
- *   product:
- *     | CollectionItemFragment
- *     | ProductItemFragment
- *     | RecommendedProductFragment;
- *   loading?: 'eager' | 'lazy';
- * }}
- */
+
 export function ProductItem({product, loading}) {
   const variantUrl = useVariantUrl(product.handle);
   const image = product.featuredImage;
+    console.log('Product data:', product);
+  console.log('Options:', product.options);
+  console.log('Variants:', product.variants);
+  // Obtener las tallas disponibles
+  const sizeOption = product.options?.find(
+    (option) => option.name.toLowerCase() === 'size' || option.name.toLowerCase() === 'talla'
+  );
+  
+  // Obtener solo las tallas que tienen stock disponible
+  const availableSizes = sizeOption 
+    ? getAvailableSizes(product.variants?.nodes || [], sizeOption.optionValues)
+    : [];
+
   return (
     <Link
       className="product-item"
@@ -31,13 +36,53 @@ export function ProductItem({product, loading}) {
         />
       )}
       <div className='productInfo'>
-        <h4 className='title'>{product.title}</h4>
-        <small className='info'>
+        <div className='left'>
+          <h4 className='title'>{product.title}</h4>
           <Money data={product.priceRange.minVariantPrice} />
-        </small>
+        </div>
+        <div className='right'>
+          <p>SIZE</p>
+          <div className='sizes-list'>
+            {availableSizes.length > 0 ? (
+              availableSizes.map((size, index) => (
+                <span key={index} className={`size-badge ${size.available ? '' : 'unavailable'}`}>
+                  {size.name}
+                </span>
+              ))
+            ) : (
+              <p className='info'>One Size</p>
+            )}
+          </div>
+        </div>
       </div>
     </Link>
   );
+}
+
+
+/**
+ * Obtiene las tallas disponibles basándose en las variantes
+ * @param {Array} variants - Array de variantes del producto
+ * @param {Array} sizeOptions - Array de opciones de talla
+ * @returns {Array} Array de objetos con {name, available}
+ */
+function getAvailableSizes(variants, sizeOptions) {
+  if (!variants || !sizeOptions) return [];
+  
+  return sizeOptions.map((sizeOption) => {
+    // Buscar si existe una variante con esta talla que esté disponible
+    const hasAvailableVariant = variants.some((variant) => {
+      const sizeValue = variant.selectedOptions?.find(
+        (opt) => opt.name.toLowerCase() === 'size' || opt.name.toLowerCase() === 'talla'
+      );
+      return sizeValue?.value === sizeOption.name && variant.availableForSale;
+    });
+    
+    return {
+      name: sizeOption.name,
+      available: hasAvailableVariant,
+    };
+  });
 }
 
 /** @typedef {import('storefrontapi.generated').ProductItemFragment} ProductItemFragment */

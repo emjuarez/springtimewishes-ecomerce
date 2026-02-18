@@ -84,7 +84,7 @@ aside header h2 {
 .header-menu-item {
   cursor: pointer;
   font-size: 30px;
-  color: white;
+  color: #999999 !important;
 }
 
 .header-ctas {

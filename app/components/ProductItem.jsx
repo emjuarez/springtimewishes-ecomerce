@@ -33,24 +33,25 @@ export function ProductItem({product, loading}) {
           data={image}
           loading={loading}
           sizes="(min-width: 45em) 400px, 100vw"
+          className='imagenProducto'
         />
       )}
       <div className='productInfo'>
         <div className='left'>
-          <h4 className='title'>{product.title}</h4>
-          <Money data={product.priceRange.minVariantPrice} />
+          <p className='title'>{product.title}</p>
+          <Money data={product.priceRange.minVariantPrice} className='info' />
         </div>
         <div className='right'>
-          <p>SIZE</p>
+          <p className='info'>SIZE</p>
           <div className='sizes-list'>
             {availableSizes.length > 0 ? (
               availableSizes.map((size, index) => (
-                <span key={index} className={`size-badge ${size.available ? '' : 'unavailable'}`}>
-                  {size.name}
+                <span key={index} className={`size-badge ${size.available ? '' : 'unavailable'} title`}>
+                  {size.name} 
                 </span>
               ))
             ) : (
-              <p className='info'>One Size</p>
+              <p className='title'>One Size</p>
             )}
           </div>
         </div>

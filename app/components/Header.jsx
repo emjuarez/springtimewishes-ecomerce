@@ -22,7 +22,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain, collections
         viewport="desktop"
         primaryDomainUrl={header.shop.primaryDomain.url}
         publicStoreDomain={publicStoreDomain}
-        cart={cart} 
+    
       />
       {/* Marquee debajo del nav */}
       <Suspense fallback={<div>Cargando colecciones...</div>}>
@@ -93,7 +93,7 @@ export function HeaderMenu({
           </NavLink>
         );
       })}
-      <CartToggle cart={cart} />  {/* ← Agrega esta línea aquí */}
+
     </nav>
   );
 }

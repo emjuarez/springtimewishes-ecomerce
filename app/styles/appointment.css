@@ -1,38 +1,70 @@
 /* ========== APPOINTMENTS PAGE ========== */
 
 .appointments-page {
-  min-height: 100vh;
-  padding: 60px 20px;
-  background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+  height: 100vh;
+  height: calc( 100vh - 175px);
+  padding: 120px 30px 0px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  width: 100%;
+  gap: 30px;
+  background-color: #d5d5d5;
 }
-
-.appointments-container {
-  max-width: 600px;
-  margin: 0 auto;
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+.mist {
+  position: fixed;
+  width: 100%;
+  height: 150px;
+  bottom: 0;
+  z-index: 2;
+  background:   linear-gradient(
+    to bottom,
+    hsla(0, 0%, 100%, 0) 0%,
+    hsla(0, 0%, 100%, 0.013) 8.1%,
+    hsla(0, 0%, 100%, 0.049) 15.5%,
+    hsla(0, 0%, 100%, 0.104) 22.5%,
+    hsla(0, 0%, 100%, 0.175) 29%,
+    hsla(0, 0%, 100%, 0.259) 35.3%,
+    hsla(0, 0%, 100%, 0.352) 41.2%,
+    hsla(0, 0%, 100%, 0.45) 47.1%,
+    hsla(0, 0%, 100%, 0.55) 52.9%,
+    hsla(0, 0%, 100%, 0.648) 58.8%,
+    hsla(0, 0%, 100%, 0.741) 64.7%,
+    hsla(0, 0%, 100%, 0.825) 71%,
+    hsla(0, 0%, 100%, 0.896) 77.5%,
+    hsla(0, 0%, 100%, 0.951) 84.5%,
+    hsla(0, 0%, 100%, 0.987) 91.9%,
+    hsl(0, 0%, 100%) 100%
+  )
 }
-
-.appointments-container h1 {
-  font-size: 32px;
+.appointments-info {
+    grid-column: 1 / 3;
+    text-align: left;
+    width: 100%;
+}
+.appointments-info h1 {
+  font-size: 20px;
   margin-bottom: 10px;
-  text-align: center;
+  margin-top: 0px;
 }
-
 .subtitle {
-  text-align: center;
   color: #666;
   margin-bottom: 40px;
 }
-
+.appointments-container {
+  margin: 0 auto;
+  width: 90%;
+  padding: 20px;
+  grid-column: 4 / 10;
+  border: solid #A5A5A5 1px;
+  height: fit-content;
+}
 .appointment-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
 }
-
 .form-group {
   display: flex;
   flex-direction: column;
@@ -40,23 +72,30 @@
 }
 
 .form-group label {
-  font-weight: 600;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+    border: solid #b3b3b395 1px; 
+    width: fit-content;
+    padding: 0px 7px;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
+  background-color: #b3b3b3a3;
   padding: 12px 16px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  font-size: 16px;
-  font-family: inherit;
+  border: none;
+  border-radius: 0px;
   transition: border-color 0.3s;
+  color: black;
 }
-
+/* .form-group input::placeholder {
+  color: black;
+}
+.form-group select::placeholder {
+  color: black;
+}
+.form-group textarea::placeholder {
+  color: black;
+} */
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
@@ -70,15 +109,11 @@
 }
 
 .submit-button {
-  padding: 16px 32px;
-  background-color: black;
-  color: white;
+  padding: 30px 32px;
+  background-color: #b3b3b3a3;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  border-radius: 0px;
+  color: #808080;
   cursor: pointer;
   transition: all 0.3s;
   margin-top: 20px;

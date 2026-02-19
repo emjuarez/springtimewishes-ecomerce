@@ -8,7 +8,7 @@
   --color-light: #fff;
 }
 body {
-  background-color: #E2E1DE;;
+  background-color: #d5d5d5;
 }
 
 img {
@@ -287,6 +287,8 @@ button.reset:hover:not(:has(> *)) {
 .product-item img {
   height: auto;
   width: 100%;
+  border: solid #A5A5A5 1px;
+  box-sizing: border-box;
 }
 .product-item {
     display: flex;
@@ -295,9 +297,11 @@ button.reset:hover:not(:has(> *)) {
     justify-content: center;
     align-items: center;
     height: 470px;
+    transition: all 0.3s;
 }
 .product-item:hover {
   opacity: .7;
+  text-decoration: none;
 
 }
 .productInfo {

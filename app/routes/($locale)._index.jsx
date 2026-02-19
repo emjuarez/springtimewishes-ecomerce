@@ -160,16 +160,14 @@ function RecommendedProducts({products}) {
   );
 }
 function ChapterOneCollection({collection}) {
-  console.log('ChapterOne collection prop:', collection); // Ver qué llega
+
   
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={collection}>
           {(response) => {
-            console.log('ChapterOne FULL response:', response); // Ver respuesta completa
-            console.log('ChapterOne collection data:', response?.collection); // Ver colección
-            console.log('ChapterOne products:', response?.collection?.products); // Ver productos
+         
             
             if (!response?.collection) {
               console.log('No collection found in response');
@@ -183,7 +181,6 @@ function ChapterOneCollection({collection}) {
               return <p>No hay estructura de productos</p>;
             }
             
-            console.log('Number of products:', col.products.nodes.length);
             
             return (
               <>
@@ -193,7 +190,6 @@ function ChapterOneCollection({collection}) {
                 <div className="recommended-products-grid">
                   {col.products.nodes.length > 0 ? (
                     col.products.nodes.map((product) => {
-                      console.log('Rendering product:', product.title);
                       return <ProductItem key={product.id} product={product} />;
                     })
                   ) : (
@@ -209,7 +205,6 @@ function ChapterOneCollection({collection}) {
   );
 }
 function AllCollections({collections}) {
-  console.log('AllCollections prop:', collections);
 
   return (
     <>
@@ -241,7 +236,6 @@ function AllCollections({collections}) {
                       <div className="recommended-products-grid">
                         {col.products.nodes.length > 0 ? (
                           col.products.nodes.map((product) => {
-                            console.log('Rendering product:', product.title);
                             return (
                               <ProductItem key={product.id} product={product} />
                             );

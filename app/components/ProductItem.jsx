@@ -6,9 +6,7 @@ import {useVariantUrl} from '~/lib/variants';
 export function ProductItem({product, loading}) {
   const variantUrl = useVariantUrl(product.handle);
   const image = product.featuredImage;
-    console.log('Product data:', product);
-  console.log('Options:', product.options);
-  console.log('Variants:', product.variants);
+
   // Obtener las tallas disponibles
   const sizeOption = product.options?.find(
     (option) => option.name.toLowerCase() === 'size' || option.name.toLowerCase() === 'talla'

@@ -1,4 +1,4 @@
-import '../styles/contact.css';
+import '../styles/about.css';
 import {useEffect} from "react";
 
 export default function AboutPage() {
@@ -14,9 +14,9 @@ export default function AboutPage() {
       key.classList.add('fade-out');
 
       // 2. Elevar el fondo negro (curtain reveal)
-      setTimeout(() => {
-        mist.classList.add('reveal');
-      }, 100);
+      // setTimeout(() => {
+      //   mist.classList.add('reveal');
+      // }, 100);
 
       // 3. Animar texto (subir)
       setTimeout(() => {
@@ -27,6 +27,7 @@ export default function AboutPage() {
 
   return (
     <div className="about-page">
+    <div className='mist'></div>
       <section className="about-hero">
         <img className="key-image" src="/images/about/llave.png" alt="key" />
         <p className="parrafo title">

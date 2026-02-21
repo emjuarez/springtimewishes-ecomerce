@@ -28,7 +28,7 @@ export default function AboutPage() {
   return (
     <div className="about-page">
     <div className='mist'></div>
-      <section className="about-hero">
+      <div className="about-hero">
         <img className="key-image" src="/images/about/llave.png" alt="key" />
         <p className="parrafo title">
           Welcome to Chapter I – Whispers of the Forest<br/>
@@ -51,7 +51,7 @@ export default function AboutPage() {
           Designed and sewn in Mexico.
         </p>
         <div className="BlackMist"></div>
-      </section>
+      </div>
     </div>
   );
 }

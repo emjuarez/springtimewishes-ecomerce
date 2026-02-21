@@ -1,12 +1,14 @@
 import {Link, useNavigate} from 'react-router';
 import {AddToCartButton} from './AddToCartButton';
 import {useAside} from './Aside';
+import {useWindowSize} from '~/hooks/useWindowSize';
 
 export function ProductForm({
   productOptions, 
   selectedVariant, 
   description2, 
   careInstructions, 
+  descriptionHtml
 }) {
   const navigate = useNavigate();
   const {open} = useAside();
@@ -15,6 +17,8 @@ export function ProductForm({
   const sizeOption = productOptions.find(opt => opt.name.toLowerCase() === 'size' || opt.name.toLowerCase() === 'talla');
   const colorOption = productOptions.find(opt => opt.name.toLowerCase() === 'color');
   
+  const {isMobile, isTablet, isDesktop} = useWindowSize();
+
   return (
     <>
       {/* SECCIÓN 1: Size options + Add to Basket */}
@@ -100,94 +104,186 @@ export function ProductForm({
           {selectedVariant?.availableForSale ? 'Add to Basket' : 'Sold out'}
         </AddToCartButton>
       </div>
-
-      {/* SECCIÓN 2: Description (description2) */}
-      {description2?.value && (
-        <div className="product-description ">
-          <p style={{whiteSpace: 'pre-wrap'}} className='info'>{description2.value}</p>
-        </div>
-      )}
-
-      {/* SECCIÓN 3: Color options + Shop Now */}
-      <div className="product-form-section">
-        {colorOption && colorOption.optionValues.length > 1 && (
-          <div className="product-options">
-            {/* <h3>{colorOption.name}</h3> */}
-            <div className="product-options-grid">
-              {colorOption.optionValues.map((value) => {
-                const {
-                  name,
-                  handle,
-                  variantUriQuery,
-                  selected,
-                  available,
-                  exists,
-                  isDifferentProduct,
-                  swatch,
-                } = value;
-
-                if (isDifferentProduct) {
-                  return (
-                    <Link
-                      className="product-options-item"
-                      key={colorOption.name + name}
-                      prefetch="intent"
-                      preventScrollReset
-                      replace
-                      to={`/products/${handle}?${variantUriQuery}`}
-                      style={{
-                        border: selected ? '1px solid black' : '1px solid transparent',
-                        opacity: available ? 1 : 0.3,
-                      }}
-                    >
-                      <ProductOptionSwatch swatch={swatch} name={name} />
-                    </Link>
-                  );
-                } else {
-                  return (
-                    <>
-                      <button
-                      type="button"
-                      className={`color-options-item${exists && !selected ? ' link' : ''}`}
-                      key={colorOption.name + name}
-                      style={{
-                        outline: selected ? '5px solid white' : '1px solid transparent',
-                        opacity: available ? 1 : 0.3,
-                        backgroundColor: name,
-                      }}
-                      disabled={!exists}
-                      onClick={() => {
-                        if (!selected) {
-                          void navigate(`?${variantUriQuery}`, {
-                            replace: true,
-                            preventScrollReset: true,
-                          });
-                        }
-                      }}
-                    >
-                      {/* <ProductOptionSwatch swatch={swatch} name={name} /> */}
-                    </button>
-                    </>
-                    
-                  );
-                }
-              })}
-            </div>
+      {isDesktop && (
+      <>
+        {/* SECCIÓN 2: Description (description2) */}
+        {description2?.value && (
+          <div className="product-description ">
+            <p style={{whiteSpace: 'pre-wrap'}} className='info'>{description2.value}</p>
           </div>
         )}
+        {/* SECCIÓN 3: Color options + Shop Now */}
+        <div className="product-form-section">
+          {colorOption && colorOption.optionValues.length > 1 && (
+            <div className="product-options">
+              {/* <h3>{colorOption.name}</h3> */}
+              <div className="product-options-grid">
+                {colorOption.optionValues.map((value) => {
+                  const {
+                    name,
+                    handle,
+                    variantUriQuery,
+                    selected,
+                    available,
+                    exists,
+                    isDifferentProduct,
+                    swatch,
+                  } = value;
 
-        <button className="shop-now-button title" type="button">
-          Shop Now
-        </button>
-      </div>
+                  if (isDifferentProduct) {
+                    return (
+                      <Link
+                        className="product-options-item"
+                        key={colorOption.name + name}
+                        prefetch="intent"
+                        preventScrollReset
+                        replace
+                        to={`/products/${handle}?${variantUriQuery}`}
+                        style={{
+                          border: selected ? '1px solid black' : '1px solid transparent',
+                          opacity: available ? 1 : 0.3,
+                        }}
+                      >
+                        <ProductOptionSwatch swatch={swatch} name={name} />
+                      </Link>
+                    );
+                  } else {
+                    return (
+                      <>
+                        <button
+                        type="button"
+                        className={`color-options-item${exists && !selected ? ' link' : ''}`}
+                        key={colorOption.name + name}
+                        style={{
+                          outline: selected ? '5px solid white' : '1px solid transparent',
+                          opacity: available ? 1 : 0.3,
+                          backgroundColor: name,
+                        }}
+                        disabled={!exists}
+                        onClick={() => {
+                          if (!selected) {
+                            void navigate(`?${variantUriQuery}`, {
+                              replace: true,
+                              preventScrollReset: true,
+                            });
+                          }
+                        }}
+                      >
+                        {/* <ProductOptionSwatch swatch={swatch} name={name} /> */}
+                      </button>
+                      </>
+                      
+                    );
+                  }
+                })}
+              </div>
+            </div>
+          )}
 
-      {/* SECCIÓN 4: Care Instructions */}
-      {careInstructions?.value && (
-        <div className="product-care">
-          <h3 className='info'>Care +</h3>
-          <p className='info' style={{whiteSpace: 'pre-wrap'}}>{careInstructions.value}</p>
+          <button className="shop-now-button title" type="button">
+            Shop Now
+          </button>
         </div>
+        {/* SECCIÓN 4: Care Instructions */}
+        {careInstructions?.value && (
+          <div className="product-care">
+            <h3 className='info'>Care +</h3>
+            <p className='info' style={{whiteSpace: 'pre-wrap'}}>{careInstructions.value}</p>
+          </div>
+        )}
+      </>
       )}
+      {isMobile && (
+        <>
+        {/* SECCIÓN 3: Color options + Shop Now */}
+        <div className="product-form-section">
+          {colorOption && colorOption.optionValues.length > 1 && (
+            <div className="product-options">
+              <div className="product-options-grid">
+                {colorOption.optionValues.map((value) => {
+                  const {
+                    name,
+                    handle,
+                    variantUriQuery,
+                    selected,
+                    available,
+                    exists,
+                    isDifferentProduct,
+                    swatch,
+                  } = value;
+
+                  if (isDifferentProduct) {
+                    return (
+                      <Link
+                        className="product-options-item"
+                        key={colorOption.name + name}
+                        prefetch="intent"
+                        preventScrollReset
+                        replace
+                        to={`/products/${handle}?${variantUriQuery}`}
+                        style={{
+                          border: selected ? '1px solid black' : '1px solid transparent',
+                          opacity: available ? 1 : 0.3,
+                        }}
+                      >
+                        <ProductOptionSwatch swatch={swatch} name={name} />
+                      </Link>
+                    );
+                  } else {
+                    return (
+                      <>
+                        <button
+                          type="button"
+                          className={`color-options-item${exists && !selected ? ' link' : ''}`}
+                          key={colorOption.name + name}
+                          style={{
+                            outline: selected ? '5px solid white' : '1px solid transparent',
+                            opacity: available ? 1 : 0.3,
+                            backgroundColor: name,
+                          }}
+                          disabled={!exists}
+                          onClick={() => {
+                            if (!selected) {
+                              void navigate(`?${variantUriQuery}`, {
+                                replace: true,
+                                preventScrollReset: true,
+                              });
+                            }
+                          }}
+                        >
+                        </button>
+                      </>
+                      
+                    );
+                  }
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+        <div>
+          <div dangerouslySetInnerHTML={{__html: descriptionHtml}} className='info'/>
+          <button className="shop-now-button title" type="button">
+            Shop Now
+          </button>
+        </div>
+        {/* SECCIÓN 2: Description (description2) */}
+        {description2?.value && (
+            <div className="product-description ">
+              <p style={{whiteSpace: 'pre-wrap'}} className='info'>{description2.value}</p>
+            </div>
+        )}
+        {/* SECCIÓN 4: Care Instructions */}
+        {careInstructions?.value && (
+          <div className="product-care">
+            <h3 className='info'>Care +</h3>
+            <p className='info' style={{whiteSpace: 'pre-wrap'}}>{careInstructions.value}</p>
+          </div>
+        )}
+        </>
+      )}
+
+
     </>
   );
 }

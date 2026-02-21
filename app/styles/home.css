@@ -236,6 +236,10 @@ img{
     width: 100%;
     max-width:1600px
 }
+.recommended-products-grid {
+    row-gap: 1px;
+    column-gap: 0px;
+}
 .collection-section{
     display: flex;
     flex-direction: column;

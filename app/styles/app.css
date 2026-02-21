@@ -284,51 +284,6 @@ button.reset:hover:not(:has(> *)) {
   }
 }
 
-.product-item img {
-  height: auto;
-  width: 100%;
-  border: solid #A5A5A5 1px;
-  box-sizing: border-box;
-}
-.product-item {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    height: 470px;
-    transition: all 0.3s;
-}
-.product-item:hover {
-  opacity: .7;
-  text-decoration: none;
-
-}
-.productInfo {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 56px;
-  overflow: hidden;
-  .left{
-    text-align: left;
-    padding-left: 15px;
-    .title {
-      margin-block-start: -7px !important;
-    }
-  }
-  .right {
-    text-align: right;
-    padding-right: 15px;
-  }
-  .sizes-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-}
 
 
 /*
@@ -434,7 +389,14 @@ button.reset:hover:not(:has(> *)) {
   font-size: 16px;
 
 }
-
+@media (max-width: 768px) {
+  .title {
+    font-size: 15px;
+  } 
+  .info {
+    font-size: 11px;
+  }
+}
 @font-face {
   font-family: 'Aktiv';
   src: url('./fonts/AktivGrotesk-Thin.woff2') format('woff2');

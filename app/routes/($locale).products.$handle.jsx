@@ -211,7 +211,50 @@ export default function Product() {
           selectedVariant={selectedVariant}
           description2={description2}
           careInstructions={careInstructions}
+          descriptionHtml={descriptionHtml}
         />
+        <div className='product_secondSection seccion'>
+          <table className="size-table info" role="table" aria-label="Tabla de tallas">
+            <thead>
+              <tr>
+                <th className="size-label title" scope="col">SIZE</th>
+                <th className="col title" scope="col">I</th>
+                <th className="col title" scope="col">II</th>
+                <th className="col title" scope="col">III</th>
+                <th className="col title" scope="col">IV</th>
+                <th className="col title" scope="col">V</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">BUST</th>
+                <td>78–81</td>
+                <td>82–86.5</td>
+                <td>82–86.5</td>
+                <td>82–86.5</td>
+                <td>100–110.2</td>
+              </tr>
+
+              <tr>
+                <th scope="row">WAIST</th>
+                <td>62–66</td>
+                <td>67–71</td>
+                <td>71.5–76.4</td>
+                <td>77–81</td>
+                <td>84–97.6</td>
+              </tr>
+
+              <tr>
+                <th scope="row">HIPS</th>
+                <td>79–81.5</td>
+                <td>88–92</td>
+                <td>94–96</td>
+                <td>99–104</td>
+                <td>105–113.2</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </>
     )}
     </div>

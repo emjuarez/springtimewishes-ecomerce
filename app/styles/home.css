@@ -187,6 +187,9 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+  .mist {
+    height: 120px;
+  }
   .image-carousel {
     height: 300px;
   }
@@ -227,7 +230,6 @@ img{
     height: 500px;
     border-radius: unset;
 }
-
 .secondSection {
     display: flex;
     flex-direction: column;

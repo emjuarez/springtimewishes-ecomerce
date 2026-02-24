@@ -15,7 +15,7 @@ body {
   padding: 0;
 }
 
-h1,
+/* h1,
 h2,
 p {
   margin: 0;
@@ -52,11 +52,14 @@ p {
   line-height: 1.4;
 }
 
+/* a {
+  color: #000;
+  text-decoration: none;
+} */
 a {
   color: #000;
   text-decoration: none;
 }
-
 a:hover {
   text-decoration: underline;
   cursor: pointer;
@@ -70,7 +73,7 @@ hr {
 
 pre {
   white-space: pre-wrap;
-}
+} */
 
 body {
   display: flex;

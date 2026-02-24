@@ -22,7 +22,7 @@ export function ProductForm({
   return (
     <>
       {/* SECCIÓN 1: Size options + Add to Basket */}
-      <div className="product-form-section">
+      <div className="product-form-section seccion">
         {sizeOption && sizeOption.optionValues.length > 1 && (
           <div className="product-options">
             <div className="product-options-grid">
@@ -195,8 +195,8 @@ export function ProductForm({
       )}
       {isMobile && (
         <>
-        {/* SECCIÓN 3: Color options + Shop Now */}
-        <div className="product-form-section">
+        {/* SECCIÓN 1: Color options + Add to basket */}
+        <div className="product-form-section seccion">
           {colorOption && colorOption.optionValues.length > 1 && (
             <div className="product-options">
               <div className="product-options-grid">
@@ -237,7 +237,7 @@ export function ProductForm({
                           className={`color-options-item${exists && !selected ? ' link' : ''}`}
                           key={colorOption.name + name}
                           style={{
-                            outline: selected ? '5px solid white' : '1px solid transparent',
+                            outline: selected ? '3px solid white' : '1px solid transparent',
                             opacity: available ? 1 : 0.3,
                             backgroundColor: name,
                           }}
@@ -261,21 +261,22 @@ export function ProductForm({
             </div>
           )}
         </div>
-        <div>
+        {/* SECCIÓN 2: Description + Shop Now */}
+        <div className='seccion divider'>
           <div dangerouslySetInnerHTML={{__html: descriptionHtml}} className='info'/>
           <button className="shop-now-button title" type="button">
             Shop Now
           </button>
         </div>
-        {/* SECCIÓN 2: Description (description2) */}
+        {/* SECCIÓN 3: Description2 */}
         {description2?.value && (
-            <div className="product-description ">
+            <div className="product-description seccion divider">
               <p style={{whiteSpace: 'pre-wrap'}} className='info'>{description2.value}</p>
             </div>
         )}
         {/* SECCIÓN 4: Care Instructions */}
         {careInstructions?.value && (
-          <div className="product-care">
+          <div className="product-care seccion">
             <h3 className='info'>Care +</h3>
             <p className='info' style={{whiteSpace: 'pre-wrap'}}>{careInstructions.value}</p>
           </div>

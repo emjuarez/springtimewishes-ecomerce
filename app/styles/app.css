@@ -391,10 +391,10 @@ button.reset:hover:not(:has(> *)) {
 }
 @media (max-width: 768px) {
   .title {
-    font-size: 15px;
+    font-size: 20px;
   } 
   .info {
-    font-size: 11px;
+    font-size: 14px;
   }
 }
 @font-face {

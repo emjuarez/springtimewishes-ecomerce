@@ -12,13 +12,8 @@ export default function AboutPage() {
     key.addEventListener('click', () => {
       // 1. Desvanecer llave
       key.classList.add('fade-out');
-
-      // 2. Elevar el fondo negro (curtain reveal)
-      // setTimeout(() => {
-      //   mist.classList.add('reveal');
-      // }, 100);
-
-      // 3. Animar texto (subir)
+    
+      // 2. Animar texto 
       setTimeout(() => {
         parrafo.classList.add('animate');
       },100);

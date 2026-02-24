@@ -168,6 +168,7 @@
 .color-options-item,
 .color-options-item:disabled {
   padding: 0.25rem 0.5rem;
+  outline-offset: -2px;
   background-color: transparent;
   font-size: 1rem;
   font-family: inherit;
@@ -245,30 +246,123 @@
     gap: 8px;
   }
 }
-
+.seccion {
+  padding: 0px 10px 10px;
+ box-sizing: border-box;
+}
+.divider {
+  border-bottom: solid .5px black;
+}
 @media (max-width: 768px) {
+  /* ProductCard */
+
 
   /* Product Item */
-  .product-item {
-    height: unset;
-  }
-  .productInfo {
-
-  .left{
+  .product{
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content:space-between;
-    padding-left: unset;
-    padding: 0px 5px;
-    .title {
-      margin-block-start: -3px !important;
-    }
+    padding: 70px 0px;
+    box-sizing: border-box;
   }
-
   .right {
     display: none;
   }
+  .product-item {
+    height: unset;
+  }
+  .product-image {
+    padding: 0px 10px;
+  }
+  .price-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0px 10px;
+    h1 {
+      margin-bottom: 0px;
+    }
+  }
+  .productInfo {
+    .left{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content:space-between;
+      padding-left: unset;
+      padding: 0px 5px;
+      .title {
+        margin-block-start: 0px !important;
+        margin-bottom: 0px;
+      }
+    }
+  }
+
+ .product_secondSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+    .size-table{
+    width:100%;
+    max-width: 1300px;
+    border-collapse:collapse;
+    box-shadow: 0 0 0 1px #211F1F inset;
+    background:var(--bg);
+  }
+
+  /* top area: big cells */
+  .size-table thead th{
+    background:var(--cell-bg);
+    border-right:1px solid #211F1F;
+    border-bottom:1px solid #211F1F;
+    padding:30px 8px;
+    text-align:center;
+    vertical-align:middle;
+    font-weight:400;
+    letter-spacing:2px;
+  }
+
+  /* left "SIZE" cell should be taller and vertically centered */
+  .size-table thead th.size-label{
+    width:15%;
+    padding:30px 8px;
+    font-weight:600;
+    letter-spacing:3px;
+  }
+
+  /* Remove right border for last header */
+  .size-table thead th:last-child{ border-right: none; }
+
+  /* body rows (measurements) */
+  .size-table tbody td,
+  .size-table tbody th{
+    border-top: none;
+    border-right:1px solid #211F1F;
+    border-bottom:1px solid #211F1F;
+    padding:25px 10px;
+    text-align:center;
+    vertical-align:middle;
+    font-size:14px;
+  }
+
+  .size-table tbody th{
+    text-align:left;
+    padding-left:18px;
+    width:15%;
+    font-weight:600;
+    background:var(--cell-bg);
+  }
+
+  .size-table tbody td:last-child,
+  .size-table tbody th + td:last-child{
+    border-right: none;
+  }
+
+  /* grid look: equal-width middle columns */
+  .size-table thead th.col { width:17%; }
 }
+
 }

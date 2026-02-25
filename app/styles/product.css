@@ -4,6 +4,32 @@
 * routes/products.$handle.tsx
 * --------------------------------------------------
 */
+.mist {
+  position: fixed;
+  width: 100%;
+  height: 250px;
+  bottom: 0;
+  z-index: 2;
+  background:   linear-gradient(
+    to bottom,
+    hsla(0, 0%, 100%, 0) 0%,
+    hsla(0, 0%, 100%, 0.013) 8.1%,
+    hsla(0, 0%, 100%, 0.049) 15.5%,
+    hsla(0, 0%, 100%, 0.104) 22.5%,
+    hsla(0, 0%, 100%, 0.175) 29%,
+    hsla(0, 0%, 100%, 0.259) 35.3%,
+    hsla(0, 0%, 100%, 0.352) 41.2%,
+    hsla(0, 0%, 100%, 0.45) 47.1%,
+    hsla(0, 0%, 100%, 0.55) 52.9%,
+    hsla(0, 0%, 100%, 0.648) 58.8%,
+    hsla(0, 0%, 100%, 0.741) 64.7%,
+    hsla(0, 0%, 100%, 0.825) 71%,
+    hsla(0, 0%, 100%, 0.896) 77.5%,
+    hsla(0, 0%, 100%, 0.951) 84.5%,
+    hsla(0, 0%, 100%, 0.987) 91.9%,
+    hsl(0, 0%, 100%) 100%
+  )
+}
 .product_firstSection {
    display: flex;
    flex-direction: row;
@@ -154,6 +180,11 @@
   background: none;
   border: none;
 }
+.shop-now-button {
+  background: none;
+  border: .5px solid black;
+  padding: 4px 11px;
+}
 .size-badge {
   margin-right: 5px;
 }
@@ -254,6 +285,9 @@
   border-bottom: solid .5px black;
 }
 @media (max-width: 768px) {
+  .mist {
+    height: 120px;
+  }
   /* ProductCard */
 
 
@@ -270,7 +304,18 @@
     height: unset;
   }
   .product-image {
-    padding: 0px 10px;
+    padding: 20px 14px;
+  }
+  .imageWrapper{
+    position: relative;
+    display: inline-block;
+  }
+  .imageWrapper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 20px 7px #d5d5d5;
+    pointer-events: none;
   }
   .price-title {
     display: flex;
@@ -280,6 +325,9 @@
     padding: 0px 10px;
     h1 {
       margin-bottom: 0px;
+    }
+    .info {
+      margin-block-start: 0.27em
     }
   }
   .productInfo {
@@ -297,15 +345,11 @@
       }
     }
   }
-
  .product_secondSection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 100vh;
-    .size-table{
+  min-height: unset;
+  box-sizing: border-box;
+  padding-top: 50px;
+  .size-table{
     width:100%;
     max-width: 1300px;
     border-collapse:collapse;
@@ -318,17 +362,19 @@
     background:var(--cell-bg);
     border-right:1px solid #211F1F;
     border-bottom:1px solid #211F1F;
-    padding:30px 8px;
+    padding: 15px 8px;
     text-align:center;
     vertical-align:middle;
     font-weight:400;
     letter-spacing:2px;
+    font-size:13px;
+
   }
 
   /* left "SIZE" cell should be taller and vertically centered */
   .size-table thead th.size-label{
     width:15%;
-    padding:30px 8px;
+    padding: 15px 8px;
     font-weight:600;
     letter-spacing:3px;
   }
@@ -342,10 +388,10 @@
     border-top: none;
     border-right:1px solid #211F1F;
     border-bottom:1px solid #211F1F;
-    padding:25px 10px;
+    padding:15px 1px;
     text-align:center;
     vertical-align:middle;
-    font-size:14px;
+    font-size:11px;
   }
 
   .size-table tbody th{

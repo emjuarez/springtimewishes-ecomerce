@@ -25,8 +25,7 @@ export default function AppointmentsPage() {
   const timeSlots = [
     '10:00', '10:30', '11:00', '11:30',
     '12:00', '12:30', '13:00', '13:30',
-    '14:00', '14:30', '15:00', '15:30',
-    '16:00', '16:30', '17:00'
+    '14:00', '14:30', '15:00', '15:30'
   ];
 
   const handleSubmit = async (e) => {
@@ -144,21 +143,26 @@ export default function AppointmentsPage() {
 
                         {/* Hora */}
                         <div className="form-group">
-                            <label htmlFor="time" className='title'>Hora </label>
-                            <select
-                            id="time"
-                            name="time"
-                            value={formData.time}
-                            onChange={handleChange}
-                            required
-                            >
-                            <option value="">Selecciona una hora</option>
-                            {timeSlots.map((slot) => (
-                                <option key={slot} value={slot}>
-                                {slot}
-                                </option>
-                            ))}
-                            </select>
+                          <label className="title">Hora</label>
+                          <div className="timeGrid">
+                            {timeSlots.map((slot) => {
+                              const id = `time-${slot.replace(':', '')}`;
+
+                              return (
+                                <label key={slot} htmlFor={id} className="time-slot">
+                                  <input
+                                    type="radio"
+                                    id={id}
+                                    name="time"
+                                    value={slot}
+                                    onChange={handleChange}
+                                    required
+                                  />
+                                  <span>{slot}</span>
+                                </label>
+                              );
+                            })}
+                          </div>
                         </div>
 
                         {/* Comentarios */}
@@ -200,6 +204,7 @@ export default function AppointmentsPage() {
             <>
                 <div className='appointments-page'>
                     <div className="appointments-container">
+                        <h1 className='info'>Make a reservation</h1>
                         <form onSubmit={handleSubmit} className="appointment-form">
                             <div className='inputContainer'>
                                 {/* Nombre */}

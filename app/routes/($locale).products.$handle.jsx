@@ -255,6 +255,7 @@ export default function Product() {
             </tbody>
           </table>
         </div>
+        <div className='mist'></div>
       </>
     )}
     </div>

@@ -73,6 +73,70 @@
   opacity: 1;
   animation: scroll-up 10s linear forwards;
 }
+/* MARQUEE */
+
+/* Estilos para el marquee de colecciones */
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  padding: 1rem 0;
+  position: relative;
+  top: var(--header-height);
+}
+
+.marquee-content {
+  display: flex;
+  gap: 3rem;
+  animation: marquee 30s linear infinite;
+  white-space: nowrap;
+}
+.spider {
+    width: 22px;
+    margin-right: 10px;
+}
+.marquee-item {
+  color: #999999;
+  font-size: 1.2rem;
+  font-weight: 200;
+  letter-spacing: 0.1em;
+  padding: 0 2rem;
+  position: relative;
+}
+.marquee-item:last-child::after {
+  display: none;
+}
+
+/* Animación del marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Pausar animación al hover */
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+/* Duplicar contenido para loop infinito suave */
+.marquee-content::after {
+  content: attr(data-content);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .marquee-item {
+    font-size: 1rem;
+    padding: 0 1.5rem;
+  }
+  
+  .marquee-content {
+    gap: 2rem;
+  }
+}
 
 @keyframes scroll-up {
   from {

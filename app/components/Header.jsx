@@ -22,7 +22,6 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain, collections
         viewport="desktop"
         primaryDomainUrl={header.shop.primaryDomain.url}
         publicStoreDomain={publicStoreDomain}
-    
       />
       {/* Marquee debajo del nav */}
       <Suspense fallback={<div>Cargando colecciones...</div>}>
@@ -57,18 +56,6 @@ export function HeaderMenu({
 
   return (
     <nav className={className} role="navigation">
-      {/* {viewport === 'mobile' && (
-        <NavLink
-          end
-          onClick={close}
-          prefetch="intent"
-          style={activeLinkStyle}
-          to="/"
-          className="header-menu-item title"
-        >
-          Home
-        </NavLink>
-      )} */}
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
         if (!item.url) return null;
 
@@ -97,28 +84,9 @@ export function HeaderMenu({
     </nav>
   );
 }
-
-
 /**
  * @param {Pick<HeaderProps, 'isLoggedIn' | 'cart'>}
  */
-// function HeaderCtas({isLoggedIn, cart}) {
-//   return (
-//     <nav className="header-ctas" role="navigation">
-//       <HeaderMenuMobileToggle />
-//       <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
-//         <Suspense fallback="Sign in">
-//           <Await resolve={isLoggedIn} errorElement="Sign in">
-//             {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
-//           </Await>
-//         </Suspense>
-//       </NavLink>
-//       <SearchToggle />
-//       <CartToggle cart={cart} />
-//     </nav>
-//   );
-// }
-
 function HeaderMenuMobileToggle() {
   const {open} = useAside();
   return (
@@ -130,7 +98,6 @@ function HeaderMenuMobileToggle() {
     </button>
   );
 }
-
 function SearchToggle() {
   const {open} = useAside();
   return (
@@ -139,7 +106,6 @@ function SearchToggle() {
     </button>
   );
 }
-
 function CollectionsMarquee({collections}) {
   if (!Array.isArray(collections)) return null;
 
@@ -155,8 +121,6 @@ function CollectionsMarquee({collections}) {
     </div>
   );
 }
-
-
 /**
  * @param {{count: number | null}}
  */
@@ -215,7 +179,6 @@ function CartToggle({cart}) {
     </Suspense>
   );
 }
-
 function CartBanner() {
   const originalCart = useAsyncValue();
   const cart = useOptimisticCart(originalCart);
@@ -280,15 +243,6 @@ const FALLBACK_HEADER_MENU = {
     },
   ],
 };
-// const FALLBACK_HEADER_MENU = {
-//   id: 'gid://shopify/Menu/199655587896',
-//   items: [
-//     { id: '1', title: 'Collections', url: '/collections' },
-//     { id: '2', title: 'Blog', url: '/blogs/journal' },
-//     { id: '3', title: 'Policies', url: '/policies' },
-//     { id: '4', title: 'About', url: '/pages/about' },
-//   ],
-// };
 /**
  * @param {{
  *   isActive: boolean;
@@ -301,7 +255,6 @@ function activeLinkStyle({isActive, isPending}) {
     color: isPending ? 'white' : 'white',
   };
 }
-
 /** @typedef {'desktop' | 'mobile'} Viewport */
 /**
  * @typedef {Object} HeaderProps

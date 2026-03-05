@@ -1,7 +1,34 @@
 import '../styles/about.css';
 import {useEffect} from "react";
+import {useLoaderData} from 'react-router';
+import {Suspense} from 'react';
+
+export async function loader({context}) {
+  const {storefront} = context;
+
+  const {collections} = await storefront.query(COLLECTIONS_QUERY);
+
+  // En react-router moderno, solo retorna el objeto directamente
+  return {
+    collections: collections.nodes,
+  };
+}
+
+const COLLECTIONS_QUERY = `#graphql
+  query AllCollections {
+    collections(first: 50, sortKey: UPDATED_AT) {
+      nodes {
+        id
+        title
+        handle
+      }
+    }
+  }
+`;
 
 export default function AboutPage() {
+  const {collections} = useLoaderData();
+
   useEffect(() => {
     const key = document.querySelector('.key-image');
     const parrafo = document.querySelector('.parrafo');
@@ -10,19 +37,19 @@ export default function AboutPage() {
     if (!key) return;
 
     key.addEventListener('click', () => {
-      // 1. Desvanecer llave
       key.classList.add('fade-out');
-    
-      // 2. Animar texto 
       setTimeout(() => {
         parrafo.classList.add('animate');
-      },100);
+      }, 100);
     });
   }, []);
 
   return (
     <div className="about-page">
-    <div className='mist'></div>
+      <Suspense fallback={<div>Cargando colecciones...</div>}>
+        <CollectionsMarquee collections={collections ?? []} />
+      </Suspense>
+      <div className='mist'></div>
       <div className="about-hero">
         <img className="key-image" src="/images/about/llave.png" alt="key" />
         <p className="parrafo title">
@@ -46,6 +73,47 @@ export default function AboutPage() {
           Designed and sewn in Mexico.
         </p>
         <div className="BlackMist"></div>
+      </div>
+    </div>
+  );
+}
+
+function CollectionsMarquee({collections}) {
+  if (!Array.isArray(collections)) return null;
+
+  return (
+    <div className="marquee-container">
+      <div className="marquee-content">
+        {collections.map((collection) => (
+          <span key={collection.id} className="marquee-item">
+            <img className="spider" src="/images/about/arania.png" alt="key" />
+            {collection.title}
+          </span>
+        ))}
+        {collections.map((collection) => (
+          <span key={collection.id} className="marquee-item">
+            <img className="spider" src="/images/about/arania.png" alt="key" />
+            {collection.title}
+          </span>
+        ))}
+        {collections.map((collection) => (
+          <span key={collection.id} className="marquee-item info">
+            <img className="spider" src="/images/about/arania.png" alt="key" />
+            {collection.title}
+          </span>
+        ))}
+        {collections.map((collection) => (
+          <span key={collection.id} className="marquee-item info">
+            <img className="spider" src="/images/about/arania.png" alt="key" />
+            {collection.title}
+          </span>
+        ))}
+        {collections.map((collection) => (
+          <span key={collection.id} className="marquee-item info">
+            <img className="spider" src="/images/about/arania.png" alt="key" />
+            {collection.title}
+          </span>
+        ))}
       </div>
     </div>
   );

@@ -28,50 +28,65 @@ export default function AppointmentsPage() {
     '14:00', '14:30', '15:00', '15:30'
   ];
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  setSubmitStatus(null);
 
-    try {
-      const response = await fetch('/api/create-appointment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+  // Validación adicional del lado del cliente
+  if (!formData.time) {
+    setSubmitStatus({
+      type: 'error',
+      message: 'Por favor selecciona una hora',
+    });
+    setIsSubmitting(false);
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/create-appointment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      setSubmitStatus({
+        type: 'success',
+        message: '¡Cita agendada exitosamente! Recibirás un correo de confirmación en breve.',
       });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setSubmitStatus({
-          type: 'success',
-          message: '¡Cita agendada exitosamente! Recibirás un correo de confirmación.',
-        });
-        // Limpiar formulario
-        setFormData({
-          date: '',
-          time: '',
-          comments: '',
-          name: '',
-          email: '',
-        });
-      } else {
-        setSubmitStatus({
-          type: 'error',
-          message: result.error || 'Hubo un error al agendar la cita.',
-        });
-      }
-    } catch (error) {
+      // Limpiar formulario
+      setFormData({
+        date: '',
+        time: '',
+        comments: '',
+        name: '',
+        email: '',
+      });
+      
+      // Desmarcar todos los radio buttons
+      const radioButtons = document.querySelectorAll('input[name="time"]');
+      radioButtons.forEach(radio => radio.checked = false);
+    } else {
       setSubmitStatus({
         type: 'error',
-        message: 'Error de conexión. Por favor intenta de nuevo.',
+        message: result.error || 'Hubo un error al agendar la cita.',
       });
-    } finally {
-      setIsSubmitting(false);
     }
-  };
+  } catch (error) {
+    console.error('Error:', error);
+    setSubmitStatus({
+      type: 'error',
+      message: 'Error de conexión. Por favor verifica tu internet e intenta de nuevo.',
+    });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const handleChange = (e) => {
     setFormData({
@@ -125,7 +140,6 @@ export default function AppointmentsPage() {
                             className='info'
                             />
                         </div>
-
                         {/* Fecha */}
                         <div className="form-group">
                             <label htmlFor="date" className='title'>Fecha</label>
@@ -140,14 +154,12 @@ export default function AppointmentsPage() {
                             className='info'
                             />
                         </div>
-
                         {/* Hora */}
                         <div className="form-group">
                           <label className="title">Hora</label>
                           <div className="timeGrid">
                             {timeSlots.map((slot) => {
                               const id = `time-${slot.replace(':', '')}`;
-
                               return (
                                 <label key={slot} htmlFor={id} className="time-slot">
                                   <input
@@ -164,7 +176,6 @@ export default function AppointmentsPage() {
                             })}
                           </div>
                         </div>
-
                         {/* Comentarios */}
                         <div className="form-group">
                             <label htmlFor="comments" className='title'>Comentarios</label>
@@ -178,14 +189,12 @@ export default function AppointmentsPage() {
                             className='info'
                             />
                         </div>
-
                         {/* Status messages */}
                         {submitStatus && (
                             <div className={`status-message ${submitStatus.type}`}>
                             {submitStatus.message}
                             </div>
                         )}
-
                         {/* Submit button */}
                         <button
                             type="submit"
@@ -221,7 +230,6 @@ export default function AppointmentsPage() {
                                     className='info'
                                     />
                                 </div>
-
                                 {/* Email */}
                                 <div className="form-group">
                                     <label htmlFor="email" className='title'>Correo electrónico</label>
@@ -236,7 +244,6 @@ export default function AppointmentsPage() {
                                     className='info'
                                     />
                                 </div>
-
                                 {/* Fecha */}
                                 <div className="form-group">
                                     <label htmlFor="date" className='title'>Fecha</label>
@@ -251,9 +258,8 @@ export default function AppointmentsPage() {
                                     className='info'
                                     />
                                 </div>
-
                                 {/* Hora */}
-                                <div className="form-group">
+                                {/* <div className="form-group">
                                     <label htmlFor="time" className='title'>Hora </label>
                                     <select
                                     id="time"
@@ -269,6 +275,30 @@ export default function AppointmentsPage() {
                                         </option>
                                     ))}
                                     </select>
+                                </div> */}
+
+                                {/* Hora */}
+                                <div className="form-group">
+                                  <label className="title">Hora</label>
+                                  <div className="timeGrid">
+                                    {timeSlots.map((slot) => {
+                                      const id = `time-${slot.replace(':', '')}`;
+
+                                      return (
+                                        <label key={slot} htmlFor={id} className="time-slot">
+                                          <input
+                                            type="radio"
+                                            id={id}
+                                            name="time"
+                                            value={slot}
+                                            onChange={handleChange}
+                                            required
+                                          />
+                                          <span>{slot}</span>
+                                        </label>
+                                      );
+                                    })}
+                                  </div>
                                 </div>
 
                                 {/* Comentarios */}

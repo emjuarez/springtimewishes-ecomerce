@@ -140,6 +140,10 @@
   /* grid look: equal-width middle columns */
   .size-table thead th.col { width:17%; }
 }
+.seccion {
+  padding: 0px 10px 10px;
+ box-sizing: border-box;
+}
 .product h1 {
   margin-top: 0;
 }
@@ -265,6 +269,8 @@
     padding-left: 15px;
     .title {
       margin-block-start: -7px !important;
+      margin-block-start: 3px !important;
+      margin-bottom: 7px;
     }
   }
   .right {
@@ -277,13 +283,12 @@
     gap: 8px;
   }
 }
-.seccion {
-  padding: 0px 10px 10px;
- box-sizing: border-box;
-}
+
 .divider {
   border-bottom: solid .5px black;
 }
+
+
 @media (max-width: 768px) {
   .mist {
     height: 120px;

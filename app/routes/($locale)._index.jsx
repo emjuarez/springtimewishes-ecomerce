@@ -5,6 +5,8 @@ import {ProductItem} from '~/components/ProductItem';
 import {PRODUCT_ITEM_FRAGMENT} from '~/lib/fragments'; 
 import '../styles/home.css'
 import {ImageCarousel} from '~/components/ImageCarousel';
+import {DiscountPopup} from '~/components/DiscountPopup';
+
 /**
  * @type {Route.MetaFunction}
  */
@@ -99,6 +101,7 @@ export default function Homepage() {
             autoplay={false} 
             loop={true} 
           />
+          <DiscountPopup />
         </div>
         <div className="secondSection">
           {/* <ChapterOneCollection collection={data.chapterOneCollection} /> */}

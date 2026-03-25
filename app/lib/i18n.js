@@ -1,23 +1,74 @@
+// app/lib/i18n.js
+
+export const locales = {
+  'es-MX': {
+    label: 'Español (México)',
+    language: 'ES',
+    country: 'MX',
+    currency: 'MXN',
+    pathPrefix: '/es-mx',
+  },
+  'en-US': {
+    label: 'English (United States)',
+    language: 'EN',
+    country: 'US',
+    currency: 'USD',
+    pathPrefix: '/en-us',
+  },
+  'fr-FR': {
+    label: 'Français (France)',
+    language: 'FR',
+    country: 'FR',
+    currency: 'EUR',
+    pathPrefix: '/fr-fr',
+  },
+  'ja-JP': {
+    label: '日本語 (日本)',
+    language: 'JA',
+    country: 'JP',
+    currency: 'JPY',
+    pathPrefix: '/ja-jp',
+  },
+};
+
+export const DEFAULT_LOCALE = {
+  language: 'ES',
+  country: 'MX',
+  currency: 'MXN',
+  pathPrefix: '',
+};
+
 /**
  * @param {Request} request
+ * @returns {{language: string, country: string, currency: string, pathPrefix: string}}
  */
 export function getLocaleFromRequest(request) {
   const url = new URL(request.url);
-  const firstPathPart = url.pathname.split('/')[1]?.toUpperCase() ?? '';
+  const firstPathPart = url.pathname.split('/')[1]?.toLowerCase() ?? '';
 
-  let pathPrefix = '';
-  let [language, country] = ['EN', 'US'];
+  // Buscar si el path coincide con algún locale soportado
+  const matchedLocale = Object.values(locales).find(
+    (locale) => locale.pathPrefix === `/${firstPathPart}`
+  );
 
-  if (/^[A-Z]{2}-[A-Z]{2}$/i.test(firstPathPart)) {
-    pathPrefix = '/' + firstPathPart;
-    [language, country] = firstPathPart.split('-');
+  if (matchedLocale) {
+    return {
+      language: matchedLocale.language,
+      country: matchedLocale.country,
+      currency: matchedLocale.currency,
+      pathPrefix: matchedLocale.pathPrefix,
+    };
   }
 
-  return {language, country, pathPrefix};
+  // Default: ES-MX
+  return DEFAULT_LOCALE;
 }
 
 /**
  * @typedef {Object} I18nLocale
+ * @property {string} language
+ * @property {string} country
+ * @property {string} currency
  * @property {string} pathPrefix
  */
 

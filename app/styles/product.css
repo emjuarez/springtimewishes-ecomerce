@@ -268,7 +268,6 @@
     text-align: left;
     padding-left: 15px;
     .title {
-      margin-block-start: -7px !important;
       margin-block-start: 3px !important;
       margin-bottom: 7px;
     }
@@ -276,6 +275,10 @@
   .right {
     text-align: right;
     padding-right: 15px;
+    .info {
+      margin-block-start: 3px !important;
+      margin-bottom: 3px;
+    }
   }
   .sizes-list {
     display: flex;
@@ -345,6 +348,12 @@
       padding-left: unset;
       padding: 0px 5px;
       .title {
+        margin-block-start: 0px !important;
+        margin-bottom: 0px;
+      }
+    }
+    .right {
+      .info {
         margin-block-start: 0px !important;
         margin-bottom: 0px;
       }

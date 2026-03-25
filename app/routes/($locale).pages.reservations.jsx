@@ -191,9 +191,9 @@ export default function AppointmentsPage() {
                         </div>
                         {/* Status messages */}
                         {submitStatus && (
-                            <div className={`status-message ${submitStatus.type}`}>
+                          <div className={`status-message ${submitStatus.type}`}>
                             {submitStatus.message}
-                            </div>
+                          </div>
                         )}
                         {/* Submit button */}
                         <button
@@ -258,24 +258,6 @@ export default function AppointmentsPage() {
                                     className='info'
                                     />
                                 </div>
-                                {/* Hora */}
-                                {/* <div className="form-group">
-                                    <label htmlFor="time" className='title'>Hora </label>
-                                    <select
-                                    id="time"
-                                    name="time"
-                                    value={formData.time}
-                                    onChange={handleChange}
-                                    required
-                                    >
-                                    <option value="">Selecciona una hora</option>
-                                    {timeSlots.map((slot) => (
-                                        <option key={slot} value={slot}>
-                                        {slot}
-                                        </option>
-                                    ))}
-                                    </select>
-                                </div> */}
 
                                 {/* Hora */}
                                 <div className="form-group">

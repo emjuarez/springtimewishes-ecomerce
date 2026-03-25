@@ -3,7 +3,10 @@
 export function Footer() {
   return (
     <div>
-      <p>js</p>
+      <a></a>
+      <a></a>
+      <a></a>
+      <a></a>
     </div>
   );
 }

@@ -112,7 +112,8 @@ aside header h2 {
 }
 
 .header-menu-mobile-toggle {
-  display: block;
+  display: flex;
+  align-items: center;
   background: none;
   border: none;
   font-size: 40px !important;
@@ -129,7 +130,9 @@ aside header h2 {
   display: none;
 }
 
-
+.cartBadgeMobile {
+    grid-column: 8;
+}
 
 /* Menú mobile en el Aside */
 .header-menu-mobile {
@@ -142,6 +145,7 @@ aside header h2 {
 
 /* Desktop */
 @media (min-width: 768px) {
+  
   .header-menu-mobile-toggle {
     display: none;
   }
@@ -170,10 +174,17 @@ aside header h2 {
   }
 }
 @media (max-width:768px) {
+  .header {
+    grid-template-columns: repeat(8, 1fr);
+  }
   .headerLink {
-    width: 46%;
+    width: 100%;
+    grid-column: 3 / 7;
   }
   .cartBadgeDesktop {
     display: none;
+  }
+  .header-menu-item {
+    font-size: 25px;
   }
 }

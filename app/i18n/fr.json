@@ -1,0 +1,68 @@
+{
+  "common": {
+    "add_to_cart": "Ajouter au panier",
+    "buy_now": "Acheter maintenant",
+    "sold_out": "Épuisé",
+    "unavailable": "Indisponible",
+    "search": "Rechercher",
+    "cart": "Panier",
+    "menu": "Menu",
+    "close": "Fermer",
+    "loading": "Chargement...",
+    "view_all": "Voir tout",
+    "back": "Retour"
+  },
+  "product": {
+    "size": "Taille",
+    "size_table": "Guide des tailles",
+    "color": "Couleur",
+    "quantity": "Quantité",
+    "one_size": "Taille unique",
+    "in_stock": "En stock",
+    "out_of_stock": "Rupture de stock"
+  },
+  "cart": {
+    "title": "Votre panier",
+    "empty": "Votre panier est vide",
+    "subtotal": "Sous-total",
+    "total": "Total",
+    "checkout": "Passer la commande",
+    "continue_shopping": "Continuer vos achats",
+    "remove": "Supprimer"
+  },
+  "appointments": {
+    "title": "Prendre rendez-vous",
+    "subtitle": "Planifiez un rendez-vous pour découvrir nos collections en personne",
+    "name": "Nom complet",
+    "email": "Adresse e-mail",
+    "date": "Date",
+    "time": "Heure",
+    "comments": "Commentaires (facultatif)",
+    "submit": "Réserver",
+    "submitting": "Réservation...",
+    "success": "Rendez-vous réservé ! Vous recevrez un e-mail de confirmation.",
+    "error": "Erreur de réservation. Veuillez réessayer."
+  },
+  "navigation": {
+    "home": "Accueil",
+    "shop": "Boutique",
+    "collections": "Collections",
+    "about": "À propos",
+    "contact": "Contact",
+    "appointments": "Rendez-vous"
+  },
+  "footer": {
+    "privacy": "Confidentialité",
+    "terms": "Conditions générales",
+    "shipping": "Livraison",
+    "returns": "Retours",
+    "newsletter": "Abonnez-vous à notre newsletter",
+    "subscribe": "S'abonner"
+  },
+  "errors": {
+    "required": "Ce champ est requis",
+    "invalid_email": "E-mail invalide",
+    "past_date": "Vous ne pouvez pas réserver dans le passé",
+    "generic": "Une erreur s'est produite. Veuillez réessayer."
+  }
+}

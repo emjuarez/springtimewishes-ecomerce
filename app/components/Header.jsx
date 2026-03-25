@@ -2,8 +2,8 @@ import {Suspense} from 'react';
 import {Await, NavLink, useAsyncValue} from 'react-router';
 import {useAnalytics, useOptimisticCart} from '@shopify/hydrogen';
 import {useAside} from '~/components/Aside';
-import '../styles/header.css'
-
+import '~/styles/header.css'
+// import {LocaleSelector} from '~/components/LocaleSelector';
 
 /**
  * @param {HeaderProps}
@@ -23,14 +23,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain, collections
         primaryDomainUrl={header.shop.primaryDomain.url}
         publicStoreDomain={publicStoreDomain}
       />
-      {/* Marquee debajo del nav */}
-      <Suspense fallback={<div>Cargando colecciones...</div>}>
-        <Await resolve={collections}>
-          {(resolvedCollections) => (
-            <CollectionsMarquee collections={resolvedCollections ?? []} />
-          )}
-        </Await>
-      </Suspense>
+      {/* <LocaleSelector /> */}
       <CartToggle cart={cart} className="cartToogleMobile"/>
     </header>
   );
@@ -94,7 +87,7 @@ function HeaderMenuMobileToggle() {
       className="header-menu-mobile-toggle reset"
       onClick={() => open('mobile')}
     >
-      <h3>☰</h3>
+      <img src={"../../public/images/Layout/menu-icon.png"} alt=""/>
     </button>
   );
 }

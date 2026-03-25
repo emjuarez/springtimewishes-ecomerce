@@ -80,7 +80,7 @@
   width: 100%;
   overflow: hidden;
   padding: 1rem 0;
-  position: relative;
+  position: fixed;
   top: var(--header-height);
 }
 

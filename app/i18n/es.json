@@ -1,0 +1,68 @@
+{
+  "common": {
+    "add_to_cart": "Agregar al carrito",
+    "buy_now": "Comprar ahora",
+    "sold_out": "Agotado",
+    "unavailable": "No disponible",
+    "search": "Buscar",
+    "cart": "Carrito",
+    "menu": "Menú",
+    "close": "Cerrar",
+    "loading": "Cargando...",
+    "view_all": "Ver todo",
+    "back": "Volver"
+  },
+  "product": {
+    "size": "Talla",
+    "size_table": "Tabla de tallas",
+    "color": "Color",
+    "quantity": "Cantidad",
+    "one_size": "Talla única",
+    "in_stock": "En stock",
+    "out_of_stock": "Sin stock"
+  },
+  "cart": {
+    "title": "Tu carrito",
+    "empty": "Tu carrito está vacío",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "checkout": "Finalizar compra",
+    "continue_shopping": "Continuar comprando",
+    "remove": "Eliminar"
+  },
+  "appointments": {
+    "title": "Agendar una Cita",
+    "subtitle": "Agenda una cita para conocer nuestras colecciones en persona",
+    "name": "Nombre completo",
+    "email": "Correo electrónico",
+    "date": "Fecha",
+    "time": "Hora",
+    "comments": "Comentarios (opcional)",
+    "submit": "Agendar Cita",
+    "submitting": "Agendando...",
+    "success": "¡Cita agendada! Recibirás un email de confirmación.",
+    "error": "Error al agendar. Por favor intenta de nuevo."
+  },
+  "navigation": {
+    "home": "Inicio",
+    "shop": "Tienda",
+    "collections": "Colecciones",
+    "about": "Acerca de",
+    "contact": "Contacto",
+    "appointments": "Citas"
+  },
+  "footer": {
+    "privacy": "Privacidad",
+    "terms": "Términos y condiciones",
+    "shipping": "Envíos",
+    "returns": "Devoluciones",
+    "newsletter": "Suscríbete a nuestro newsletter",
+    "subscribe": "Suscribirse"
+  },
+  "errors": {
+    "required": "Este campo es requerido",
+    "invalid_email": "Email inválido",
+    "past_date": "No puedes agendar en el pasado",
+    "generic": "Algo salió mal. Intenta de nuevo."
+  }
+}

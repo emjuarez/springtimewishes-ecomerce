@@ -1,4 +1,6 @@
 // NOTE: https://shopify.dev/docs/api/storefront/latest/queries/cart
+// app/lib/fragments.js
+
 export const CART_QUERY_FRAGMENT = `#graphql
   fragment Money on MoneyV2 {
     currencyCode
@@ -40,7 +42,6 @@ export const CART_QUERY_FRAGMENT = `#graphql
           altText
           width
           height
-
         }
         product {
           handle
@@ -132,8 +133,6 @@ export const CART_QUERY_FRAGMENT = `#graphql
     lines(first: $numCartLines) {
       nodes {
         ...CartLine
-      }
-      nodes {
         ...CartLineComponent
       }
     }
@@ -232,6 +231,7 @@ export const FOOTER_QUERY = `#graphql
   }
   ${MENU_FRAGMENT}
 `;
+
 export const PRODUCT_ITEM_FRAGMENT = `#graphql
   fragment MoneyProductItem on MoneyV2 {
     amount
@@ -241,6 +241,7 @@ export const PRODUCT_ITEM_FRAGMENT = `#graphql
     id
     handle
     title
+    description
     featuredImage {
       id
       altText
@@ -274,8 +275,9 @@ export const PRODUCT_ITEM_FRAGMENT = `#graphql
     }
   }
 `;
+
 export const COLLECTION_QUERY = `#graphql
-${PRODUCT_ITEM_FRAGMENT}
+  ${PRODUCT_ITEM_FRAGMENT}
   query Collection(
     $handle: String!
     $country: CountryCode

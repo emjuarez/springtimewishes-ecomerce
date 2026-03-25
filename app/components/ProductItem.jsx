@@ -2,11 +2,13 @@ import {Link} from 'react-router';
 import {Image, Money} from '@shopify/hydrogen';
 import {useVariantUrl} from '~/lib/variants';
 import '../styles/product.css'
-
+import {useTranslation} from '~/hooks/useTranslation';
+import {formatMoney} from '~/lib/currency';
 
 export function ProductItem({product, loading}) {
   const variantUrl = useVariantUrl(product.handle);
   const image = product.featuredImage;
+  const {t, lang, currency} = useTranslation();
 
   // Obtener las tallas disponibles
   const sizeOption = product.options?.find(
@@ -38,10 +40,17 @@ export function ProductItem({product, loading}) {
       <div className='productInfo'>
         <div className='left'>
           <p className='title'>{product.title}</p>
-          <Money data={product.priceRange.minVariantPrice} className='info' />
+          {/* <Money data={product.priceRange.minVariantPrice} className='info' /> */}
+          <p className="info">
+            {formatMoney(
+              product.priceRange.minVariantPrice.amount,
+              product.priceRange.minVariantPrice.currencyCode,
+              lang.toUpperCase()
+            )}
+          </p>
         </div>
         <div className='right'>
-          <p className='info'>SIZE</p>
+          <p className='info'>{t('product.size')}</p>
           <div className='sizes-list'>
             {availableSizes.length > 0 ? (
               availableSizes.map((size, index) => (
@@ -50,7 +59,7 @@ export function ProductItem({product, loading}) {
                 </span>
               ))
             ) : (
-              <p className='title'>One Size</p>
+              <p className='title'>{t('product.one_size')}</p>
             )}
           </div>
         </div>

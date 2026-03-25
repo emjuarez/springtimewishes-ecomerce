@@ -14,46 +14,18 @@ import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import {PageLayout} from './components/PageLayout';
+import {getLocaleFromRequest} from '~/lib/i18n';
 
-/**
- * This is important to avoid re-fetching root queries on sub-navigations
- * @type {ShouldRevalidateFunction}
- */
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
-  // revalidate when a mutation is performed e.g add to cart, login...
   if (formMethod && formMethod !== 'GET') return true;
-
-  // revalidate when manually revalidating via useRevalidator
   if (currentUrl.toString() === nextUrl.toString()) return true;
-
-  // Defaulting to no revalidation for root loader data to improve performance.
-  // When using this feature, you risk your UI getting out of sync with your server.
-  // Use with caution. If you are uncomfortable with this optimization, update the
-  // line below to `return defaultShouldRevalidate` instead.
-  // For more details see: https://remix.run/docs/en/main/route/should-revalidate
   return false;
 };
 
-/**
- * The main and reset stylesheets are added in the Layout component
- * to prevent a bug in development HMR updates.
- *
- * This avoids the "failed to execute 'insertBefore' on 'Node'" error
- * that occurs after editing and navigating to another page.
- *
- * It's a temporary fix until the issue is resolved.
- * https://github.com/remix-run/remix/issues/9242
- */
 export function links() {
   return [
-    {
-      rel: 'preconnect',
-      href: 'https://cdn.shopify.com',
-    },
-    {
-      rel: 'preconnect',
-      href: 'https://shop.app',
-    },
+    {rel: 'preconnect', href: 'https://cdn.shopify.com'},
+    {rel: 'preconnect', href: 'https://shop.app'},
     {rel: 'icon', type: 'image/svg+xml', href: favicon},
   ];
 }
@@ -62,6 +34,9 @@ export function links() {
  * @param {Route.LoaderArgs} args
  */
 export async function loader(args) {
+  // ✅ Obtener locale aquí
+  const locale = getLocaleFromRequest(args.request);
+
   // Start fetching non-critical data without blocking time to first byte
   const deferredData = loadDeferredData(args);
 
@@ -73,6 +48,8 @@ export async function loader(args) {
   return {
     ...deferredData,
     ...criticalData,
+    // ✅ Agregar locale aquí
+    selectedLocale: locale,
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
     shop: getShopAnalytics({
       storefront,
@@ -82,62 +59,29 @@ export async function loader(args) {
       checkoutDomain: env.PUBLIC_CHECKOUT_DOMAIN,
       storefrontAccessToken: env.PUBLIC_STOREFRONT_API_TOKEN,
       withPrivacyBanner: false,
-      // localize the privacy banner
       country: args.context.storefront.i18n.country,
       language: args.context.storefront.i18n.language,
     },
   };
 }
 
-/**
- * Load data necessary for rendering content above the fold. This is the critical data
- * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
- * @param {Route.LoaderArgs}
- */
-async function loadCriticalData({context}) {
+async function loadCriticalData({context, request}) {
   const {storefront} = context;
+  // ✅ El storefront ya tiene i18n configurado desde context.js
+  // No necesitas pasar language/country manualmente
 
   const [header] = await Promise.all([
     storefront.query(HEADER_QUERY, {
       cache: storefront.CacheLong(),
       variables: {
-        headerMenuHandle: 'main-menu', // Adjust to your header menu handle
+        headerMenuHandle: 'main-menu',
+        // ✅ Hydrogen los inyecta automáticamente desde i18n
       },
     }),
-    // Add other queries here, so that they are loaded in parallel
   ]);
 
   return {header};
 }
-
-/**
- * Load data for rendering content below the fold. This data is deferred and will be
- * fetched after the initial page load. If it's unavailable, the page should still 200.
- * Make sure to not throw any errors here, as it will cause the page to 500.
- * @param {Route.LoaderArgs}
- */
-// function loadDeferredData({context}) {
-//   const {storefront, customerAccount, cart} = context;
-
-//   // defer the footer query (below the fold)
-//   const footer = storefront
-//     .query(FOOTER_QUERY, {
-//       cache: storefront.CacheLong(),
-//       variables: {
-//         footerMenuHandle: 'footer', // Adjust to your footer menu handle
-//       },
-//     })
-//     .catch((error) => {
-//       // Log query errors, but don't throw them so the page can still render
-//       console.error(error);
-//       return null;
-//     });
-//   return {
-//     cart: cart.get(),
-//     isLoggedIn: customerAccount.isLoggedIn(),
-//     footer,
-//   };
-// }
 
 function loadDeferredData({context}) {
   const {storefront, customerAccount, cart} = context;
@@ -147,6 +91,7 @@ function loadDeferredData({context}) {
       cache: storefront.CacheLong(),
       variables: {
         footerMenuHandle: 'footer',
+        // ✅ Hydrogen los inyecta automáticamente desde i18n
       },
     })
     .catch((error) => {
@@ -154,7 +99,6 @@ function loadDeferredData({context}) {
       return null;
     });
 
-  // ⭐ AGREGAMOS LAS COLECCIONES AQUÍ
   const collections = storefront
     .query(COLLECTIONS_QUERY)
     .then((res) => res.collections.nodes)
@@ -169,14 +113,14 @@ function loadDeferredData({context}) {
 }
 
 
-/**
- * @param {{children?: React.ReactNode}}
- */
 export function Layout({children}) {
   const nonce = useNonce();
+  // ✅ Obtener locale para el atributo lang del html
+  const data = useRouteLoaderData('root');
+  const lang = data?.selectedLocale?.language?.toLowerCase() || 'es';
 
   return (
-    <html lang="en">
+    <html lang={lang}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -195,7 +139,6 @@ export function Layout({children}) {
 }
 
 export default function App() {
-  /** @type {RootLoader} */
   const data = useRouteLoaderData('root');
 
   if (!data) {
@@ -214,9 +157,6 @@ export default function App() {
     </Analytics.Provider>
   );
 }
-
-
-
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -242,20 +182,29 @@ export function ErrorBoundary() {
     </div>
   );
 }
-export const COLLECTIONS_QUERY = `
-  query Collections {
+
+// app/root.jsx
+export const COLLECTIONS_QUERY = `#graphql
+  query Collections(
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(language: $language, country: $country) {
     collections(first: 20) {
       nodes {
         id
-        title
+        title       # ← Traducido automáticamente
+        description # ← Traducido automáticamente
         handle
+        image {
+          url
+          altText
+        }
       }
     }
   }
 `;
 
 /** @typedef {LoaderReturnData} RootLoader */
-
 /** @typedef {import('react-router').ShouldRevalidateFunction} ShouldRevalidateFunction */
 /** @typedef {import('./+types/root').Route} Route */
 /** @typedef {import('@shopify/remix-oxygen').SerializeFrom<typeof loader>} LoaderReturnData */

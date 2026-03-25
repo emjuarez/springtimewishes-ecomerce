@@ -1,0 +1,68 @@
+{
+  "common": {
+    "add_to_cart": "Add to cart",
+    "buy_now": "Buy now",
+    "sold_out": "Sold out",
+    "unavailable": "Unavailable",
+    "search": "Search",
+    "cart": "Cart",
+    "menu": "Menu",
+    "close": "Close",
+    "loading": "Loading...",
+    "view_all": "View all",
+    "back": "Back"
+  },
+  "product": {
+    "size": "Size",
+    "size_table": "Size chart",
+    "color": "Color",
+    "quantity": "Quantity",
+    "one_size": "One Size",
+    "in_stock": "In stock",
+    "out_of_stock": "Out of stock"
+  },
+  "cart": {
+    "title": "Your cart",
+    "empty": "Your cart is empty",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "checkout": "Checkout",
+    "continue_shopping": "Continue shopping",
+    "remove": "Remove"
+  },
+  "appointments": {
+    "title": "Book an Appointment",
+    "subtitle": "Schedule an appointment to explore our collections in person",
+    "name": "Full name",
+    "email": "Email address",
+    "date": "Date",
+    "time": "Time",
+    "comments": "Comments (optional)",
+    "submit": "Book Appointment",
+    "submitting": "Booking...",
+    "success": "Appointment booked! You will receive a confirmation email.",
+    "error": "Booking error. Please try again."
+  },
+  "navigation": {
+    "home": "Home",
+    "shop": "Shop",
+    "collections": "Collections",
+    "about": "About",
+    "contact": "Contact",
+    "appointments": "Appointments"
+  },
+  "footer": {
+    "privacy": "Privacy",
+    "terms": "Terms & Conditions",
+    "shipping": "Shipping",
+    "returns": "Returns",
+    "newsletter": "Subscribe to our newsletter",
+    "subscribe": "Subscribe"
+  },
+  "errors": {
+    "required": "This field is required",
+    "invalid_email": "Invalid email",
+    "past_date": "You cannot book in the past",
+    "generic": "Something went wrong. Please try again."
+  }
+}

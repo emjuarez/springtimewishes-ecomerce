@@ -9,6 +9,7 @@ import {
   SearchFormPredictive,
 } from '~/components/SearchFormPredictive';
 import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
+import {LocaleSelector} from '~/components/LocaleSelector';
 
 /**
  * @param {PageLayoutProps}
@@ -42,6 +43,9 @@ export function PageLayout({
         header={header}
         publicStoreDomain={publicStoreDomain}
       />
+      <div className="locale-selector-fixed">
+        <LocaleSelector />
+      </div>
     </Aside.Provider>
   );
 }

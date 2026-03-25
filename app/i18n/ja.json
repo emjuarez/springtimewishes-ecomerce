@@ -1,0 +1,68 @@
+{
+  "common": {
+    "add_to_cart": "カートに追加",
+    "buy_now": "今すぐ購入",
+    "sold_out": "売り切れ",
+    "unavailable": "在庫なし",
+    "search": "検索",
+    "cart": "カート",
+    "menu": "メニュー",
+    "close": "閉じる",
+    "loading": "読み込み中...",
+    "view_all": "すべて表示",
+    "back": "戻る"
+  },
+  "product": {
+    "size": "サイズ",
+    "size_table": "サイズ表",
+    "color": "色",
+    "quantity": "数量",
+    "one_size": "ワンサイズ",
+    "in_stock": "在庫あり",
+    "out_of_stock": "在庫切れ"
+  },
+  "cart": {
+    "title": "カート",
+    "empty": "カートは空です",
+    "subtotal": "小計",
+    "total": "合計",
+    "checkout": "購入手続きへ",
+    "continue_shopping": "買い物を続ける",
+    "remove": "削除"
+  },
+  "appointments": {
+    "title": "予約する",
+    "subtitle": "コレクションを直接ご覧いただくための予約",
+    "name": "お名前",
+    "email": "メールアドレス",
+    "date": "日付",
+    "time": "時間",
+    "comments": "コメント（任意）",
+    "submit": "予約する",
+    "submitting": "予約中...",
+    "success": "予約完了！確認メールをお送りします。",
+    "error": "予約エラー。もう一度お試しください。"
+  },
+  "navigation": {
+    "home": "ホーム",
+    "shop": "ショップ",
+    "collections": "コレクション",
+    "about": "会社概要",
+    "contact": "お問い合わせ",
+    "appointments": "予約"
+  },
+  "footer": {
+    "privacy": "プライバシーポリシー",
+    "terms": "利用規約",
+    "shipping": "配送について",
+    "returns": "返品について",
+    "newsletter": "ニュースレターに登録",
+    "subscribe": "登録"
+  },
+  "errors": {
+    "required": "この項目は必須です",
+    "invalid_email": "無効なメールアドレス",
+    "past_date": "過去の日付は予約できません",
+    "generic": "エラーが発生しました。もう一度お試しください。"
+  }
+}

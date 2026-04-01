@@ -311,3 +311,27 @@ export const COLLECTION_QUERY = `#graphql
     }
   }
 `;
+export const PRODUCT_ORIGINAL_TITLES_QUERY = `#graphql
+  query ProductOriginalTitles(
+    $handle: String!
+    $country: CountryCode
+    $first: Int
+    $last: Int
+    $startCursor: String
+    $endCursor: String
+  ) @inContext(language: EN, country: $country) {
+    collection(handle: $handle) {
+      products(
+        first: $first
+        last: $last
+        before: $startCursor
+        after: $endCursor
+      ) {
+        nodes {
+          id
+          title
+        }
+      }
+    }
+  }
+`;

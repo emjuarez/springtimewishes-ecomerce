@@ -1,22 +1,24 @@
 import {Link} from 'react-router';
 import {Image, Money} from '@shopify/hydrogen';
 import {useVariantUrl} from '~/lib/variants';
-import '../styles/product.css'
+import '../styles/product.css';
 import {useTranslation} from '~/hooks/useTranslation';
-import {formatMoney} from '~/lib/currency';
+import {useLocalePath} from '~/hooks/useLocalePath';
 
 export function ProductItem({product, loading}) {
+  const {localePath} = useLocalePath(); 
   const variantUrl = useVariantUrl(product.handle);
   const image = product.featuredImage;
-  const {t, lang, currency} = useTranslation();
+  const {t} = useTranslation();
 
   // Obtener las tallas disponibles
   const sizeOption = product.options?.find(
-    (option) => option.name.toLowerCase() === 'size' || option.name.toLowerCase() === 'talla'
+    (option) =>
+      option.name.toLowerCase() === 'size' ||
+      option.name.toLowerCase() === 'talla',
   );
-  
-  // Obtener solo las tallas que tienen stock disponible
-  const availableSizes = sizeOption 
+
+  const availableSizes = sizeOption
     ? getAvailableSizes(product.variants?.nodes || [], sizeOption.optionValues)
     : [];
 
@@ -25,7 +27,7 @@ export function ProductItem({product, loading}) {
       className="product-item"
       key={product.id}
       prefetch="intent"
-      to={variantUrl}
+      to={localePath(variantUrl)} 
     >
       {image && (
         <Image
@@ -34,32 +36,31 @@ export function ProductItem({product, loading}) {
           data={image}
           loading={loading}
           sizes="(min-width: 45em) 400px, 100vw"
-          className='imagenProducto'
+          className="imagenProducto"
         />
       )}
-      <div className='productInfo'>
-        <div className='left'>
-          <p className='title'>{product.title}</p>
-          {/* <Money data={product.priceRange.minVariantPrice} className='info' /> */}
-          <p className="info">
-            {formatMoney(
-              product.priceRange.minVariantPrice.amount,
-              product.priceRange.minVariantPrice.currencyCode,
-              lang.toUpperCase()
-            )}
-          </p>
+      <div className="productInfo">
+        <div className="left">
+          <p className="title">{product.title}</p>
+          <Money
+            data={product.priceRange.minVariantPrice}
+            className="info"
+          />
         </div>
-        <div className='right'>
-          <p className='info'>{t('product.size')}</p>
-          <div className='sizes-list'>
+        <div className="right">
+          <p className="info">{t('product.size')}</p>
+          <div className="sizes-list">
             {availableSizes.length > 0 ? (
               availableSizes.map((size, index) => (
-                <span key={index} className={`size-badge ${size.available ? '' : 'unavailable'} title`}>
-                  {size.name} 
+                <span
+                  key={index}
+                  className={`size-badge ${size.available ? '' : 'unavailable'} title`}
+                >
+                  {size.name}
                 </span>
               ))
             ) : (
-              <p className='title'>{t('product.one_size')}</p>
+              <p className="title">{t('product.one_size')}</p>
             )}
           </div>
         </div>

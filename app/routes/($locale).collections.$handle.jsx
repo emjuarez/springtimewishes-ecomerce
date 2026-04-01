@@ -3,8 +3,10 @@ import {getPaginationVariables, Analytics} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {ProductItem} from '~/components/ProductItem';
-import {PRODUCT_ITEM_FRAGMENT} from '~/lib/fragments'; // ← Agrega esto al inicio
-
+import {
+  COLLECTION_QUERY,
+  PRODUCT_ORIGINAL_TITLES_QUERY,
+} from '~/lib/fragments';
 /**
  * @type {Route.MetaFunction}
  */
@@ -30,7 +32,7 @@ export async function loader(args) {
  * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
  * @param {Route.LoaderArgs}
  */
-async function loadCriticalData({context, params, request}) {
+async function loadCriticalData({context, request, params}) {
   const {handle} = params;
   const {storefront} = context;
   const paginationVariables = getPaginationVariables(request, {
@@ -41,24 +43,46 @@ async function loadCriticalData({context, params, request}) {
     throw redirect('/collections');
   }
 
-  const [{collection}] = await Promise.all([
+  // ✅ Ejecutar ambas queries en paralelo
+  const [{collection}, {collection: collectionOriginal}] = await Promise.all([
+    // Query principal con locale
     storefront.query(COLLECTION_QUERY, {
       variables: {handle, ...paginationVariables},
-      // Add other queries here, so that they are loaded in parallel
+    }),
+    // Query secundaria forzando español para títulos
+    storefront.query(PRODUCT_ORIGINAL_TITLES_QUERY, {
+      variables: {
+        handle,
+        country: storefront.i18n.country,
+        ...paginationVariables,
+      },
     }),
   ]);
 
   if (!collection) {
-    throw new Response(`Collection ${handle} not found`, {
-      status: 404,
-    });
+    throw new Response(`Collection ${handle} not found`, {status: 404});
   }
 
-  // The API handle might be localized, so redirect to the localized handle
-  redirectIfHandleIsLocalized(request, {handle, data: collection});
+  // ✅ Crear mapa de títulos originales por ID
+  const originalTitlesMap = {};
+  collectionOriginal?.products?.nodes?.forEach((product) => {
+    originalTitlesMap[product.id] = product.title;
+  });
+
+  // ✅ Reemplazar títulos en los productos
+  const productsWithOriginalTitles = {
+    ...collection,
+    products: {
+      ...collection.products,
+      nodes: collection.products.nodes.map((product) => ({
+        ...product,
+        title: originalTitlesMap[product.id] || product.title,
+      })),
+    },
+  };
 
   return {
-    collection,
+    collection: productsWithOriginalTitles,
   };
 }
 
@@ -105,41 +129,41 @@ export default function Collection() {
 }
 
 // NOTE: https://shopify.dev/docs/api/storefront/2022-04/objects/collection
-const COLLECTION_QUERY = `#graphql
-  ${PRODUCT_ITEM_FRAGMENT}
-  query Collection(
-    $handle: String!
-    $country: CountryCode
-    $language: LanguageCode
-    $first: Int
-    $last: Int
-    $startCursor: String
-    $endCursor: String
-  ) @inContext(country: $country, language: $language) {
-    collection(handle: $handle) {
-      id
-      handle
-      title
-      description
-      products(
-        first: $first,
-        last: $last,
-        before: $startCursor,
-        after: $endCursor
-      ) {
-        nodes {
-          ...ProductItem
-        }
-        pageInfo {
-          hasPreviousPage
-          hasNextPage
-          endCursor
-          startCursor
-        }
-      }
-    }
-  }
-`;
+// const COLLECTION_QUERY = `#graphql
+//   ${PRODUCT_ITEM_FRAGMENT}
+//   query Collection(
+//     $handle: String!
+//     $country: CountryCode
+//     $language: LanguageCode
+//     $first: Int
+//     $last: Int
+//     $startCursor: String
+//     $endCursor: String
+//   ) @inContext(country: $country, language: $language) {
+//     collection(handle: $handle) {
+//       id
+//       handle
+//       title
+//       description
+//       products(
+//         first: $first,
+//         last: $last,
+//         before: $startCursor,
+//         after: $endCursor
+//       ) {
+//         nodes {
+//           ...ProductItem
+//         }
+//         pageInfo {
+//           hasPreviousPage
+//           hasNextPage
+//           endCursor
+//           startCursor
+//         }
+//       }
+//     }
+//   }
+// `;
 
 /** @typedef {import('./+types/collections.$handle').Route} Route */
 /** @typedef {import('storefrontapi.generated').ProductItemFragment} ProductItemFragment */

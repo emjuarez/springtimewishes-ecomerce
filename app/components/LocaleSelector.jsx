@@ -14,38 +14,35 @@ const FLAGS = {
 // Extrae el path sin ningún prefijo de locale
 function stripLocalePrefix(pathname) {
   const prefixes = Object.values(locales).map((l) => l.pathPrefix);
+  console.log('Prefijos disponibles:', prefixes);
+  console.log('Pathname actual:', pathname);
+
   for (const prefix of prefixes) {
     if (pathname.startsWith(prefix + '/') || pathname === prefix) {
-      return pathname.slice(prefix.length) || '/';
+      const result = pathname.slice(prefix.length) || '/';
+      console.log('Prefijo encontrado:', prefix, '→ cleanPath:', result);
+      return result;
     }
   }
+
+  console.log('Sin prefijo encontrado → cleanPath:', pathname);
   return pathname;
 }
 
+
 export function LocaleSelector() {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
   const location = useLocation();
-  const {locale} = useTranslation();
   const dropdownRef = useRef(null);
 
-  const currentLocaleKey =
-    Object.keys(locales).find(
-      (key) =>
-        locales[key].language === locale?.language &&
-        locales[key].country === locale?.country,
-    ) || 'es-MX';
-
-  // Cerrar al hacer click fuera
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  // ✅ Detectar locale actual DIRECTAMENTE desde la URL
+  const currentLocaleKey = (() => {
+    const firstPathPart = location.pathname.split('/')[1]?.toLowerCase() ?? '';
+    const matched = Object.entries(locales).find(
+      ([, locale]) => locale.pathPrefix === `/${firstPathPart}`
+    );
+    return matched?.[0] || 'es-MX'; // Default es-MX
+  })();
 
   const handleLocaleChange = (newLocaleKey) => {
     if (newLocaleKey === currentLocaleKey) {
@@ -54,23 +51,27 @@ export function LocaleSelector() {
     }
 
     const newLocale = locales[newLocaleKey];
+    const currentLocale = locales[currentLocaleKey];
 
-    // 1. Limpiar CUALQUIER prefijo de locale del path actual
-    const cleanPath = stripLocalePrefix(location.pathname);
-
-    // 2. Construir nueva ruta con el nuevo prefijo
-    let newPath;
-
-    if (newLocaleKey === 'es-MX') {
-      newPath = cleanPath || '/';
-    } else {
-      newPath = newLocale.pathPrefix + (cleanPath === '/' ? '' : cleanPath);
+    // ✅ Limpiar prefijo actual de la URL
+    let cleanPath = location.pathname;
+    if (currentLocale?.pathPrefix) {
+      cleanPath = cleanPath.startsWith(currentLocale.pathPrefix)
+        ? cleanPath.slice(currentLocale.pathPrefix.length) || '/'
+        : cleanPath;
     }
 
-    // ✅ Recarga completa para que el servidor reconozca el nuevo locale
+    // ✅ Construir nueva ruta
+    const newPath = newLocale?.pathPrefix
+      ? newLocale.pathPrefix + (cleanPath === '/' ? '' : cleanPath)
+      : cleanPath;
+
+    console.log('cleanPath:', cleanPath, '→ newPath:', newPath);
+
     window.location.href = newPath;
     setIsOpen(false);
   };
+
 
   return (
     <div className="locale-selector" ref={dropdownRef}>

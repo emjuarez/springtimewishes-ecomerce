@@ -1,5 +1,3 @@
-// app/lib/i18n.js
-
 export const locales = {
   'es-MX': {
     label: 'Español (México)',
@@ -30,6 +28,18 @@ export const locales = {
     pathPrefix: '/ja-jp',
   },
 };
+
+export const NORMALIZE_PREFIX_MAP = {
+  '/es-mx': '/es-mx',
+  '/es':    '/es-mx',
+  '/en-us': '/en-us',
+  '/en':    '/en-us',
+  '/fr-fr': '/fr-fr',
+  '/fr':    '/fr-fr',
+  '/ja-jp': '/ja-jp',
+  '/ja':    '/ja-jp',
+};
+
 
 export const DEFAULT_LOCALE = {
   language: 'ES',

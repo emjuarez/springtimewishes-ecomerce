@@ -4,26 +4,36 @@ import {useAnalytics, useOptimisticCart} from '@shopify/hydrogen';
 import {useAside} from '~/components/Aside';
 import '~/styles/header.css'
 // import {LocaleSelector} from '~/components/LocaleSelector';
+import {useLocalePath} from '~/hooks/useLocalePath';
 
 /**
  * @param {HeaderProps}
  */
 export function Header({header, isLoggedIn, cart, publicStoreDomain, collections}) {
   const {shop, menu} = header;
+  const {localePath, pathPrefix} = useLocalePath();
+
+  const handleHomeClick = (e) => {
+    e.preventDefault();
+    window.location.href = pathPrefix ? `${pathPrefix}/` : '/';
+  };
+
   return (
     <header className="header">
       <HeaderMenuMobileToggle />
-      <NavLink prefetch="intent" to="/" className="headerLink" end> 
+      <a 
+        href={pathPrefix ? `${pathPrefix}/` : '/'}
+        className="headerLink"
+        onClick={handleHomeClick}
+      > 
         <img src={"../../public/images/Layout/STW_logo.png"} alt="" className='headerLogo'/>
-      </NavLink>
-      {/* Menu desktop */}
+      </a>
       <HeaderMenu
         menu={menu}
         viewport="desktop"
         primaryDomainUrl={header.shop.primaryDomain.url}
         publicStoreDomain={publicStoreDomain}
       />
-      {/* <LocaleSelector /> */}
       <CartToggle cart={cart} className="cartToogleMobile"/>
     </header>
   );
@@ -37,28 +47,22 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain, collections
  *   publicStoreDomain: HeaderProps['publicStoreDomain'];
  * }}
  */
-export function HeaderMenu({
-  menu,
-  primaryDomainUrl,
-  viewport,
-  publicStoreDomain,
-  cart
-}) {
-  const className = `header-menu-${viewport}`;
+export function HeaderMenu({menu, primaryDomainUrl, viewport, publicStoreDomain}) {
   const {close} = useAside();
+  const {localePath} = useLocalePath();
 
   return (
-    <nav className={className} role="navigation">
+    <nav className={`header-menu-${viewport}`} role="navigation">
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
         if (!item.url) return null;
 
-        // if the url is internal, we strip the domain
         const url =
           item.url.includes('myshopify.com') ||
           item.url.includes(publicStoreDomain) ||
           item.url.includes(primaryDomainUrl)
             ? new URL(item.url).pathname
             : item.url;
+
         return (
           <NavLink
             className="header-menu-item title"
@@ -67,13 +71,12 @@ export function HeaderMenu({
             onClick={close}
             prefetch="intent"
             style={activeLinkStyle}
-            to={url}
+            to={localePath(url)}
           >
             {item.title}
           </NavLink>
         );
       })}
-
     </nav>
   );
 }

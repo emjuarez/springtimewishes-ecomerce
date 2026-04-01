@@ -91,7 +91,6 @@ function loadDeferredData({context}) {
       cache: storefront.CacheLong(),
       variables: {
         footerMenuHandle: 'footer',
-        // ✅ Hydrogen los inyecta automáticamente desde i18n
       },
     })
     .catch((error) => {

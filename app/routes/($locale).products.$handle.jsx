@@ -54,27 +54,38 @@ async function loadCriticalData({context, params, request}) {
     throw new Error('Expected product handle to be defined');
   }
 
-  const [{product}] = await Promise.all([
+  // ✅ Ejecutar ambas queries en paralelo
+  const [{product}, {product: productOriginal}] = await Promise.all([
+    // Query principal con locale (descripción traducida)
     storefront.query(PRODUCT_QUERY, {
       variables: {
-        handle, 
-        selectedOptions: getSelectedProductOptions(request)
+        handle,
+        selectedOptions: getSelectedProductOptions(request),
       },
     }),
-    // Add other queries here, so that they are loaded in parallel
+    // Query secundaria forzando español para el título
+    storefront.query(PRODUCT_TITLE_QUERY, {
+      variables: {
+        handle,
+        country: storefront.i18n.country,
+      },
+    }),
   ]);
 
   if (!product?.id) {
     throw new Response(null, {status: 404});
   }
 
-  // The API handle might be localized, so redirect to the localized handle
   redirectIfHandleIsLocalized(request, {handle, data: product});
 
   return {
-    product,
+    product: {
+      ...product,
+      title: productOriginal?.title || product.title,
+    },
   };
 }
+
 
 /**
  * Load data for rendering content below the fold. This data is deferred and will be
@@ -91,7 +102,7 @@ function loadDeferredData({context, params}) {
 
 export default function Product() {
   const {product} = useLoaderData();
-  const {t} = useTranslation(); // ✅ Agregar hook
+  const {t} = useTranslation(); 
 
   const selectedVariant = useOptimisticVariant(
     product.selectedOrFirstAvailableVariant,
@@ -108,10 +119,9 @@ export default function Product() {
   const {title, descriptionHtml, description2, careInstructions} = product;
   const {isMobile, isDesktop} = useWindowSize();
 
-  // ✅ Tabla de tallas traducida
   const sizeTableHeaders = {
     size: t('product.size'),
-    bust: 'BUST',   // Medidas son universales
+    bust: 'BUST',   
     waist: 'WAIST',
     hips: 'HIPS',
   };
@@ -339,6 +349,17 @@ const PRODUCT_QUERY = `#graphql
   }
   ${PRODUCT_FRAGMENT}
 `;
+const PRODUCT_TITLE_QUERY = `#graphql
+  query ProductTitle(
+    $handle: String!
+    $country: CountryCode
+  ) @inContext(language: EN, country: $country) {
+    product(handle: $handle) {
+      title
+    }
+  }
+`;
+
 
 /** @typedef {import('./+types/products.$handle').Route} Route */
 /** @typedef {import('@shopify/remix-oxygen').SerializeFrom<typeof loader>} LoaderReturnData */

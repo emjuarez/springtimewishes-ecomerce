@@ -24,9 +24,47 @@ export async function loader(args) {
   return {...deferredData, ...criticalData};
 }
 async function loadCriticalData({context}) {
-  const {collections} = await context.storefront.query(ALL_COLLECTIONS_QUERY);
-  return {collections: collections.nodes};
+  const {storefront} = context;
+
+  const [
+    {collections},
+    {collections: collectionsOriginal},
+  ] = await Promise.all([
+    // Query principal con locale (colecciones traducidas)
+    storefront.query(ALL_COLLECTIONS_QUERY),
+    // Query secundaria solo para títulos de productos
+    storefront.query(ALL_COLLECTIONS_ORIGINAL_TITLES_QUERY, {
+      variables: {
+        country: storefront.i18n.country,
+      },
+    }),
+  ]);
+
+  // ✅ Mapa solo de productos { productId: title }
+  const originalProductTitles = {};
+  collectionsOriginal?.nodes?.forEach((collection) => {
+    collection.products?.nodes?.forEach((product) => {
+      originalProductTitles[product.id] = product.title;
+    });
+  });
+
+  // ✅ Solo reemplazar títulos de productos, colecciones quedan traducidas
+  const collectionsWithOriginalProductTitles = collections.nodes.map((collection) => ({
+    ...collection,
+    // title de colección NO se toca → se traduce ✅
+    products: {
+      ...collection.products,
+      nodes: collection.products.nodes.map((product) => ({
+        ...product,
+        title: originalProductTitles[product.id] || product.title,
+      })),
+    },
+  }));
+
+  return {collections: collectionsWithOriginalProductTitles};
 }
+
+
 /**
  * Load data for rendering content below the fold. This data is deferred and will be
  * fetched after the initial page load. If it's unavailable, the page should still 200.
@@ -163,8 +201,6 @@ function RecommendedProducts({products}) {
   );
 }
 function ChapterOneCollection({collection}) {
-
-  
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
@@ -326,7 +362,23 @@ const ALL_COLLECTIONS_QUERY = `#graphql
     }
   }
 `;
-
+const ALL_COLLECTIONS_ORIGINAL_TITLES_QUERY = `#graphql
+  query AllCollectionsOriginalTitles($country: CountryCode)
+  @inContext(language: EN, country: $country) {
+    collections(first: 50, sortKey: UPDATED_AT) {
+      nodes {
+        id
+        title
+        products(first: 10) {
+          nodes {
+            id
+            title
+          }
+        }
+      }
+    }
+  }
+`;
 /** @typedef {import('./+types/_index').Route} Route */
 /** @typedef {import('storefrontapi.generated').FeaturedCollectionFragment} FeaturedCollectionFragment */
 /** @typedef {import('storefrontapi.generated').RecommendedProductsQuery} RecommendedProductsQuery */

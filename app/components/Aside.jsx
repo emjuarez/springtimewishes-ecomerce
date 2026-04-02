@@ -1,22 +1,9 @@
 import {createContext, useContext, useEffect, useState} from 'react';
+import {useTranslation} from '~/hooks/useTranslation';
 
-/**
- * A side bar component with Overlay
- * @example
- * ```jsx
- * <Aside type="search" heading="SEARCH">
- *  <input type="search" />
- *  ...
- * </Aside>
- * ```
- * @param {{
- *   children?: React.ReactNode;
- *   type: AsideType;
- *   heading: React.ReactNode;
- * }}
- */
 export function Aside({children, heading, type}) {
   const {type: activeType, close} = useAside();
+  const {t} = useTranslation();
   const expanded = type === activeType;
 
   useEffect(() => {
@@ -36,6 +23,8 @@ export function Aside({children, heading, type}) {
     return () => abortController.abort();
   }, [close, expanded]);
 
+  const asideHeading = heading || t(`aside.${type}`) || type;
+
   return (
     <div
       aria-modal
@@ -45,9 +34,13 @@ export function Aside({children, heading, type}) {
       <button className="close-outside" onClick={close} />
       <aside>
         <header>
-          <h3 className='info'>Items</h3>
-          <button className="close reset info" onClick={close} aria-label="Close">
-            x- Close
+          <h3 className="info">{asideHeading}</h3>
+          <button
+            className="close reset info"
+            onClick={close}
+            aria-label={t('aside.close')}
+          >
+            {t('aside.close')}
           </button>
         </header>
         <main>{children}</main>
@@ -90,5 +83,4 @@ export function useAside() {
  *   close: () => void;
  * }} AsideContextValue
  */
-
 /** @typedef {import('react').ReactNode} ReactNode */

@@ -22,26 +22,40 @@
     "out_of_stock": "Sin stock"
   },
   "cart": {
-    "title": "Tu carrito",
+    "title": "Carrito",
+    "decrease_quantity": "Disminuir cantidad",
+    "increase_quantity": "Aumentar cantidad",
+    "option_color": "Color",
+    "option_size": "Talla",
     "empty": "Tu carrito está vacío",
     "subtotal": "Subtotal",
     "total": "Total",
     "checkout": "Finalizar compra",
     "continue_shopping": "Continuar comprando",
-    "remove": "Eliminar"
+    "remove": "Eliminar",
+    "empty_message": "Parece que aún no has agregado nada, ¡comencemos!",
+    "discounts": "Descuento(s)",
+    "discount_placeholder": "Código de descuento",
+    "apply": "Aplicar",
+    "applied_gift_cards": "Tarjeta(s) de regalo aplicada(s)",
+    "gift_card_placeholder": "Código de tarjeta de regalo"
   },
   "appointments": {
-    "title": "Agendar una Cita",
+    "studio_hours": "Studio Hours",
     "subtitle": "Agenda una cita para conocer nuestras colecciones en persona",
-    "name": "Nombre completo",
+    "name": "Nombre",
+    "name_placeholder": "Tu nombre",
     "email": "Correo electrónico",
     "date": "Fecha",
     "time": "Hora",
-    "comments": "Comentarios (opcional)",
+    "comments": "Comentarios",
+    "comments_placeholder": "¿Hay algo específico que te gustaría ver o discutir?",
     "submit": "Agendar Cita",
     "submitting": "Agendando...",
-    "success": "¡Cita agendada! Recibirás un email de confirmación.",
-    "error": "Error al agendar. Por favor intenta de nuevo."
+    "success": "¡Cita agendada exitosamente! Recibirás un correo de confirmación en breve.",
+    "error_no_time": "Por favor selecciona una hora",
+    "error_generic": "Hubo un error al agendar la cita.",
+    "error_connection": "Error de conexión. Por favor verifica tu internet e intenta de nuevo."
   },
   "navigation": {
     "home": "Inicio",
@@ -64,5 +78,15 @@
     "invalid_email": "Email inválido",
     "past_date": "No puedes agendar en el pasado",
     "generic": "Algo salió mal. Intenta de nuevo."
+  },
+  "about": {
+    "text": "Bienvenida al Capítulo I – Susurros del Bosque\n\nUn comienzo tejido en silencio, sombra y luz.\nCada prenda un verso—ecos del tiempo, cosidos con cuidado y memoria.\n\nNos atrae la fuerza silenciosa del pasado.\nNuestras piezas están inspiradas en siluetas medievales—vestidos que rozaban la tierra musgosa, corsés que contenían el aliento y la determinación, faldas que se movían como agua entre los árboles. Pero no son disfraces. Son interpretaciones: prendas moldeadas para el presente, suavizadas por el tiempo y hechas para vivirse.\n\nCreemos en la ropa como ritual.\nEn texturas que llevan el susurro de las hojas, el peso del crepúsculo y el florecimiento de la mañana.\nFragmentos del pasado incrustados en el presente.\nEl transcurso de las estaciones narrado a través de nuestras prendas.\n\nSpringtime Wishes es una historia en curso.\nEste es su primer aliento.\n\nDiseñado y cosido en México."
+  },
+  "aside": {
+    "cart": "Carrito",
+    "search": "Búsqueda",
+    "mobile": "Menú",
+    "close": "x- Cerrar"
   }
+
 }

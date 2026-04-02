@@ -56,10 +56,17 @@ export function PageLayout({
 function CartAside({cart}) {
   return (
     <Aside type="cart" heading="CART">
-      <Suspense fallback={<p>Loading cart ...</p>}>
+      <Suspense fallback={<p>Loading cart...</p>}>
         <Await resolve={cart}>
-          {(cart) => {
-            return <CartMain cart={cart} layout="aside" />;
+          {(resolvedCart) => {
+            console.log('🛒 resolvedCart.originalTitles:', resolvedCart?.originalTitles);
+            return (
+              <CartMain
+                cart={resolvedCart}
+                layout="aside"
+                originalTitles={resolvedCart?.originalTitles || {}}
+              />
+            );
           }}
         </Await>
       </Suspense>

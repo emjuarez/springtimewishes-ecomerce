@@ -1,34 +1,21 @@
 import {useLoaderData, data} from 'react-router';
 import {CartForm} from '@shopify/hydrogen';
 import {CartMain} from '~/components/CartMain';
-import '../styles/cart.css'
+import {useTranslation} from '~/hooks/useTranslation';
+import '../styles/cart.css';
 
-
-/**
- * @type {Route.MetaFunction}
- */
 export const meta = () => {
-  return [{title: `Hydrogen | Cart`}];
+  return [{title: 'SpringTime Wishes | Cart'}];
 };
 
-/**
- * @type {HeadersFunction}
- */
 export const headers = ({actionHeaders}) => actionHeaders;
 
-/**
- * @param {Route.ActionArgs}
- */
 export async function action({request, context}) {
   const {cart} = context;
-
   const formData = await request.formData();
-
   const {action, inputs} = CartForm.getFormInput(formData);
 
-  if (!action) {
-    throw new Error('No action provided');
-  }
+  if (!action) throw new Error('No action provided');
 
   let status = 200;
   let result;
@@ -45,39 +32,24 @@ export async function action({request, context}) {
       break;
     case CartForm.ACTIONS.DiscountCodesUpdate: {
       const formDiscountCode = inputs.discountCode;
-
-      // User inputted discount code
       const discountCodes = formDiscountCode ? [formDiscountCode] : [];
-
-      // Combine discount codes already applied on cart
       discountCodes.push(...inputs.discountCodes);
-
       result = await cart.updateDiscountCodes(discountCodes);
       break;
     }
     case CartForm.ACTIONS.GiftCardCodesUpdate: {
       const formGiftCardCode = inputs.giftCardCode;
-
-      // User inputted gift card code
       const giftCardCodes = formGiftCardCode ? [formGiftCardCode] : [];
-
-      // Combine gift card codes already applied on cart
       giftCardCodes.push(...inputs.giftCardCodes);
-
       result = await cart.updateGiftCardCodes(giftCardCodes);
       break;
     }
-    case CartForm.ACTIONS.GiftCardCodesRemove: {
-      const appliedGiftCardIds = inputs.giftCardCodes;
-      result = await cart.removeGiftCardCodes(appliedGiftCardIds);
+    case CartForm.ACTIONS.GiftCardCodesRemove:
+      result = await cart.removeGiftCardCodes(inputs.giftCardCodes);
       break;
-    }
-    case CartForm.ACTIONS.BuyerIdentityUpdate: {
-      result = await cart.updateBuyerIdentity({
-        ...inputs.buyerIdentity,
-      });
+    case CartForm.ACTIONS.BuyerIdentityUpdate:
+      result = await cart.updateBuyerIdentity({...inputs.buyerIdentity});
       break;
-    }
     default:
       throw new Error(`${action} cart action is not defined`);
   }
@@ -93,34 +65,65 @@ export async function action({request, context}) {
   }
 
   return data(
-    {
-      cart: cartResult,
-      errors,
-      warnings,
-      analytics: {
-        cartId,
-      },
-    },
+    {cart: cartResult, errors, warnings, analytics: {cartId}},
     {status, headers},
   );
 }
 
-/**
- * @param {Route.LoaderArgs}
- */
 export async function loader({context}) {
-  const {cart} = context;
-  return await cart.get();
+  const {cart, storefront} = context;
+  const cartData = await cart.get();
+
+  if (!cartData?.lines?.nodes?.length) {
+    return {cart: cartData, originalTitles: {}};
+  }
+
+  const productIds = [
+    ...new Set(
+      cartData.lines.nodes.map((line) => line.merchandise.product.id),
+    ),
+  ];
+
+  const {nodes: productsEN} = await storefront.query(
+    CART_PRODUCTS_TITLES_QUERY,
+    {
+      variables: {
+        ids: productIds,
+        country: storefront.i18n.country,
+      },
+    },
+  );
+
+  const originalTitles = {};
+  productsEN?.forEach((product) => {
+    if (product) originalTitles[product.id] = product.title;
+  });
+
+  return {cart: cartData, originalTitles};
 }
 
+const CART_PRODUCTS_TITLES_QUERY = `#graphql
+  query CartProductTitles(
+    $ids: [ID!]!
+    $country: CountryCode
+  ) @inContext(language: EN, country: $country) {
+    nodes(ids: $ids) {
+      ... on Product {
+        id
+        title
+      }
+    }
+  }
+`;
+
 export default function Cart() {
-  /** @type {LoaderReturnData} */
-  const cart = useLoaderData();
+  const {cart, originalTitles} = useLoaderData();
+  const {t} = useTranslation();
 
   return (
     <div className="cart">
-      <h1>Cart</h1>
-      <CartMain layout="page" cart={cart} />
+      <h1 className="title">{t('cart.title')}</h1>
+      <CartMain layout="page" cart={cart} originalTitles={originalTitles} />
     </div>
   );
 }

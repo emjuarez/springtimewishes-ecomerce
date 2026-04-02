@@ -1,17 +1,11 @@
 import {useOptimisticCart} from '@shopify/hydrogen';
-import {Link} from 'react-router';
 import {useAside} from '~/components/Aside';
 import {CartLineItem} from '~/components/CartLineItem';
 import {CartSummary} from './CartSummary';
+import {useTranslation} from '~/hooks/useTranslation';
+import {useLocalePath} from '~/hooks/useLocalePath';
 
-/**
- * The main cart component that displays the cart items and summary.
- * It is used by both the /cart route and the cart aside dialog.
- * @param {CartMainProps}
- */
-export function CartMain({layout, cart: originalCart}) {
-  // The useOptimisticCart hook applies pending actions to the cart
-  // so the user immediately sees feedback when they modify the cart.
+export function CartMain({layout, cart: originalCart, originalTitles}) {
   const cart = useOptimisticCart(originalCart);
 
   const linesCount = Boolean(cart?.lines?.nodes?.length || 0);
@@ -23,13 +17,17 @@ export function CartMain({layout, cart: originalCart}) {
 
   return (
     <div className={className}>
-    
       <CartEmpty hidden={linesCount} layout={layout} />
       <div className="cart-details">
         <div aria-labelledby="cart-lines">
           <ul>
             {(cart?.lines?.nodes ?? []).map((line) => (
-              <CartLineItem key={line.id} line={line} layout={layout} />
+              <CartLineItem
+                key={line.id}
+                line={line}
+                layout={layout}
+                originalTitles={originalTitles} // ✅
+              />
             ))}
           </ul>
         </div>
@@ -39,25 +37,26 @@ export function CartMain({layout, cart: originalCart}) {
   );
 }
 
-/**
- * @param {{
- *   hidden: boolean;
- *   layout?: CartMainProps['layout'];
- * }}
- */
 function CartEmpty({hidden = false}) {
   const {close} = useAside();
+  const {t} = useTranslation();
+  const {localePath} = useLocalePath();
+
   return (
     <div hidden={hidden}>
       <br />
-      <p>
-        Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
-        started!
-      </p>
+      <p>{t('cart.empty_message')}</p>
       <br />
-      <Link to="/collections" onClick={close} prefetch="viewport">
-        Continue shopping →
-      </Link>
+      <a
+        href={localePath('/collections')}
+        onClick={(e) => {
+          e.preventDefault();
+          close();
+          window.location.href = localePath('/collections');
+        }}
+      >
+        {t('cart.continue_shopping')} →
+      </a>
     </div>
   );
 }
@@ -69,5 +68,4 @@ function CartEmpty({hidden = false}) {
  *   layout: CartLayout;
  * }} CartMainProps
  */
-
 /** @typedef {import('storefrontapi.generated').CartApiQueryFragment} CartApiQueryFragment */

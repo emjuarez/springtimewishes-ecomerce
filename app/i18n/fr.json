@@ -22,26 +22,40 @@
     "out_of_stock": "Rupture de stock"
   },
   "cart": {
-    "title": "Votre panier",
+    "title": "Panier",
+    "decrease_quantity": "Diminuer la quantité",
+    "increase_quantity": "Augmenter la quantité",
+    "option_color": "Couleur",
+    "option_size": "Taille",
     "empty": "Votre panier est vide",
     "subtotal": "Sous-total",
     "total": "Total",
     "checkout": "Passer la commande",
+    "empty_message": "Il semble que vous n'ayez encore rien ajouté, commençons!",
     "continue_shopping": "Continuer vos achats",
-    "remove": "Supprimer"
+    "remove": "Supprimer",
+    "discounts": "Réduction(s)",
+    "discount_placeholder": "Code de réduction",
+    "apply": "Appliquer",
+    "applied_gift_cards": "Carte(s) cadeau appliquée(s)",
+    "gift_card_placeholder": "Code de carte cadeau"
   },
   "appointments": {
-    "title": "Prendre rendez-vous",
-    "subtitle": "Planifiez un rendez-vous pour découvrir nos collections en personne",
-    "name": "Nom complet",
+    "studio_hours": "Heures du Studio",
+    "subtitle": "Prenez rendez-vous pour découvrir nos collections en personne",
+    "name": "Nom",
+    "name_placeholder": "Votre nom",
     "email": "Adresse e-mail",
     "date": "Date",
     "time": "Heure",
-    "comments": "Commentaires (facultatif)",
-    "submit": "Réserver",
+    "comments": "Commentaires",
+    "comments_placeholder": "Y a-t-il quelque chose de spécifique que vous aimeriez voir ou discuter?",
+    "submit": "Prendre Rendez-vous",
     "submitting": "Réservation...",
-    "success": "Rendez-vous réservé ! Vous recevrez un e-mail de confirmation.",
-    "error": "Erreur de réservation. Veuillez réessayer."
+    "success": "Rendez-vous pris avec succès! Vous recevrez un e-mail de confirmation sous peu.",
+    "error_no_time": "Veuillez sélectionner une heure",
+    "error_generic": "Une erreur s'est produite lors de la prise de rendez-vous.",
+    "error_connection": "Erreur de connexion. Veuillez vérifier votre internet et réessayer."
   },
   "navigation": {
     "home": "Accueil",
@@ -64,5 +78,16 @@
     "invalid_email": "E-mail invalide",
     "past_date": "Vous ne pouvez pas réserver dans le passé",
     "generic": "Une erreur s'est produite. Veuillez réessayer."
+  },
+  "about": {
+    "text": "Bienvenue au Chapitre I – Murmures de la Forêt\n\nUn début tissé dans le silence, l'ombre et la lumière.\nChaque vêtement un vers—échos du temps, cousus avec soin et mémoire.\n\nNous sommes attirés par la force tranquille du passé.\nNos pièces s'inspirent de silhouettes médiévales—robes qui effleuraient la terre mousseuse, corsets qui retenaient le souffle et la résolution, jupes qui se mouvaient comme l'eau entre les arbres. Mais ce ne sont pas des costumes. Ce sont des interprétations: des vêtements façonnés pour le présent, adoucis par le temps et faits pour être vécus.\n\nNous croyons en l'habillement comme rituel.\nDans des textures qui portent le murmure des feuilles, le poids du crépuscule et l'épanouissement du matin.\nFragments du passé incrustés dans le présent.\nLe passage des saisons raconté à travers nos vêtements.\n\nSpringtime Wishes est une histoire en cours.\nC'est son premier souffle.\n\nConçu et cousu au Mexique."
+  },
+  "aside": {
+    "cart": "Panier",
+    "search": "Recherche",
+    "mobile": "Menu",
+    "close": "x- Fermer"
   }
+
+
 }

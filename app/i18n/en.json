@@ -22,26 +22,40 @@
     "out_of_stock": "Out of stock"
   },
   "cart": {
-    "title": "Your cart",
+    "title": "Cart",
+    "decrease_quantity": "Decrease quantity",
+    "increase_quantity": "Increase quantity",
+    "option_color": "Color",
+    "option_size": "Size",
     "empty": "Your cart is empty",
     "subtotal": "Subtotal",
     "total": "Total",
     "checkout": "Checkout",
+    "empty_message": "Looks like you haven't added anything yet, let's get you started!",
     "continue_shopping": "Continue shopping",
-    "remove": "Remove"
+    "remove": "Remove",
+    "discounts": "Discount(s)",
+    "discount_placeholder": "Discount code",
+    "apply": "Apply",
+    "applied_gift_cards": "Applied Gift Card(s)",
+    "gift_card_placeholder": "Gift card code"
   },
   "appointments": {
-    "title": "Book an Appointment",
-    "subtitle": "Schedule an appointment to explore our collections in person",
-    "name": "Full name",
+    "studio_hours": "Studio Hours",
+    "subtitle": "Book an appointment to explore our collections in person",
+    "name": "Name",
+    "name_placeholder": "Your name",
     "email": "Email address",
     "date": "Date",
     "time": "Time",
-    "comments": "Comments (optional)",
+    "comments": "Comments",
+    "comments_placeholder": "Is there something specific you'd like to see or discuss?",
     "submit": "Book Appointment",
     "submitting": "Booking...",
-    "success": "Appointment booked! You will receive a confirmation email.",
-    "error": "Booking error. Please try again."
+    "success": "Appointment booked successfully! You'll receive a confirmation email shortly.",
+    "error_no_time": "Please select a time",
+    "error_generic": "There was an error booking your appointment.",
+    "error_connection": "Connection error. Please check your internet and try again."
   },
   "navigation": {
     "home": "Home",
@@ -64,5 +78,16 @@
     "invalid_email": "Invalid email",
     "past_date": "You cannot book in the past",
     "generic": "Something went wrong. Please try again."
+  },
+  "about": {
+    "text": "Welcome to Chapter I – Whispers of the Forest\n\nA beginning woven in silence, shadow, and light.\nEach garment a verse—echoes of time, stitched with care and memory.\n\nWe are drawn to the quiet strength of the past.\nOur pieces are inspired by medieval silhouettes—gowns that grazed mossy earth, corsets that held breath and resolve, skirts that moved like water through trees. But these are not costumes. They are interpretations: garments shaped for the present, softened by time, and made to be lived in.\n\nWe believe in clothing as ritual.\nIn textures that carry the hush of leaves, the weight of dusk, and the bloom of morning.\nFragments of the past embedded in the present.\nThe lapse of the seasons told through our garments.\n\nSpringtime Wishes is an ongoing tale.\nThis is its first breath.\n\nDesigned and sewn in Mexico."
+  },
+  "aside": {
+    "cart": "Cart",
+    "search": "Search",
+    "mobile": "Menu",
+    "close": "x- Close"
   }
+
+
 }

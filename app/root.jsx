@@ -103,14 +103,54 @@ function loadDeferredData({context}) {
     .then((res) => res.collections.nodes)
     .catch(() => []);
 
+  // ✅ Cart con títulos en inglés
+  const cartWithTitles = cart.get().then(async (cartData) => {
+    if (!cartData?.lines?.nodes?.length) {
+      return {...cartData, originalTitles: {}};
+    }
+
+    const productIds = [
+      ...new Set(
+        cartData.lines.nodes.map((line) => line.merchandise.product.id),
+      ),
+    ];
+
+    console.log('🛒 productIds:', productIds);
+
+    try {
+      const {nodes: productsEN} = await storefront.query(
+        CART_PRODUCTS_TITLES_QUERY,
+        {
+          variables: {
+            ids: productIds,
+            country: storefront.i18n.country,
+          },
+        },
+      );
+
+      console.log('🇬🇧 productsEN:', productsEN);
+
+      const originalTitles = {};
+      productsEN?.forEach((product) => {
+        if (product) originalTitles[product.id] = product.title;
+      });
+
+      console.log('✅ originalTitles:', originalTitles);
+
+      return {...cartData, originalTitles};
+    } catch (e) {
+      console.error('❌ Error:', e);
+      return {...cartData, originalTitles: {}};
+    }
+  });
+
   return {
-    cart: cart.get(),
+    cart: cartWithTitles, // ✅ Reemplaza cart: cart.get()
     isLoggedIn: customerAccount.isLoggedIn(),
     footer,
     collections,
   };
 }
-
 
 export function Layout({children}) {
   const nonce = useNonce();
@@ -202,7 +242,19 @@ export const COLLECTIONS_QUERY = `#graphql
     }
   }
 `;
-
+const CART_PRODUCTS_TITLES_QUERY = `#graphql
+  query CartProductTitlesRoot(
+    $ids: [ID!]!
+    $country: CountryCode
+  ) @inContext(language: EN, country: $country) {
+    nodes(ids: $ids) {
+      ... on Product {
+        id
+        title
+      }
+    }
+  }
+`;
 /** @typedef {LoaderReturnData} RootLoader */
 /** @typedef {import('react-router').ShouldRevalidateFunction} ShouldRevalidateFunction */
 /** @typedef {import('./+types/root').Route} Route */

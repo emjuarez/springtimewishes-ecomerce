@@ -1,21 +1,29 @@
 import '../styles/about.css';
-import {useEffect} from "react";
+import {useEffect} from 'react';
 import {useLoaderData} from 'react-router';
 import {Suspense} from 'react';
+import {useTranslation} from '~/hooks/useTranslation';
 
 export async function loader({context}) {
   const {storefront} = context;
 
-  const {collections} = await storefront.query(COLLECTIONS_QUERY);
+  const {collections} = await storefront.query(COLLECTIONS_QUERY, {
+    variables: {
+      country: storefront.i18n.country,
+      language: storefront.i18n.language,
+    },
+  });
 
-  // En react-router moderno, solo retorna el objeto directamente
   return {
     collections: collections.nodes,
   };
 }
 
 const COLLECTIONS_QUERY = `#graphql
-  query AllCollections {
+  query AllCollections(
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
     collections(first: 50, sortKey: UPDATED_AT) {
       nodes {
         id
@@ -28,11 +36,11 @@ const COLLECTIONS_QUERY = `#graphql
 
 export default function AboutPage() {
   const {collections} = useLoaderData();
+  const {t} = useTranslation(); // ✅ Hook de traducción
 
   useEffect(() => {
     const key = document.querySelector('.key-image');
     const parrafo = document.querySelector('.parrafo');
-    const mist = document.querySelector('.BlackMist');
 
     if (!key) return;
 
@@ -46,31 +54,19 @@ export default function AboutPage() {
 
   return (
     <div className="about-page">
-      <Suspense fallback={<div>Cargando colecciones...</div>}>
+      <Suspense fallback={<div>{t('common.loading')}</div>}>
         <CollectionsMarquee collections={collections ?? []} />
       </Suspense>
-      <div className='mist'></div>
+      <div className="mist"></div>
       <div className="about-hero">
         <img className="key-image" src="/images/about/llave.png" alt="key" />
         <p className="parrafo title">
-          Welcome to Chapter I – Whispers of the Forest<br/>
-
-          A beginning woven in silence, shadow, and light.<br/>
-          Each garment a verse—echoes of time, stitched with care and memory.<br/>
-
-          We are drawn to the quiet strength of the past.<br/>
-          Our pieces are inspired by medieval silhouettes—gowns that grazed mossy earth, corsets that held breath and resolve, skirts that moved like water through trees.
-          But these are not costumes. They are interpretations: garments shaped for the present, softened by time, and made to be lived in.<br/>
-
-          We believe in clothing as ritual.<br/>
-          In textures that carry the hush of leaves, the weight of dusk, and the bloom of morning.<br/>
-          Fragments of the past embedded in the present.<br/>
-          The lapse of the seasons told through our garments.<br/>
-
-          Springtime Wishes is an ongoing tale.<br/>
-          This is its first breath.<br/>
-
-          Designed and sewn in Mexico.
+          {t('about.text').split('\n').map((line, i) => (
+            <span key={i}>
+              {line}
+              <br />
+            </span>
+          ))}
         </p>
         <div className="BlackMist"></div>
       </div>
@@ -84,36 +80,21 @@ function CollectionsMarquee({collections}) {
   return (
     <div className="marquee-container">
       <div className="marquee-content">
-        {collections.map((collection) => (
-          <span key={collection.id} className="marquee-item">
-            <img className="spider" src="/images/about/arania.png" alt="key" />
-            {collection.title}
-          </span>
-        ))}
-        {collections.map((collection) => (
-          <span key={collection.id} className="marquee-item">
-            <img className="spider" src="/images/about/arania.png" alt="key" />
-            {collection.title}
-          </span>
-        ))}
-        {collections.map((collection) => (
-          <span key={collection.id} className="marquee-item info">
-            <img className="spider" src="/images/about/arania.png" alt="key" />
-            {collection.title}
-          </span>
-        ))}
-        {collections.map((collection) => (
-          <span key={collection.id} className="marquee-item info">
-            <img className="spider" src="/images/about/arania.png" alt="key" />
-            {collection.title}
-          </span>
-        ))}
-        {collections.map((collection) => (
-          <span key={collection.id} className="marquee-item info">
-            <img className="spider" src="/images/about/arania.png" alt="key" />
-            {collection.title}
-          </span>
-        ))}
+        {[...Array(5)].map((_, i) =>
+          collections.map((collection) => (
+            <span
+              key={`${collection.id}-${i}`}
+              className={`marquee-item ${i >= 2 ? 'info' : 'title'}`}
+            >
+              <img
+                className="spider"
+                src="/images/about/arania.png"
+                alt=""
+              />
+              {collection.title}
+            </span>
+          )),
+        )}
       </div>
     </div>
   );

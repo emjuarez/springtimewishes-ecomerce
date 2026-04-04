@@ -6,7 +6,7 @@ import {PRODUCT_ITEM_FRAGMENT} from '~/lib/fragments';
 import '../styles/home.css'
 import {ImageCarousel} from '~/components/ImageCarousel';
 import {DiscountPopup} from '~/components/DiscountPopup';
-
+import {HeroVideo} from '~/components/HeroVideo';
 /**
  * @type {Route.MetaFunction}
  */
@@ -134,10 +134,13 @@ export default function Homepage() {
     <div className="home">
       <div className='homeMaindiv'>
         <div className="firstSection">
-          <ImageCarousel 
+          {/* <ImageCarousel 
             images={carouselImages} 
             autoplay={false} 
             loop={true} 
+          /> */}
+          <HeroVideo
+            src="/videos/stw.mp4"
           />
           <DiscountPopup />
         </div>

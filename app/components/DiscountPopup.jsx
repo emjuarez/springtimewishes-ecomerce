@@ -69,7 +69,7 @@ export function DiscountPopup() {
                 </button>
               </Form>
             </div>
-            <img className="poup-image" src="/images/Layout/popup-image.jpg" alt="key" />
+            <img className="poup-image" src="/images/Layout/popup-image.png" alt="key" />
           </>
         ) : (
           <div className="popup-success">
@@ -77,7 +77,6 @@ export function DiscountPopup() {
             <div className='lowdiv'>
               <p className='info'>⋆⋆%⋆.ೃ*:･%⋆.ೃ%⋆.ೃ*:･%⋆.ೃ%⋆.ೃ*:･%⋆.ೃ%⋆.ೃ*:･%⋆.ೃ%⋆.ೃ*:･%⋆.ೃ⋆⋆</p>
               <div className="popup-input title">BIENVENIDA10</div>
-              {/* <p className='info'>Usa este código en tu primera compra para obtener 10% de descuento</p> */}
               <button onClick={handleClose} className="popup-button title">
                 Comenzar a comprar
               </button>

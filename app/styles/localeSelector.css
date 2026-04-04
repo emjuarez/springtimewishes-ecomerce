@@ -44,7 +44,7 @@
 .locale-dropdown {
   position: absolute;
   top: calc(100% + 8px);
-  right: 0;
+  right: 5%;
   background: white;
   border: 1px solid #ddd;
   border-radius: 8px;

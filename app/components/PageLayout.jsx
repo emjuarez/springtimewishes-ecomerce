@@ -9,7 +9,7 @@ import {
   SearchFormPredictive,
 } from '~/components/SearchFormPredictive';
 import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
-import {LocaleSelector} from '~/components/LocaleSelector';
+import {AudioPlayer} from '~/components/AudioPlayer';
 
 /**
  * @param {PageLayoutProps}
@@ -44,9 +44,11 @@ export function PageLayout({
         publicStoreDomain={publicStoreDomain}
       />
       <div className="locale-selector-fixed">
-        <LocaleSelector />
+        <AudioPlayer 
+          src="/audio/el_bosque_bounce_para_web.mp3"
+        />
       </div>
-    </Aside.Provider>
+    </Aside.Provider> 
   );
 }
 

@@ -2,26 +2,32 @@ import {Link, useNavigate} from 'react-router';
 import {AddToCartButton} from './AddToCartButton';
 import {useAside} from './Aside';
 import {useWindowSize} from '~/hooks/useWindowSize';
+import {useTranslation} from '~/hooks/useTranslation';
+import {useLocalePath} from '~/hooks/useLocalePath';
 
 export function ProductForm({
-  productOptions, 
-  selectedVariant, 
-  description2, 
-  careInstructions, 
-  descriptionHtml
+  productOptions,
+  selectedVariant,
+  description2,
+  careInstructions,
+  descriptionHtml,
 }) {
   const navigate = useNavigate();
   const {open} = useAside();
-  
-  // Separar las opciones por tipo
-  const sizeOption = productOptions.find(opt => opt.name.toLowerCase() === 'size' || opt.name.toLowerCase() === 'talla');
-  const colorOption = productOptions.find(opt => opt.name.toLowerCase() === 'color');
-  
-  const {isMobile, isTablet, isDesktop} = useWindowSize();
+  const {t} = useTranslation();
+  const {localePath} = useLocalePath();
+  const {isDesktop, isMobile} = useWindowSize();
+
+  const sizeOption = productOptions.find(
+    (opt) =>
+      opt.name.toLowerCase() === 'size' || opt.name.toLowerCase() === 'talla',
+  );
+  const colorOption = productOptions.find(
+    (opt) => opt.name.toLowerCase() === 'color',
+  );
 
   return (
     <>
-      {/* SECCIÓN 1: Size options + Add to Basket */}
       <div className="product-form-section seccion">
         {sizeOption && sizeOption.optionValues.length > 1 && (
           <div className="product-options">
@@ -46,9 +52,11 @@ export function ProductForm({
                       prefetch="intent"
                       preventScrollReset
                       replace
-                      to={`/products/${handle}?${variantUriQuery}`}
+                      to={localePath(`/products/${handle}?${variantUriQuery}`)}
                       style={{
-                        border: selected ? '1px solid black' : '1px solid transparent',
+                        border: selected
+                          ? '1px solid black'
+                          : '1px solid transparent',
                         opacity: available ? 1 : 0.3,
                       }}
                     >
@@ -83,161 +91,77 @@ export function ProductForm({
             </div>
           </div>
         )}
-
         <AddToCartButton
           disabled={!selectedVariant || !selectedVariant.availableForSale}
-          onClick={() => {
-            open('cart');
-          }}
+          onClick={() => open('cart')}
           lines={
             selectedVariant
-              ? [
-                  {
-                    merchandiseId: selectedVariant.id,
-                    quantity: 1,
-                    selectedVariant,
-                  },
-                ]
+              ? [{merchandiseId: selectedVariant.id, quantity: 1, selectedVariant}]
               : []
           }
         >
-          {selectedVariant?.availableForSale ? 'Add to Basket' : 'Sold out'}
+          {selectedVariant?.availableForSale
+            ? t('product.add_to_cart')
+            : t('product.sold_out')}
         </AddToCartButton>
       </div>
       {isDesktop && (
-      <>
-        {/* SECCIÓN 2: Description (description2) */}
-        {description2?.value && (
-          <div className="product-description ">
-            <p style={{whiteSpace: 'pre-wrap'}} className='info'>{description2.value}</p>
-          </div>
-        )}
-        {/* SECCIÓN 3: Color options + Shop Now */}
-        <div className="product-form-section">
-          {colorOption && colorOption.optionValues.length > 1 && (
-            <div className="product-options">
-              {/* <h3>{colorOption.name}</h3> */}
-              <div className="product-options-grid">
-                {colorOption.optionValues.map((value) => {
-                  const {
-                    name,
-                    handle,
-                    variantUriQuery,
-                    selected,
-                    available,
-                    exists,
-                    isDifferentProduct,
-                    swatch,
-                  } = value;
-
-                  if (isDifferentProduct) {
-                    return (
-                      <Link
-                        className="product-options-item"
-                        key={colorOption.name + name}
-                        prefetch="intent"
-                        preventScrollReset
-                        replace
-                        to={`/products/${handle}?${variantUriQuery}`}
-                        style={{
-                          border: selected ? '1px solid black' : '1px solid transparent',
-                          opacity: available ? 1 : 0.3,
-                        }}
-                      >
-                        <ProductOptionSwatch swatch={swatch} name={name} />
-                      </Link>
-                    );
-                  } else {
-                    return (
-                      <>
-                        <button
-                        type="button"
-                        className={`color-options-item${exists && !selected ? ' link' : ''}`}
-                        key={colorOption.name + name}
-                        style={{
-                          outline: selected ? '5px solid white' : '1px solid transparent',
-                          opacity: available ? 1 : 0.3,
-                          backgroundColor: name,
-                        }}
-                        disabled={!exists}
-                        onClick={() => {
-                          if (!selected) {
-                            void navigate(`?${variantUriQuery}`, {
-                              replace: true,
-                              preventScrollReset: true,
-                            });
-                          }
-                        }}
-                      >
-                        {/* <ProductOptionSwatch swatch={swatch} name={name} /> */}
-                      </button>
-                      </>
-                      
-                    );
-                  }
-                })}
-              </div>
+        <>
+          {description2?.value && (
+            <div className="product-description">
+              <p style={{whiteSpace: 'pre-wrap'}} className="info">
+                {description2.value}
+              </p>
             </div>
           )}
 
-          <button className="shop-now-button title" type="button">
-            Shop Now
-          </button>
-        </div>
-        {/* SECCIÓN 4: Care Instructions */}
-        {careInstructions?.value && (
-          <div className="product-care">
-            <h3 className='info'>Care +</h3>
-            <p className='info' style={{whiteSpace: 'pre-wrap'}}>{careInstructions.value}</p>
-          </div>
-        )}
-      </>
-      )}
-      {isMobile && (
-        <>
-        {/* SECCIÓN 1: Color options + Add to basket */}
-        <div className="product-form-section seccion">
-          {colorOption && colorOption.optionValues.length > 1 && (
-            <div className="product-options">
-              <div className="product-options-grid">
-                {colorOption.optionValues.map((value) => {
-                  const {
-                    name,
-                    handle,
-                    variantUriQuery,
-                    selected,
-                    available,
-                    exists,
-                    isDifferentProduct,
-                    swatch,
-                  } = value;
+          <div className="product-form-section">
+            {colorOption && colorOption.optionValues.length > 1 && (
+              <div className="product-options">
+                <div className="product-options-grid">
+                  {colorOption.optionValues.map((value) => {
+                    const {
+                      name,
+                      handle,
+                      variantUriQuery,
+                      selected,
+                      available,
+                      exists,
+                      isDifferentProduct,
+                      swatch,
+                    } = value;
 
-                  if (isDifferentProduct) {
-                    return (
-                      <Link
-                        className="product-options-item"
-                        key={colorOption.name + name}
-                        prefetch="intent"
-                        preventScrollReset
-                        replace
-                        to={`/products/${handle}?${variantUriQuery}`}
-                        style={{
-                          border: selected ? '1px solid black' : '1px solid transparent',
-                          opacity: available ? 1 : 0.3,
-                        }}
-                      >
-                        <ProductOptionSwatch swatch={swatch} name={name} />
-                      </Link>
-                    );
-                  } else {
-                    return (
-                      <>
+                    if (isDifferentProduct) {
+                      return (
+                        <Link
+                          className="product-options-item"
+                          key={colorOption.name + name}
+                          prefetch="intent"
+                          preventScrollReset
+                          replace
+                          to={localePath(
+                            `/products/${handle}?${variantUriQuery}`,
+                          )}
+                          style={{
+                            border: selected
+                              ? '1px solid black'
+                              : '1px solid transparent',
+                            opacity: available ? 1 : 0.3,
+                          }}
+                        >
+                          <ProductOptionSwatch swatch={swatch} name={name} />
+                        </Link>
+                      );
+                    } else {
+                      return (
                         <button
+                          key={colorOption.name + name}
                           type="button"
                           className={`color-options-item${exists && !selected ? ' link' : ''}`}
-                          key={colorOption.name + name}
                           style={{
-                            outline: selected ? '3px solid white' : '1px solid transparent',
+                            outline: selected
+                              ? '5px solid white'
+                              : '1px solid transparent',
                             opacity: available ? 1 : 0.3,
                             backgroundColor: name,
                           }}
@@ -250,37 +174,120 @@ export function ProductForm({
                               });
                             }
                           }}
-                        >
-                        </button>
-                      </>
-                      
-                    );
-                  }
-                })}
+                        />
+                      );
+                    }
+                  })}
+                </div>
               </div>
+            )}
+
+            <button className="shop-now-button title" type="button">
+              {t('product.shop_now')}
+            </button>
+          </div>
+
+          {careInstructions?.value && (
+            <div className="product-care">
+              <h3 className="info">{t('product.care')}</h3>
+              <p className="info" style={{whiteSpace: 'pre-wrap'}}>
+                {careInstructions.value}
+              </p>
             </div>
           )}
-        </div>
-        {/* SECCIÓN 2: Description + Shop Now */}
-        <div className='seccion divider'>
-          <div dangerouslySetInnerHTML={{__html: descriptionHtml}} className='info'/>
-          <button className="shop-now-button title" type="button">
-            Shop Now
-          </button>
-        </div>
-        {/* SECCIÓN 3: Description2 */}
-        {description2?.value && (
-            <div className="product-description seccion divider">
-              <p style={{whiteSpace: 'pre-wrap'}} className='info'>{description2.value}</p>
-            </div>
-        )}
-        {/* SECCIÓN 4: Care Instructions */}
-        {careInstructions?.value && (
-          <div className="product-care seccion">
-            <h3 className='info'>Care +</h3>
-            <p className='info' style={{whiteSpace: 'pre-wrap'}}>{careInstructions.value}</p>
+        </>
+      )}
+      {isMobile && (
+        <>
+          <div className="product-form-section seccion">
+            {colorOption && colorOption.optionValues.length > 1 && (
+              <div className="product-options">
+                <div className="product-options-grid">
+                  {colorOption.optionValues.map((value) => {
+                    const {
+                      name,
+                      handle,
+                      variantUriQuery,
+                      selected,
+                      available,
+                      exists,
+                      isDifferentProduct,
+                      swatch,
+                    } = value;
+
+                    if (isDifferentProduct) {
+                      return (
+                        <Link
+                          className="product-options-item"
+                          key={colorOption.name + name}
+                          prefetch="intent"
+                          preventScrollReset
+                          replace
+                          to={localePath(`/products/${handle}?${variantUriQuery}`)}
+                          style={{
+                            border: selected
+                              ? '1px solid black'
+                              : '1px solid transparent',
+                            opacity: available ? 1 : 0.3,
+                          }}
+                        >
+                          <ProductOptionSwatch swatch={swatch} name={name} />
+                        </Link>
+                      );
+                    } else {
+                      return (
+                        <button
+                          key={colorOption.name + name}
+                          type="button"
+                          className={`color-options-item${exists && !selected ? ' link' : ''}`}
+                          style={{
+                            outline: selected
+                              ? '3px solid white'
+                              : '1px solid transparent',
+                            opacity: available ? 1 : 0.3,
+                            backgroundColor: name,
+                          }}
+                          disabled={!exists}
+                          onClick={() => {
+                            if (!selected) {
+                              void navigate(`?${variantUriQuery}`, {
+                                replace: true,
+                                preventScrollReset: true,
+                              });
+                            }
+                          }}
+                        />
+                      );
+                    }
+                  })}
+                </div>
+              </div>
+            )}
           </div>
-        )}
+          <div className="seccion divider">
+            <div
+              dangerouslySetInnerHTML={{__html: descriptionHtml}}
+              className="info"
+            />
+            <button className="shop-now-button title" type="button">
+              {t('product.shop_now')}
+            </button>
+          </div>
+          {description2?.value && (
+            <div className="product-description seccion divider">
+              <p style={{whiteSpace: 'pre-wrap'}} className="info">
+                {description2.value}
+              </p>
+            </div>
+          )}
+          {careInstructions?.value && (
+            <div className="product-care seccion">
+              <h3 className="info">{t('product.care')}</h3>
+              <p className="info" style={{whiteSpace: 'pre-wrap'}}>
+                {careInstructions.value}
+              </p>
+            </div>
+          )}
         </>
       )}
     </>
@@ -297,9 +304,7 @@ function ProductOptionSwatch({swatch, name}) {
     <div
       aria-label={name}
       className="product-option-label-swatch"
-      style={{
-        backgroundColor: color || 'transparent',
-      }}
+      style={{backgroundColor: color || 'transparent'}}
     >
       {!!image && <img src={image} alt={name} />}
     </div>

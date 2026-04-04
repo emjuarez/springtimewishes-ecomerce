@@ -19,7 +19,11 @@
     "quantity": "Cantidad",
     "one_size": "Talla única",
     "in_stock": "En stock",
-    "out_of_stock": "Sin stock"
+    "out_of_stock": "Sin stock",
+    "add_to_cart": "Agregar al carrito",
+    "sold_out": "Agotado",
+    "shop_now": "Comprar ahora",
+    "care": "Cuidados +"
   },
   "cart": {
     "title": "Carrito",

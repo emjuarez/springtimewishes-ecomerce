@@ -5,6 +5,7 @@ import {useAside} from '~/components/Aside';
 import '~/styles/header.css'
 // import {LocaleSelector} from '~/components/LocaleSelector';
 import {useLocalePath} from '~/hooks/useLocalePath';
+import {LocaleSelector} from '~/components/LocaleSelector';
 
 /**
  * @param {HeaderProps}
@@ -34,7 +35,10 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain, collections
         primaryDomainUrl={header.shop.primaryDomain.url}
         publicStoreDomain={publicStoreDomain}
       />
-      <CartToggle cart={cart} className="cartToogleMobile"/>
+      <div className='selector-cart_div'>
+        <LocaleSelector />
+        <CartToggle cart={cart} className="cartToogleMobile"/>
+      </div>
     </header>
   );
 }
@@ -51,6 +55,12 @@ export function HeaderMenu({menu, primaryDomainUrl, viewport, publicStoreDomain}
   const {close} = useAside();
   const {localePath} = useLocalePath();
 
+  const handleClick = (e, finalUrl) => {
+    e.preventDefault();
+    close();
+    window.location.href = finalUrl;
+  };
+
   return (
     <nav className={`header-menu-${viewport}`} role="navigation">
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
@@ -63,23 +73,32 @@ export function HeaderMenu({menu, primaryDomainUrl, viewport, publicStoreDomain}
             ? new URL(item.url).pathname
             : item.url;
 
+        const finalUrl = localePath(url);
+
+        // ✅ Detectar si es el item activo comparando con la URL actual
+        const isActive =
+          typeof window !== 'undefined' &&
+          window.location.pathname === finalUrl;
+
         return (
-          <NavLink
-            className="header-menu-item title"
-            end
+          <a
             key={item.id}
-            onClick={close}
-            prefetch="intent"
-            style={activeLinkStyle}
-            to={localePath(url)}
+            href={finalUrl}
+            className="header-menu-item title"
+            onClick={(e) => handleClick(e, finalUrl)}
+            style={{
+              textDecoration: isActive ? 'line-through' : undefined,
+              color: 'white',
+            }}
           >
             {item.title}
-          </NavLink>
+          </a>
         );
       })}
     </nav>
   );
 }
+
 /**
  * @param {Pick<HeaderProps, 'isLoggedIn' | 'cart'>}
  */
@@ -186,59 +205,27 @@ const FALLBACK_HEADER_MENU = {
   items: [
     {
       id: 'gid://shopify/MenuItem/461609500728',
-      resourceId: null,
-      tags: [],
       title: 'Collections',
-      type: 'HTTP',
       url: '/collections',
-      items: [],
     },
     {
       id: 'gid://shopify/MenuItem/461609533496',
-      resourceId: null,
-      tags: [],
       title: 'Blog',
-      type: 'HTTP',
       url: '/blogs/journal',
-      items: [],
     },
     {
       id: 'gid://shopify/MenuItem/461609566264',
-      resourceId: null,
-      tags: [],
       title: 'Policies',
-      type: 'HTTP',
       url: '/policies',
-      items: [],
     },
     {
       id: 'gid://shopify/MenuItem/461609599032',
-      resourceId: 'gid://shopify/Page/92591030328',
-      tags: [],
       title: 'About',
-      type: 'PAGE',
       url: '/pages/about',
-      items: [],
-    },
-    { id: '1', 
-      title: 'Collections', 
-      url: '/collections' 
-    },
-    { id: '2', 
-      title: 'Blog', 
-      url: '/blogs/journal' 
-    },
-    { id: '3', 
-      title: 
-      'Policies', 
-      url: '/policies' 
-    },
-    { id: '4', 
-      title: 'About', 
-      url: '/pages/about' 
     },
   ],
 };
+
 /**
  * @param {{
  *   isActive: boolean;

@@ -19,7 +19,11 @@
     "quantity": "Quantity",
     "one_size": "One Size",
     "in_stock": "In stock",
-    "out_of_stock": "Out of stock"
+    "out_of_stock": "Out of stock",
+    "add_to_cart": "Add to Basket",
+    "sold_out": "Sold out",
+    "shop_now": "Shop Now",
+    "care": "Care +"
   },
   "cart": {
     "title": "Cart",

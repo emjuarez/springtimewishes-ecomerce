@@ -19,7 +19,11 @@
     "quantity": "数量",
     "one_size": "ワンサイズ",
     "in_stock": "在庫あり",
-    "out_of_stock": "在庫切れ"
+    "out_of_stock": "在庫切れ",
+    "add_to_cart": "カートに追加",
+    "sold_out": "売り切れ",
+    "shop_now": "今すぐ購入",
+    "care": "ケア +"
   },
   "cart": {
     "title": "カート",

@@ -91,6 +91,9 @@
     "search": "Recherche",
     "mobile": "Menu",
     "close": "x- Fermer"
+  },
+  "selector": {
+    "language":"Langue"
   }
 
 

@@ -43,7 +43,7 @@ export function PageLayout({
         header={header}
         publicStoreDomain={publicStoreDomain}
       />
-      <div className="locale-selector-fixed">
+      <div className="audio-player-fixed">
         <AudioPlayer 
           src="/audio/el_bosque_bounce_para_web.mp3"
         />

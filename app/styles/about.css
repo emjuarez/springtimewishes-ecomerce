@@ -61,7 +61,7 @@
   width: 80%;
   left: 50%;
   font-size: 35px;
-  color: black;
+  color: #999999;
   transform: translateX(-50%);
   text-align: center;
   opacity: 0;

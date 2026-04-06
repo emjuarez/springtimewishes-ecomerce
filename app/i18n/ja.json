@@ -91,5 +91,9 @@
     "search": "検索",
     "mobile": "メニュー",
     "close": "x- 閉じる"
+  },
+  "selector": {
+    "language":"言語"
   }
+
 }

@@ -4,18 +4,9 @@ import {locales} from '~/lib/i18n';
 import {useTranslation} from '~/hooks/useTranslation';
 import '~/styles/localeSelector.css'
 
-const FLAGS = {
-  'es-MX': '🇲🇽',
-  'en-US': '🇺🇸',
-  'fr-FR': '🇫🇷',
-  'ja-JP': '🇯🇵',
-};
-
 // Extrae el path sin ningún prefijo de locale
 function stripLocalePrefix(pathname) {
   const prefixes = Object.values(locales).map((l) => l.pathPrefix);
-  console.log('Prefijos disponibles:', prefixes);
-  console.log('Pathname actual:', pathname);
 
   for (const prefix of prefixes) {
     if (pathname.startsWith(prefix + '/') || pathname === prefix) {
@@ -25,15 +16,14 @@ function stripLocalePrefix(pathname) {
     }
   }
 
-  console.log('Sin prefijo encontrado → cleanPath:', pathname);
   return pathname;
 }
-
 
 export function LocaleSelector() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const dropdownRef = useRef(null);
+  const {t} = useTranslation();
 
   // ✅ Detectar locale actual DIRECTAMENTE desde la URL
   const currentLocaleKey = (() => {
@@ -66,8 +56,6 @@ export function LocaleSelector() {
       ? newLocale.pathPrefix + (cleanPath === '/' ? '' : cleanPath)
       : cleanPath;
 
-    console.log('cleanPath:', cleanPath, '→ newPath:', newPath);
-
     window.location.href = newPath;
     setIsOpen(false);
   };
@@ -81,11 +69,9 @@ export function LocaleSelector() {
         aria-label="Select language"
         aria-expanded={isOpen}
       >
-        <span className="locale-flag">{FLAGS[currentLocaleKey]}</span>
-        <span className="locale-current-label">
-          {locales[currentLocaleKey]?.language}
+        <span className="locale-current-label header-menu-item title">
+          {t('selector.language')}
         </span>
-        <span className={`locale-arrow ${isOpen ? 'open' : ''}`}>▾</span>
       </button>
 
       {isOpen && (
@@ -96,14 +82,7 @@ export function LocaleSelector() {
               onClick={() => handleLocaleChange(key)}
               className={`locale-option ${key === currentLocaleKey ? 'active' : ''}`}
             >
-              <span className="locale-option-flag">{FLAGS[key]}</span>
-              <span className="locale-option-name">{localeData.label}</span>
-              <span className="locale-option-currency">
-                {localeData.currency}
-              </span>
-              {key === currentLocaleKey && (
-                <span className="locale-check">✓</span>
-              )}
+              <span className="locale-option-name info">{localeData.language}</span>
             </button>
           ))}
         </div>

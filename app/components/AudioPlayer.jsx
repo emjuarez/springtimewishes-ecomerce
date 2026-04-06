@@ -15,13 +15,19 @@ export function AudioPlayer({src, title = 'Audio'}) {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
+    const handleTimeUpdate = () => {
+        console.log('currentTime:', audio.currentTime, 'duration:', audio.duration);
+        setCurrentTime(audio.currentTime);
+    };
     const handleLoadedMetadata = () => setDuration(audio.duration);
     const handleEnded = () => setIsPlaying(false);
 
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('ended', handleEnded);
+     if (audio.readyState >= 1) {
+    setDuration(audio.duration);
+  }
 
     return () => {
       audio.removeEventListener('timeupdate', handleTimeUpdate);
@@ -84,14 +90,30 @@ export function AudioPlayer({src, title = 'Audio'}) {
 
   const progressPercent = duration ? (currentTime / duration) * 100 : 0;
 
+
+
   return (
     <div className="audio-player">
       <audio ref={audioRef} src={src} preload="metadata" />
-
-      {/* Título */}
-      <div className="audio-title">{title}</div>
-
-      {/* Barra de progreso */}
+      <div className='player-topdiv'>
+         <div className="audio-controls">
+            <button
+            className="audio-btn"
+            onClick={handleStop}
+            aria-label="Stop"
+            >
+            ■
+            </button>
+            <button
+            className="audio-btn audio-btn--main"
+            onClick={isPlaying ? handlePause : handlePlay}
+            aria-label={isPlaying ? 'Pause' : 'Play'}
+            >
+            {isPlaying ? '❚❚' : '▶'}
+            </button>
+        </div>
+        <span className="audio-time info">{formatTime(currentTime)}</span>
+      </div>
       <div
         className="audio-progress-bar"
         ref={progressRef}
@@ -100,54 +122,6 @@ export function AudioPlayer({src, title = 'Audio'}) {
         <div
           className="audio-progress-fill"
           style={{width: `${progressPercent}%`}}
-        />
-      </div>
-
-      {/* Tiempo */}
-      <div className="audio-time">
-        <span>{formatTime(currentTime)}</span>
-        <span>{formatTime(duration)}</span>
-      </div>
-
-      {/* Controles */}
-      <div className="audio-controls">
-        {/* Stop */}
-        <button
-          className="audio-btn"
-          onClick={handleStop}
-          aria-label="Stop"
-        >
-          ■
-        </button>
-
-        {/* Play / Pause */}
-        <button
-          className="audio-btn audio-btn--main"
-          onClick={isPlaying ? handlePause : handlePlay}
-          aria-label={isPlaying ? 'Pause' : 'Play'}
-        >
-          {isPlaying ? '❚❚' : '▶'}
-        </button>
-
-        {/* Mute */}
-        <button
-          className="audio-btn"
-          onClick={handleMuteToggle}
-          aria-label={isMuted ? 'Unmute' : 'Mute'}
-        >
-          {isMuted ? '🔇' : '🔊'}
-        </button>
-
-        {/* Volumen */}
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          value={isMuted ? 0 : volume}
-          onChange={handleVolumeChange}
-          className="audio-volume"
-          aria-label="Volumen"
         />
       </div>
     </div>

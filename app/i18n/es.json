@@ -91,6 +91,9 @@
     "search": "Búsqueda",
     "mobile": "Menú",
     "close": "x- Cerrar"
+  },
+  "selector": {
+    "language":"Idioma"
   }
 
 }

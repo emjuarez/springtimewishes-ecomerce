@@ -49,8 +49,6 @@ export function HeroVideo({src, poster}) {
         >
           <source src={src} type="video/mp4" />
         </video>
-
-        {/* Hint en hover */}
         {isHovered && !isExpanded && (
           <div className="hero-video-hint">
             <div className="hint-circle">
@@ -59,8 +57,6 @@ export function HeroVideo({src, poster}) {
             <p className="hint-text">Click para ver</p>
           </div>
         )}
-
-        {/* Botón cerrar */}
         {isExpanded && (
           <button className="hero-video-close" onClick={handleCollapse}>
             ×

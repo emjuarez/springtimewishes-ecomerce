@@ -3,9 +3,9 @@ import {Await, NavLink, useAsyncValue} from 'react-router';
 import {useAnalytics, useOptimisticCart} from '@shopify/hydrogen';
 import {useAside} from '~/components/Aside';
 import '~/styles/header.css'
-// import {LocaleSelector} from '~/components/LocaleSelector';
 import {useLocalePath} from '~/hooks/useLocalePath';
 import {LocaleSelector} from '~/components/LocaleSelector';
+import {useWindowSize} from '~/hooks/useWindowSize';
 
 /**
  * @param {HeaderProps}
@@ -13,6 +13,7 @@ import {LocaleSelector} from '~/components/LocaleSelector';
 export function Header({header, isLoggedIn, cart, publicStoreDomain, collections}) {
   const {shop, menu} = header;
   const {localePath, pathPrefix} = useLocalePath();
+  const {isDesktop} = useWindowSize();
 
   const handleHomeClick = (e) => {
     e.preventDefault();
@@ -36,7 +37,9 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain, collections
         publicStoreDomain={publicStoreDomain}
       />
       <div className='selector-cart_div'>
+      {isDesktop && (
         <LocaleSelector />
+      )}
         <CartToggle cart={cart} className="cartToogleMobile"/>
       </div>
     </header>
@@ -54,6 +57,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain, collections
 export function HeaderMenu({menu, primaryDomainUrl, viewport, publicStoreDomain}) {
   const {close} = useAside();
   const {localePath} = useLocalePath();
+  const {isMobile} = useWindowSize();
 
   const handleClick = (e, finalUrl) => {
     e.preventDefault();
@@ -81,20 +85,25 @@ export function HeaderMenu({menu, primaryDomainUrl, viewport, publicStoreDomain}
           window.location.pathname === finalUrl;
 
         return (
-          <a
-            key={item.id}
-            href={finalUrl}
-            className="header-menu-item title"
-            onClick={(e) => handleClick(e, finalUrl)}
-            style={{
-              textDecoration: isActive ? 'line-through' : undefined,
-              color: 'white',
-            }}
-          >
-            {item.title}
-          </a>
+          <>
+            <a
+              key={item.id}
+              href={finalUrl}
+              className="header-menu-item title"
+              onClick={(e) => handleClick(e, finalUrl)}
+              style={{
+                textDecoration: isActive ? 'line-through' : undefined,
+                color: 'white',
+              }}
+            >
+              {item.title}
+            </a>
+          </>
         );
       })}
+      {isMobile && (
+        <LocaleSelector />
+      )}
     </nav>
   );
 }

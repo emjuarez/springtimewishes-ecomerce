@@ -26,7 +26,7 @@
   top: calc(100% + 8px);
   right: 5%;
   min-width: 180px;
-  z-index: 1000;
+  z-index: 9000;
   overflow: hidden;
 }
 
@@ -68,4 +68,20 @@
 .locale-check {
   font-size: 12px;
   font-weight: bold;
+}
+@media (max-width: 480px) {
+  .locale-button {
+    padding: 6px 0px;
+  }
+  .locale-dropdown {
+    position: absolute;
+    top: unset;
+    right: unset;
+    min-width: 180px;
+    z-index: 9000;
+    overflow: hidden;
+  }
+  .locale-option {
+    padding: 5px 0px;
+  }
 }

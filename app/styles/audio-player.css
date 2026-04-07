@@ -132,6 +132,7 @@
 @media (max-width: 480px) {
   .audio-player {
     padding: 1rem 1.2rem;
+    box-sizing: border-box;
   }
 
   .audio-volume {

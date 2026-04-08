@@ -313,6 +313,12 @@
   }
   .product-item {
     height: unset;
+    .title {
+      font-size: 16px;
+    }
+    .info {
+      font-size: 13px;
+    }
   }
   .product-image {
     padding: 20px 14px;
@@ -350,6 +356,7 @@
       justify-content:space-between;
       padding-left: unset;
       padding: 0px 5px;
+      gap: 5px;
       .title {
         margin-block-start: 0px !important;
         margin-bottom: 0px;

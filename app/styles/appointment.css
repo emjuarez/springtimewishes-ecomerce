@@ -186,7 +186,7 @@
     width: 100%;
     min-height: 100vh;
     height: fit-content;
-    padding: 67px 10px 30px;
+    padding: 67px 10px 90px;
     overflow: visible;
     box-sizing: border-box;
   }
@@ -196,7 +196,13 @@
     width: 97%;
   }
   .appointments-container h1 {
-    font-size: 24px;
+    font-size: 19px;
+  }
+  .form-group label {
+    font-size: 16px !important;
+  }
+  .form-group input {
+    font-size: 13px !important;
   }
   .appointment-form {
     gap: 8px;
@@ -212,8 +218,10 @@
     margin: 8px 0px;
   }
   time-slot {
-  width: 97% !important;
-
+    width: 97% !important;
+  }
+  .time-slot span {
+    font-size: 13px !important;
   }
 }
 

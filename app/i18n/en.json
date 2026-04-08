@@ -46,6 +46,7 @@
   },
   "appointments": {
     "studio_hours": "Studio Hours",
+    "reservation": "Make a Reservation",
     "subtitle": "Book an appointment to explore our collections in person",
     "name": "Name",
     "name_placeholder": "Your name",

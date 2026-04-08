@@ -207,7 +207,7 @@ export default function AppointmentsPage() {
         <>
           <div className="appointments-page">
             <div className="appointments-container">
-              <h1 className="info">{t('appointments.studio_hours')}</h1>
+              <h1 className="info">{t('appointments.reservation')}</h1>
               <form onSubmit={handleSubmit} className="appointment-form">
                 <div className="inputContainer">
                   <div className="form-group">

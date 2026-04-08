@@ -46,6 +46,7 @@
   },
   "appointments": {
     "studio_hours": "スタジオ営業時間",
+    "reservation": "予約する",
     "subtitle": "コレクションを直接ご覧いただくための予約をお取りください",
     "name": "お名前",
     "name_placeholder": "お名前を入力してください",

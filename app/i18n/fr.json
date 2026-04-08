@@ -46,6 +46,7 @@
   },
   "appointments": {
     "studio_hours": "Heures du Studio",
+    "reservation": "Faire une réservation",
     "subtitle": "Prenez rendez-vous pour découvrir nos collections en personne",
     "name": "Nom",
     "name_placeholder": "Votre nom",

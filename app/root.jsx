@@ -15,6 +15,7 @@ import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import {PageLayout} from './components/PageLayout';
 import {getLocaleFromRequest} from '~/lib/i18n';
+import {CustomCursor} from '~/components/CustomCursor';
 
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
   if (formMethod && formMethod !== 'GET') return true;
@@ -154,7 +155,6 @@ function loadDeferredData({context}) {
 
 export function Layout({children}) {
   const nonce = useNonce();
-  // ✅ Obtener locale para el atributo lang del html
   const data = useRouteLoaderData('root');
   const lang = data?.selectedLocale?.language?.toLowerCase() || 'es';
 
@@ -169,6 +169,7 @@ export function Layout({children}) {
         <Links />
       </head>
       <body>
+        <CustomCursor src="/images/Layout/cursor.png" size={32} />  
         {children}
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />

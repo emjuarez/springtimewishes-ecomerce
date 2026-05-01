@@ -89,7 +89,6 @@
 }
 .collectionTitleDiv {
     padding: 15px 0px;
-
     h2 {
         margin-bottom: 0px;
     }
@@ -202,7 +201,8 @@ img{
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    max-width:1600px
+    max-width:1600px;
+    padding-bottom: 10%;
 }
 .recommended-products-grid {
     row-gap: 1px;

@@ -123,7 +123,6 @@ export default function Homepage() {
       key.addEventListener('click', () => {
         // 1. Desvanecer llave
         key.classList.add('fade-out');
-  
         // 2. Elevar el fondo negro (curtain reveal)
         setTimeout(() => {
           mist.classList.add('reveal');
@@ -134,11 +133,6 @@ export default function Homepage() {
     <div className="home">
       <div className='homeMaindiv'>
         <div className="firstSection">
-          {/* <ImageCarousel 
-            images={carouselImages} 
-            autoplay={false} 
-            loop={true} 
-          /> */}
           <HeroVideo
             src="/videos/stw.mp4"
           />

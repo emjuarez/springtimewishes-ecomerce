@@ -75,7 +75,7 @@ async function loadCriticalData({context, request}) {
     storefront.query(HEADER_QUERY, {
       cache: storefront.CacheLong(),
       variables: {
-        headerMenuHandle: 'main-menu',
+        headerMenuHandle: 'main-menu-1',
         // ✅ Hydrogen los inyecta automáticamente desde i18n
       },
     }),

@@ -45,7 +45,7 @@ export function PageLayout({
       />
       <div className="audio-player-fixed">
         <AudioPlayer 
-          src="/audio/el_bosque_bounce_para_web.mp3"
+          src="/audio/el-bosque-bounce-para-web-2.mp3"
         />
       </div>
     </Aside.Provider> 

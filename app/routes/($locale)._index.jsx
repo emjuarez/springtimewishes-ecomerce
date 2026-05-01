@@ -144,7 +144,7 @@ export default function Homepage() {
         </div>
         <div className='mist'></div>
         <div className='mist1'></div>
-        <img src={"../../public/images/home/llave.png"} alt="" className='homeKey'/>
+        <img src={"/images/home/llave.png"} alt="" className='homeKey'/>
       </div>
     </div>
   );

@@ -28,7 +28,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain, collections
         className="headerLink"
         onClick={handleHomeClick}
       > 
-        <img src={"../../public/images/Layout/STW_logo.png"} alt="" className='headerLogo'/>
+        <img src={"/images/Layout/STW_logo.png"} alt="" className='headerLogo'/>
       </a>
       <HeaderMenu
         menu={menu}
@@ -118,7 +118,7 @@ function HeaderMenuMobileToggle() {
       className="header-menu-mobile-toggle reset"
       onClick={() => open('mobile')}
     >
-      <img src={"../../public/images/Layout/menu-icon.png"} alt=""/>
+      <img src={"/public/images/Layout/menu-icon.png"} alt=""/>
     </button>
   );
 }

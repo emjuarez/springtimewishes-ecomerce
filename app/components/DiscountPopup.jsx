@@ -69,7 +69,9 @@ export function DiscountPopup() {
                 </button>
               </Form>
             </div>
-            <img className="poup-image" src="/images/Layout/popup-image.png" alt="key" />
+            <div className='ppimage-container'>
+              <img className="poup-image" src="/images/Layout/popup-image.png" alt="key" />
+            </div>
           </>
         ) : (
           <div className="popup-success">

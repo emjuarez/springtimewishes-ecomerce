@@ -166,10 +166,10 @@
 /* Responsive */
 @media (max-width: 768px) {
   .popup-content {
-    /* padding: 2rem 1.5rem; */
     width: 90%;
-    transform: translate(5%, 3%);
+    transform: translate(5%, -17%);
     grid-template-columns: repeat(1, 2fr);
+    height: 70%;
     .left {
       grid-row: 2;
     }
@@ -177,12 +177,14 @@
       grid-column: 1;
     }
   }
-  
+  .ppimage-container {
+    height: 100%;
+    overflow: hidden;
+  }
   .popup-form h2,
   .popup-success h2 {
     font-size: 1.5rem;
   }
-  
   .discount-code {
     font-size: 1.5rem;
     padding: 1rem;

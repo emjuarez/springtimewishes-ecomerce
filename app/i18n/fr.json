@@ -14,6 +14,9 @@
   },
   "product": {
     "size": "Taille",
+    "bust": "POITRINE",
+    "waist": "TAILLE",
+    "hips": "HANCHES",
     "size_table": "Guide des tailles",
     "color": "Couleur",
     "quantity": "Quantité",

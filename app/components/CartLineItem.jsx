@@ -16,14 +16,15 @@ export function CartLineItem({layout, line, originalTitles}) {
   const {t} = useTranslation();
   const displayTitle = originalTitles[product.id] || product.title;
 
-  console.log('📦 product.id:', product.id);
-  console.log('📦 originalTitles:', originalTitles);
-  console.log('📦 displayTitle:', displayTitle);
-
   const sortedOptions = [...selectedOptions].sort((a, b) => {
     const order = ['Color', 'Size'];
     return order.indexOf(a.name) - order.indexOf(b.name);
   });
+
+  // ✅ Solo mostrar opciones si tienen valores reales
+  const hasOptions = sortedOptions.some(
+    (option) => option.value !== 'Default Title' && option.value !== ''
+  );
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -34,10 +35,7 @@ export function CartLineItem({layout, line, originalTitles}) {
   return (
     <li key={id} className="cart-line">
       <div className="row top">
-        <a
-          href={localePath(lineItemUrl)}
-          onClick={handleClick}
-        >
+        <a href={localePath(lineItemUrl)} onClick={handleClick}>
           <p className="title">{displayTitle}</p>
         </a>
         <ProductPrice price={line?.cost?.totalAmount} />
@@ -54,21 +52,24 @@ export function CartLineItem({layout, line, originalTitles}) {
           />
         )}
         <div className="cart-line_productInfo">
-          <ul>
-            {sortedOptions.map((option) => (
-              <li key={option.name}>
-                <small className="info">
-                  {t(`product.option_${option.name.toLowerCase()}`) || option.name}: {option.value}
-                </small>
-              </li>
-            ))}
-          </ul>
+          {hasOptions && (
+            <ul>
+              {sortedOptions.map((option) => (
+                <li key={option.name}>
+                  <small className="info">
+                    {t(option.name.toLowerCase()) || option.name}: {option.value}
+                  </small>
+                </li>
+              ))}
+            </ul>
+          )}
           <CartLineQuantity line={line} />
         </div>
       </div>
     </li>
   );
 }
+
 
 function CartLineQuantity({line}) {
   const {t} = useTranslation();

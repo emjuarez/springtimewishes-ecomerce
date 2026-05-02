@@ -14,6 +14,9 @@
   },
   "product": {
     "size": "サイズ",
+    "bust": "バスト",
+  "waist": "ウエスト",
+  "hips": "ヒップ",
     "size_table": "サイズ表",
     "color": "色",
     "quantity": "数量",

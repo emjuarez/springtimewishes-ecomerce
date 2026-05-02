@@ -118,7 +118,7 @@ function HeaderMenuMobileToggle() {
       className="header-menu-mobile-toggle reset"
       onClick={() => open('mobile')}
     >
-      <img src={"/public/images/Layout/menu-icon.png"} alt=""/>
+      <img src={"/images/Layout/menu-icon.png"} alt=""/>
     </button>
   );
 }

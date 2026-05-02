@@ -72,7 +72,6 @@
         margin-bottom: 100px;
       }
   }
-
 }
 .product_secondSection {
   display: flex;
@@ -183,6 +182,7 @@
 .product-form-section button {
   background: none;
   border: none;
+  color: black
 }
 .shop-now-button {
   background: none;

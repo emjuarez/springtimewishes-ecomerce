@@ -10,7 +10,7 @@
   pointer-events: none; /* No interfiere con clicks */
   z-index: 999999999;
   opacity: 0;
-  transform: translate(-50%, -50%); /* Centrar el PNG en el puntero */
+  transform: translate(-10%, -15%); /* Centrar el PNG en el puntero */
   transition: opacity 0.2s ease;
   will-change: left, top;
 }

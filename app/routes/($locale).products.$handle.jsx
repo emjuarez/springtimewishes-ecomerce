@@ -121,9 +121,9 @@ export default function Product() {
 
   const sizeTableHeaders = {
     size: t('product.size'),
-    bust: 'BUST',   
-    waist: 'WAIST',
-    hips: 'HIPS',
+    bust: t('product.bust'),   
+    waist: t('product.waist'),
+    hips: t('product.hips'),
   };
 
   // ✅ Componente de tabla reutilizable

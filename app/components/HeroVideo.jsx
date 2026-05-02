@@ -1,22 +1,35 @@
-import {useRef, useState} from 'react';
+import {useRef, useState, useEffect} from 'react';
 import '../styles/hero-video.css';
 
 export function HeroVideo({src, poster}) {
   const videoRef = useRef(null);
+  const wrapperRef = useRef(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-    videoRef.current.play();
-  };
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
 
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    if (!isExpanded) {
-      videoRef.current.pause();
-    }
-  };
+    const handleEnter = () => {
+      setIsHovered(true);
+      videoRef.current?.play();
+    };
+
+    const handleLeave = () => {
+      setIsHovered(false);
+      if (!isExpanded) {
+        videoRef.current?.pause();
+      }
+    };
+
+    wrapper.addEventListener('mouseenter', handleEnter);
+    wrapper.addEventListener('mouseleave', handleLeave);
+
+    return () => {
+      wrapper.removeEventListener('mouseenter', handleEnter);
+      wrapper.removeEventListener('mouseleave', handleLeave);
+    };
+  }, [isExpanded]);
 
   const handleClick = () => {
     if (isExpanded) return;
@@ -34,29 +47,27 @@ export function HeroVideo({src, poster}) {
   return (
     <div className="hero-video-section">
       <div
+        ref={wrapperRef}
         className={`hero-video-wrapper ${isExpanded ? 'expanded' : ''} ${isHovered && !isExpanded ? 'hovered' : ''}`}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
         onClick={handleClick}
       >
         <video
           ref={videoRef}
           muted
-          loop
           playsInline
           poster={poster}
           className="hero-video"
         >
           <source src={src} type="video/mp4" />
         </video>
-        {isHovered && !isExpanded && (
+        {/* {isHovered && !isExpanded && (
           <div className="hero-video-hint">
             <div className="hint-circle">
               <span className="hint-icon">▶</span>
             </div>
             <p className="hint-text">Click para ver</p>
           </div>
-        )}
+        )} */}
         {isExpanded && (
           <button className="hero-video-close" onClick={handleCollapse}>
             ×

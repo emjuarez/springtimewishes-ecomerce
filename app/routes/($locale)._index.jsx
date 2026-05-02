@@ -60,11 +60,8 @@ async function loadCriticalData({context}) {
       })),
     },
   }));
-
   return {collections: collectionsWithOriginalProductTitles};
 }
-
-
 /**
  * Load data for rendering content below the fold. This data is deferred and will be
  * fetched after the initial page load. If it's unavailable, the page should still 200.
@@ -80,66 +77,48 @@ function loadDeferredData({context}) {
     });
 }
 export default function Homepage() {
-  /** @type {LoaderReturnData} */
   const data = useLoaderData();
-  const carouselImages = [
-    {
-      src: '/images/carousel/1.JPG',
-      alt: 'Slide 1',
-    },
-    {
-      src: '/images/carousel/2.JPG',
-      alt: 'Slide 2',
-    },
-    {
-      src: '/images/carousel/3.JPG',
-      alt: 'Slide 3',
-    },
-    {
-      src: '/images/carousel/4.JPG',
-      alt: 'Slide 4',
-    },
-    {
-      src: '/images/carousel/5.JPG',
-      alt: 'Slide 5',
-    },
-    {
-      src: '/images/carousel/6.JPG',
-      alt: 'Slide 6',
-    },
-    {
-      src: '/images/carousel/7.JPG',
-      alt: 'Slide 7',
-    },
-    
-  ];
+
   useEffect(() => {
-      const key = document.querySelector('.homeKey');
-      const parrafo = document.querySelector('.parrafo');
-      const mist = document.querySelector('.mist1');
-  
-      if (!key) return;
-  
-      key.addEventListener('click', () => {
-        // 1. Desvanecer llave
-        key.classList.add('fade-out');
-        // 2. Elevar el fondo negro (curtain reveal)
-        setTimeout(() => {
-          mist.classList.add('reveal');
-        }, 100);
-      });
+    const key = document.querySelector('.homeKey');
+    const mist = document.querySelector('.mist1');
+
+    // ✅ 1. Verificar si ya visitó antes
+    const hasVisited = sessionStorage.getItem('hasVisitedHome');
+
+    if (hasVisited) {
+      // Ya visitó → ocultar llave y mist directamente
+      if (key) key.style.display = 'none';
+      if (mist) mist.classList.add('reveal');
+      return;
+    }
+
+    // ✅ 2. Bloquear scroll mientras mist está activo
+    document.body.style.overflow = 'hidden';
+
+    if (!key) return;
+
+    key.addEventListener('click', () => {
+      key.classList.add('fade-out');
+
+      setTimeout(() => {
+        mist.classList.add('reveal');
+        // ✅ 3. Restaurar scroll cuando el mist se va
+        document.body.style.overflow = '';
+        // ✅ 4. Marcar que ya visitó
+        sessionStorage.setItem('hasVisitedHome', 'true');
+      }, 100);
+    });
   }, []);
+
   return (
     <div className="home">
       <div className='homeMaindiv'>
         <div className="firstSection">
-          <HeroVideo
-            src="/videos/stw.mp4"
-          />
+          <HeroVideo src="/videos/stw.mp4" />
           <DiscountPopup />
         </div>
         <div className="secondSection">
-          {/* <ChapterOneCollection collection={data.chapterOneCollection} /> */}
           <AllCollections collections={data.collections} />
         </div>
         <div className='mist'></div>
@@ -149,6 +128,7 @@ export default function Homepage() {
     </div>
   );
 }
+
 /**
  * @param {{
  *   collection: FeaturedCollectionFragment;
@@ -195,49 +175,6 @@ function RecommendedProducts({products}) {
       </Suspense>
       <br />
     </div>
-  );
-}
-function ChapterOneCollection({collection}) {
-  return (
-    <>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Await resolve={collection}>
-          {(response) => {
-         
-            
-            if (!response?.collection) {
-              console.log('No collection found in response');
-              return <p>No se encontró la colección</p>;
-            }
-            
-            const col = response.collection;
-            
-            if (!col.products || !col.products.nodes) {
-              console.log('No products structure found');
-              return <p>No hay estructura de productos</p>;
-            }
-            
-            
-            return (
-              <>
-                <div className="collectionTitleDiv">
-                  <h2 className='title'>{col.title}</h2>
-                </div>
-                <div className="recommended-products-grid">
-                  {col.products.nodes.length > 0 ? (
-                    col.products.nodes.map((product) => {
-                      return <ProductItem key={product.id} product={product} />;
-                    })
-                  ) : (
-                    <p>Array de productos vacío</p>
-                  )}
-                </div>
-              </>
-            );
-          }}
-        </Await>
-      </Suspense>
-    </>
   );
 }
 function AllCollections({collections}) {
@@ -291,6 +228,7 @@ function AllCollections({collections}) {
     </>
   );
 }
+
 export const COLLECTIONS_QUERY = `
   query Collections {
     collections(first: 20) {

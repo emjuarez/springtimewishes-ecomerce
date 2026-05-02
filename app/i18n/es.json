@@ -14,6 +14,9 @@
   },
   "product": {
     "size": "Talla",
+    "bust": "BUSTO",
+    "waist": "CINTURA",
+    "hips": "CADERA",
     "size_table": "Tabla de tallas",
     "color": "Color",
     "quantity": "Cantidad",

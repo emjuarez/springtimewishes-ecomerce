@@ -10,7 +10,6 @@
               padding 0.7s ease,
               align-items 0.7s ease;
 }
-
 /* Crece con el video al expandirse */
 .hero-video-section:has(.hero-video-wrapper.expanded) {
   height: auto;
@@ -64,6 +63,7 @@
   gap: 0.75rem;
   background: rgba(0, 0, 0, 0.25);
   animation: fadeIn 0.3s ease;
+  pointer-events: none;
 }
 
 .hint-circle {
@@ -96,7 +96,7 @@
 /* Botón cerrar */
 .hero-video-close {
   position: absolute;
-  top: 1rem;
+  top: 4rem;
   right: 1rem;
   background: rgba(0, 0, 0, 0.5);
   border: none;

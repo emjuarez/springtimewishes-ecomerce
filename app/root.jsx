@@ -169,7 +169,7 @@ export function Layout({children}) {
         <Links />
       </head>
       <body>
-        <CustomCursor src="/images/Layout/cursor.png" size={32} />  
+        <CustomCursor src="/images/Layout/cursor.png" size={42} />  
         {children}
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />

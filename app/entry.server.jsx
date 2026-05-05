@@ -24,6 +24,7 @@ export default async function handleRequest(
     fontSrc: [
       "'self'",
       'https://fonts.gstatic.com',
+      'https://cdn.shopify.com',
     ],
     connectSrc: [
       "'self'",

@@ -20,7 +20,10 @@ body {
   text-decoration: underline;
   cursor: pointer;
 }
-
+a {
+  color: inherit;
+  -webkit-tap-highlight-color: transparent; /* ← elimina el highlight azul en mobile */
+}
 /*
 * --------------------------------------------------
 * components/Aside

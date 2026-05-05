@@ -1,84 +1,59 @@
-import {useState, useRef, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
+import {audioManager} from '~/lib/audioManager.js';
 import '../styles/audio-player.css';
 
-export function AudioPlayer({src, title = 'Audio'}) {
-  const audioRef = useRef(null);
+export function AudioPlayer() {
   const progressRef = useRef(null);
-
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(1);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    const audio = audioRef.current;
+    setIsMounted(true);
+    const audio = audioManager.get();
     if (!audio) return;
 
-    const handleTimeUpdate = () => {
-        console.log('currentTime:', audio.currentTime, 'duration:', audio.duration);
-        setCurrentTime(audio.currentTime);
-    };
-    const handleLoadedMetadata = () => setDuration(audio.duration);
-    const handleEnded = () => setIsPlaying(false);
+    const onTimeUpdate = () => setCurrentTime(audio.currentTime);
+    const onLoaded = () => setDuration(audio.duration);
+    const onEnded = () => setIsPlaying(false);
+    const onPlay = () => setIsPlaying(true);
+    const onPause = () => setIsPlaying(false);
 
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('ended', handleEnded);
-     if (audio.readyState >= 1) {
-    setDuration(audio.duration);
-  }
+    audio.addEventListener('timeupdate', onTimeUpdate);
+    audio.addEventListener('loadedmetadata', onLoaded);
+    audio.addEventListener('ended', onEnded);
+    audio.addEventListener('play', onPlay);
+    audio.addEventListener('pause', onPause);
+
+    if (audio.readyState >= 1) setDuration(audio.duration);
+    setCurrentTime(audio.currentTime);
+    setIsPlaying(!audio.paused);
 
     return () => {
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('timeupdate', onTimeUpdate);
+      audio.removeEventListener('loadedmetadata', onLoaded);
+      audio.removeEventListener('ended', onEnded);
+      audio.removeEventListener('play', onPlay);
+      audio.removeEventListener('pause', onPause);
     };
   }, []);
 
-  const handlePlay = () => {
-    audioRef.current.play();
-    setIsPlaying(true);
-  };
-
-  const handlePause = () => {
-    audioRef.current.pause();
-    setIsPlaying(false);
-  };
-
   const handleStop = () => {
-    const audio = audioRef.current;
+    const audio = audioManager.get();
+    if (!audio) return;
     audio.pause();
     audio.currentTime = 0;
-    setIsPlaying(false);
     setCurrentTime(0);
   };
 
   const handleProgressClick = (e) => {
-    const bar = progressRef.current;
-    const rect = bar.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const newTime = (clickX / rect.width) * duration;
-    audioRef.current.currentTime = newTime;
+    const audio = audioManager.get();
+    if (!audio || !progressRef.current) return;
+    const rect = progressRef.current.getBoundingClientRect();
+    const newTime = ((e.clientX - rect.left) / rect.width) * duration;
+    audio.currentTime = newTime;
     setCurrentTime(newTime);
-  };
-
-  const handleVolumeChange = (e) => {
-    const val = parseFloat(e.target.value);
-    setVolume(val);
-    audioRef.current.volume = val;
-    setIsMuted(val === 0);
-  };
-
-  const handleMuteToggle = () => {
-    const audio = audioRef.current;
-    if (isMuted) {
-      audio.volume = volume || 0.5;
-      setIsMuted(false);
-    } else {
-      audio.volume = 0;
-      setIsMuted(true);
-    }
   };
 
   const formatTime = (time) => {
@@ -90,27 +65,22 @@ export function AudioPlayer({src, title = 'Audio'}) {
 
   const progressPercent = duration ? (currentTime / duration) * 100 : 0;
 
-
+  if (!isMounted) return null;
 
   return (
     <div className="audio-player">
-      <audio ref={audioRef} src={src} preload="metadata" />
-      <div className='player-topdiv'>
-         <div className="audio-controls">
-            <button
-            className="audio-btn"
-            onClick={handleStop}
-            aria-label="Stop"
-            >
+      <div className="player-topdiv">
+        <div className="audio-controls">
+          <button className="audio-btn" onClick={handleStop} aria-label="Stop">
             ■
-            </button>
-            <button
+          </button>
+          <button
             className="audio-btn audio-btn--main"
-            onClick={isPlaying ? handlePause : handlePlay}
+            onClick={() => audioManager.toggle()}
             aria-label={isPlaying ? 'Pause' : 'Play'}
-            >
+          >
             {isPlaying ? '❚❚' : '▶'}
-            </button>
+          </button>
         </div>
         <span className="audio-time info">{formatTime(currentTime)}</span>
       </div>

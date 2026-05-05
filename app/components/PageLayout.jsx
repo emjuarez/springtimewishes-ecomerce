@@ -9,7 +9,6 @@ import {
   SearchFormPredictive,
 } from '~/components/SearchFormPredictive';
 import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
-import {AudioPlayer} from '~/components/AudioPlayer';
 
 /**
  * @param {PageLayoutProps}
@@ -43,11 +42,11 @@ export function PageLayout({
         header={header}
         publicStoreDomain={publicStoreDomain}
       />
-      <div className="audio-player-fixed">
+      {/* <div className="audio-player-fixed">
         <AudioPlayer 
           src="/audio/el-bosque-bounce-para-web-2.mp3"
         />
-      </div>
+      </div> */}
     </Aside.Provider> 
   );
 }

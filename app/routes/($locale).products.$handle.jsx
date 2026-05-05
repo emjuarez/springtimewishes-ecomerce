@@ -14,6 +14,7 @@ import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import '../styles/product.css'
 import {useWindowSize} from '~/hooks/useWindowSize';
 import {useTranslation} from '~/hooks/useTranslation';
+import {ProductGallery} from '~/components/ProductGallery';
 
 /**
  * @type {Route.MetaFunction}
@@ -189,7 +190,8 @@ export default function Product() {
               />
             </div>
             <div className="product center">
-              <ProductImage image={selectedVariant?.image} />
+              <ProductGallery media={product.media} />
+              {/* <ProductImage image={selectedVariant?.image} /> */}
             </div>
             <div className="product right">
               <ProductForm
@@ -200,13 +202,10 @@ export default function Product() {
               />
             </div>
           </div>
-
           <div className="product_secondSection">
             <SizeTable />
           </div>
-
           <div className="mist"></div>
-
           <Analytics.ProductView
             data={{
               products: [
@@ -227,7 +226,8 @@ export default function Product() {
 
       {isMobile && (
         <>
-          <ProductImage image={selectedVariant?.image} />
+          {/* <ProductImage image={selectedVariant?.image} /> */}
+          <ProductGallery media={product.media} />
           <div className="price-title">
             <h1 className="title">{title}</h1>
             <ProductPrice
@@ -299,6 +299,27 @@ const PRODUCT_FRAGMENT = `#graphql
     description
     encodedVariantExistence
     encodedVariantAvailability
+    media(first: 20) {
+      nodes {
+        mediaContentType
+        ... on MediaImage {
+          id
+          image {
+            url
+            altText
+            width
+            height
+          }
+        }
+        ... on Video {
+          id
+          sources {
+            url
+            mimeType
+          }
+        }
+      }
+    }
     options {
       name
       optionValues {
@@ -319,7 +340,7 @@ const PRODUCT_FRAGMENT = `#graphql
     selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {
       ...ProductVariant
     }
-    adjacentVariants (selectedOptions: $selectedOptions) {
+    adjacentVariants(selectedOptions: $selectedOptions) {
       ...ProductVariant
     }
     seo {

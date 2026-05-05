@@ -181,10 +181,11 @@ export function ProductForm({
                 </div>
               </div>
             )}
-
+            {selectedVariant?.availableForSale && (
             <button className="shop-now-button title" type="button">
               {t('product.shop_now')}
             </button>
+            )}
           </div>
 
           {careInstructions?.value && (
@@ -269,9 +270,11 @@ export function ProductForm({
               dangerouslySetInnerHTML={{__html: descriptionHtml}}
               className="info"
             />
+           {selectedVariant?.availableForSale && (
             <button className="shop-now-button title" type="button">
               {t('product.shop_now')}
             </button>
+            )}
           </div>
           {description2?.value && (
             <div className="product-description seccion divider">

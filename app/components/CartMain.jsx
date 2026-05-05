@@ -4,6 +4,7 @@ import {CartLineItem} from '~/components/CartLineItem';
 import {CartSummary} from './CartSummary';
 import {useTranslation} from '~/hooks/useTranslation';
 import {useLocalePath} from '~/hooks/useLocalePath';
+import {useNavigate} from 'react-router'; // ✅
 
 export function CartMain({layout, cart: originalCart, originalTitles}) {
   const cart = useOptimisticCart(originalCart);
@@ -26,7 +27,7 @@ export function CartMain({layout, cart: originalCart, originalTitles}) {
                 key={line.id}
                 line={line}
                 layout={layout}
-                originalTitles={originalTitles} // ✅
+                originalTitles={originalTitles}
               />
             ))}
           </ul>
@@ -41,6 +42,7 @@ function CartEmpty({hidden = false}) {
   const {close} = useAside();
   const {t} = useTranslation();
   const {localePath} = useLocalePath();
+  const navigate = useNavigate(); // ✅
 
   return (
     <div hidden={hidden}>
@@ -52,7 +54,7 @@ function CartEmpty({hidden = false}) {
         onClick={(e) => {
           e.preventDefault();
           close();
-          window.location.href = localePath('/collections');
+          navigate(localePath('/collections')); // ✅ SPA navigation
         }}
       >
         {t('cart.continue_shopping')} →

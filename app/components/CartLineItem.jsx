@@ -4,8 +4,8 @@ import {ProductPrice} from './ProductPrice';
 import {useAside} from './Aside';
 import {useTranslation} from '~/hooks/useTranslation';
 import {useLocalePath} from '~/hooks/useLocalePath';
+import {useNavigate} from 'react-router'; // ✅
 import '../styles/cart.css';
-
 
 export function CartLineItem({layout, line, originalTitles}) {
   const {id, merchandise} = line;
@@ -14,6 +14,7 @@ export function CartLineItem({layout, line, originalTitles}) {
   const {close} = useAside();
   const {localePath} = useLocalePath();
   const {t} = useTranslation();
+  const navigate = useNavigate(); // ✅
   const displayTitle = originalTitles[product.id] || product.title;
 
   const sortedOptions = [...selectedOptions].sort((a, b) => {
@@ -21,15 +22,14 @@ export function CartLineItem({layout, line, originalTitles}) {
     return order.indexOf(a.name) - order.indexOf(b.name);
   });
 
-  // ✅ Solo mostrar opciones si tienen valores reales
   const hasOptions = sortedOptions.some(
-    (option) => option.value !== 'Default Title' && option.value !== ''
+    (option) => option.value !== 'Default Title' && option.value !== '',
   );
 
   const handleClick = (e) => {
     e.preventDefault();
     if (layout === 'aside') close();
-    window.location.href = localePath(lineItemUrl);
+    navigate(localePath(lineItemUrl)); // ✅ SPA navigation
   };
 
   return (
@@ -69,7 +69,6 @@ export function CartLineItem({layout, line, originalTitles}) {
     </li>
   );
 }
-
 
 function CartLineQuantity({line}) {
   const {t} = useTranslation();

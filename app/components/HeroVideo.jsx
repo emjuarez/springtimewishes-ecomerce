@@ -60,14 +60,6 @@ export function HeroVideo({src, poster}) {
         >
           <source src={src} type="video/mp4" />
         </video>
-        {/* {isHovered && !isExpanded && (
-          <div className="hero-video-hint">
-            <div className="hint-circle">
-              <span className="hint-icon">▶</span>
-            </div>
-            <p className="hint-text">Click para ver</p>
-          </div>
-        )} */}
         {isExpanded && (
           <button className="hero-video-close" onClick={handleCollapse}>
             ×

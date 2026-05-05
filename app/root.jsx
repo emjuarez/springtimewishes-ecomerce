@@ -16,6 +16,9 @@ import appStyles from '~/styles/app.css?url';
 import {PageLayout} from './components/PageLayout';
 import {getLocaleFromRequest} from '~/lib/i18n';
 import {CustomCursor} from '~/components/CustomCursor';
+import {AudioPlayer} from '~/components/AudioPlayer';
+import {useEffect} from 'react';
+import {audioManager} from '~/lib/audioManager';
 
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
   if (formMethod && formMethod !== 'GET') return true;
@@ -158,19 +161,26 @@ export function Layout({children}) {
   const data = useRouteLoaderData('root');
   const lang = data?.selectedLocale?.language?.toLowerCase() || 'es';
 
+  useEffect(() => {
+    audioManager.init('/audio/el-bosque-bounce-para-web-2.mp3');
+  }, []);
+
   return (
     <html lang={lang}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <link rel="stylesheet" href={resetStyles}></link>
-        <link rel="stylesheet" href={appStyles}></link>
+        <link rel="stylesheet" href={resetStyles} />
+        <link rel="stylesheet" href={appStyles} />
         <Meta />
         <Links />
       </head>
       <body>
-        <CustomCursor src="/images/Layout/cursor.png" size={42} />  
+        <CustomCursor src="/images/Layout/cursor.png" size={42} />
         {children}
+        <div className="audio-player-fixed">
+          <AudioPlayer />  {/* ← sin src, usa el manager */}
+        </div>
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
       </body>
@@ -194,6 +204,11 @@ export default function App() {
       <PageLayout {...data}>
         <Outlet />
       </PageLayout>
+      {/* <div className="audio-player-fixed">
+        <AudioPlayer 
+          src="/audio/el-bosque-bounce-para-web-2.mp3"
+        />
+      </div> */}
     </Analytics.Provider>
   );
 }

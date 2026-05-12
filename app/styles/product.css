@@ -195,11 +195,11 @@
   grid-template-rows: 1fr; 
 }
 .product-form-button {
-  background-color: #c5c5be !important;
-  border: 1px solid #a0a0a0!important;
-  padding: 2px 7px!important;
-  min-width: max-content!important;
-  color: black!important;
+  background-color: rgba(153, 153, 153, 0.2) !important;
+  border: 1px solid rgba(0, 0, 0, 0.2) !important;
+  padding: 2px 7px !important;
+  min-width: max-content !important;
+  color: black !important;
 }
 .shop-now-button {
   background: none;

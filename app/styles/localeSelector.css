@@ -20,6 +20,7 @@
 
 .locale-button:hover {
   border-color: #000;
+  font-style: italic;
 }
 .locale-dropdown {
   position: absolute;

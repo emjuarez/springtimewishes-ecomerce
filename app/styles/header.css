@@ -49,6 +49,11 @@ aside header h2 {
     font-size: 30px;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
+
+    a:hover {
+      text-decoration: none !important;
+      font-style: italic !important;
+    }
 }
 
 .headerLink {

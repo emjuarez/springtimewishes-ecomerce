@@ -11,7 +11,7 @@
 /* --- LLAVE --- */
 .key-image {
   position: absolute;
-  width: 100px;
+    width: 70px;
   top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -61,7 +61,7 @@
   left: 50%;
   width: 80%;
   font-size: clamp(1.25rem, 2.5vw, 2.2rem);
-  color: #999999;
+  color: var(--color-darkgray);
   text-align: center;
   opacity: 0;
   z-index: 9999;
@@ -96,7 +96,7 @@
 
 .marquee-content {
   display: flex;
-  gap: 3rem;
+  gap: .5rem;
   animation: marquee 30s linear infinite;
   white-space: nowrap;
 }
@@ -105,11 +105,10 @@
     margin-right: 10px;
 }
 .marquee-item {
-  color: #999999;
+  color: var(--color-darkgray);
   font-size: 1.2rem;
   font-weight: 200;
   letter-spacing: 0.1em;
-  padding: 0 2rem;
   position: relative;
 }
 .marquee-item:last-child::after {

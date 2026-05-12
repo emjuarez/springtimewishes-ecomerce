@@ -4,11 +4,13 @@
   --cart-aside-summary-height: 250px;
   --grid-item-width: 355px;
   --header-height: 64px;
-  --color-dark: #000;
-  --color-light: #fff;
+  --color-black: #000;
+  --color-white: #fff;
+  --color-darkgray: #999999;
+  --color-lightgray: #e3e2de;
 }
 body {
-  background-color: #d5d5d5;
+  background-color: var(--color-lightgray);
   cursor: url('public/images/Layout/STW_cursoro.png');
 }
 /*
@@ -54,7 +56,7 @@ aside li {
 }
 
 .overlay {
-  background: rgba(226, 225, 222, .9);
+  background: var(--color-lightgray);
   bottom: 0;
   left: 0;
   opacity: 0;
@@ -393,6 +395,7 @@ button.reset:hover:not(:has(> *)) {
  .title {
   font-family: 'LTC';
   font-size: clamp(1rem, 1.2vw, 1.25rem); /* 14px → 20px */
+  font-weight: normal;
 }
 
 .info {

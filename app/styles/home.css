@@ -226,6 +226,15 @@ img{
   .mist {
     height: 120px;
   }
+  .mist1 {
+    height: 100vh;
+    z-index: 5;
+    pointer-events: all; /* ✅ bloquea clicks mientras está visible */
+  }
+
+  .mist1.reveal {
+    pointer-events: none; /* ✅ cuando se va, deja de bloquear */
+  }
   .image-carousel {
     height: 300px;
   }

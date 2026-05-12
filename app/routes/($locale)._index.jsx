@@ -79,37 +79,35 @@ function loadDeferredData({context}) {
 export default function Homepage() {
   const data = useLoaderData();
 
-  useEffect(() => {
-    const key = document.querySelector('.homeKey');
-    const mist = document.querySelector('.mist1');
+useEffect(() => {
+  const key = document.querySelector('.homeKey');
+  const mist = document.querySelector('.mist1');
+  const hasVisited = sessionStorage.getItem('hasVisitedHome');
 
-    // ✅ 1. Verificar si ya visitó antes
-    const hasVisited = sessionStorage.getItem('hasVisitedHome');
-
-    if (hasVisited) {
-      // Ya visitó → ocultar llave y mist directamente
-      if (key) key.style.display = 'none';
-      if (mist) mist.classList.add('reveal');
-      return;
+  if (hasVisited) {
+    if (key) key.style.display = 'none';
+    if (mist) {
+      mist.classList.add('reveal');
+      mist.style.pointerEvents = 'none'; // ✅ asegura que no bloquee en visitas posteriores
     }
+    return;
+  }
 
-    // ✅ 2. Bloquear scroll mientras mist está activo
-    document.body.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
 
-    if (!key) return;
+  if (!key) return;
 
-    key.addEventListener('click', () => {
-      key.classList.add('fade-out');
+  key.addEventListener('click', () => {
+    key.classList.add('fade-out');
 
-      setTimeout(() => {
-        mist.classList.add('reveal');
-        // ✅ 3. Restaurar scroll cuando el mist se va
-        document.body.style.overflow = '';
-        // ✅ 4. Marcar que ya visitó
-        sessionStorage.setItem('hasVisitedHome', 'true');
-      }, 100);
-    });
-  }, []);
+    setTimeout(() => {
+      mist.classList.add('reveal');
+      document.body.style.overflow = '';
+      sessionStorage.setItem('hasVisitedHome', 'true');
+    }, 100);
+  });
+}, []);
+
 
   return (
     <div className="home">

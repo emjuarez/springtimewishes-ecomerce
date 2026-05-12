@@ -24,10 +24,10 @@ aside header h3 {
 
 aside header .close {
   font-weight: bold;
-  opacity: 0.8;
   text-decoration: none;
   transition: all 200ms;
   width: 80px;
+  color: #999999 !important;
 }
 
 aside header .close:hover {

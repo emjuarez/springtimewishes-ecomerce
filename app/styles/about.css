@@ -143,17 +143,12 @@
 @media (max-width: 768px) {
   .marquee-item {
     font-size: 1.1rem;
-    padding: 0 1.5rem;
-  }
-  .marquee-content {
-    gap: 2rem;
   }
  .parrafo {
     width: 90%;
-    font-size: clamp(1rem, 4vw, 1.5rem); /* ✅ más pequeño en mobile */
+    font-size: clamp(1.2rem, 4vw, 1.5rem); /* ✅ más pequeño en mobile */
     z-index: 3;
   }
-
   .parrafo.animate {
     animation: scroll-up 8s linear forwards; /* más lento en mobile */
   }

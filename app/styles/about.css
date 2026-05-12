@@ -57,21 +57,31 @@
 /* --- PÁRRAFO QUE SUBE --- */
 .parrafo {
   position: absolute;
-  bottom: -190%; /* empieza fuera de pantalla */
-  width: 80%;
+  top: 50%;
   left: 50%;
-  font-size: 35px;
+  width: 80%;
+  font-size: clamp(1.25rem, 2.5vw, 2.2rem);
   color: #999999;
-  transform: translateX(-50%);
   text-align: center;
   opacity: 0;
   z-index: 9999;
   transition: opacity 1s ease-out;
+  transform: translateX(-50%) translateY(100vh); /* fuera de pantalla */
 }
 
 .parrafo.animate {
   opacity: 1;
-  animation: scroll-up 10s linear forwards;
+  animation: scroll-up 8s linear forwards;
+}
+
+/* ✅ Un solo keyframe para todos los viewports */
+@keyframes scroll-up {
+  from {
+    transform: translateX(-50%) translateY(40vh);
+  }
+  to {
+    transform: translateX(-50%) translateY(-50%); /* siempre centrado */
+  }
 }
 /* MARQUEE */
 
@@ -131,14 +141,6 @@
 
 }
 
-@keyframes scroll-up {
-  from {
-    bottom: -50%;
-  }
-  to {
-    bottom: 15%;
-  }
-}
 @media (max-width: 768px) {
   .marquee-item {
     font-size: 1.1rem;
@@ -147,25 +149,27 @@
   .marquee-content {
     gap: 2rem;
   }
-  .parrafo {
+ .parrafo {
+    width: 90%;
+    font-size: clamp(1rem, 4vw, 1.5rem); /* ✅ más pequeño en mobile */
     z-index: 3;
-    font-size: 20px;
+  }
+
+  .parrafo.animate {
+    animation: scroll-up 8s linear forwards; /* más lento en mobile */
   }
   .key-image {
     top: 50%;
     left: 50%;
     z-index: 9;
   }
-  .parrafo.animate {
-    opacity: 1;
-    animation: scroll-up 40s linear forwards;
-  }
-  @keyframes scroll-up {
+
+  /* @keyframes scroll-up {
     from {
-      bottom: -100%;
+      bottom: -30%;
     }
     to {
-      bottom: 100%;
+      bottom: 40%;
     }
-  }
+  } */
 }

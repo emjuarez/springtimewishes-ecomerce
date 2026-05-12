@@ -84,7 +84,8 @@ function CollectionsMarquee({collections}) {
           collections.map((collection) => (
             <span
               key={`${collection.id}-${i}`}
-              className={`marquee-item ${i >= 2 ? 'info' : 'title'}`}
+              // className={`marquee-item ${i >= 2 ? 'info' : 'title'}`}
+              className='marquee-item title'
             >
               <img
                 className="spider"

@@ -1,0 +1,91 @@
+.product-popup-overlay {
+  position: fixed;
+  inset: 0; /* top/right/bottom/left: 0 */
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-popup-content {
+  position: relative;
+  background-color: #d5d5d5;;
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-popup-close {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.size-table{
+    width:100%;
+    max-width: 1300px;
+    border-collapse:collapse;
+    box-shadow: 0 0 0 1px #211F1F inset;
+    background:var(--bg);
+  }
+
+  /* top area: big cells */
+  .size-table thead th{
+    background:var(--cell-bg);
+    border-right:1px solid #211F1F;
+    border-bottom:1px solid #211F1F;
+    padding:180px 8px;
+    text-align:center;
+    vertical-align:middle;
+    font-weight:400;
+    letter-spacing:2px;
+  }
+
+  /* left "SIZE" cell should be taller and vertically centered */
+  .size-table thead th.size-label{
+    width:15%;
+    padding:180px 8px;
+    font-weight:600;
+    letter-spacing:3px;
+  }
+
+  /* Remove right border for last header */
+  .size-table thead th:last-child{ border-right: none; }
+
+  /* body rows (measurements) */
+  .size-table tbody td,
+  .size-table tbody th{
+    border-top: none;
+    border-right:1px solid #211F1F;
+    border-bottom:1px solid #211F1F;
+    padding:25px 10px;
+    text-align:center;
+    vertical-align:middle;
+    font-size:14px;
+  }
+
+  .size-table tbody th{
+    text-align:left;
+    padding-left:18px;
+    width:15%;
+    font-weight:600;
+    background:var(--cell-bg);
+  }
+
+  .size-table tbody td:last-child,
+  .size-table tbody th + td:last-child{
+    border-right: none;
+  }
+
+  /* grid look: equal-width middle columns */
+  .size-table thead th.col { width:17%; }

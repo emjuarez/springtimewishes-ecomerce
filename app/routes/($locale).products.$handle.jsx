@@ -203,7 +203,7 @@ export default function Product() {
             </div>
           </div>
           <div className="product_secondSection">
-            <SizeTable />
+            {/* <SizeTable /> */}
           </div>
           <div className="mist"></div>
           <Analytics.ProductView

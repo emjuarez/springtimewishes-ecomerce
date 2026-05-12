@@ -373,7 +373,7 @@ button.reset:hover:not(:has(> *)) {
   flex-wrap: wrap;
 }
 
-.title {
+/* .title {
   font-family: 'LTC';
   font-size: 20px;
 } 
@@ -389,7 +389,17 @@ button.reset:hover:not(:has(> *)) {
   .info {
     font-size: 14px;
   }
+} */
+ .title {
+  font-family: 'LTC';
+  font-size: clamp(1rem, 1.2vw, 1.25rem); /* 14px → 20px */
 }
+
+.info {
+  font-family: 'Aktiv';
+  font-size: clamp(0.85rem, 0.95vw, 1rem); /* 12px → 16px */
+}
+
 @font-face {
   font-family: 'Aktiv';
   src: url('./fonts/AktivGrotesk-Thin.woff2') format('woff2');

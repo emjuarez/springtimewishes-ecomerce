@@ -41,7 +41,7 @@ export function ProductItem({product, loading}) {
       )}
       <div className="productInfo">
         <div className="left">
-          <p className="title">{product.title}</p>
+          <p className="title subtitle">{product.title}</p>
           <Money
             data={product.priceRange.minVariantPrice}
             className="info"

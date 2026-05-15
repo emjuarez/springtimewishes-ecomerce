@@ -395,18 +395,23 @@ button.reset:hover:not(:has(> *)) {
     font-size: 14px;
   }
 } */
- .title {
+.title {
   font-family: 'LTC';
-  font-size: clamp(1rem, 1.2vw, 1.25rem); /* 14px → 20px */
+  font-size: clamp(1.25rem, 1.5625vw, 1.5rem); /* 1280px→20px | 1536px→24px */
   letter-spacing: .1rem;
   font-weight: normal;
 }
 
+.subtitle {
+  font-size: clamp(1rem, 1.2369vw, 1.1875rem); /* 1280px→16px | 1536px→19px */
+}
+
 .info {
   font-family: 'Aktiv';
-  font-size: clamp(0.85rem, 0.95vw, 1rem); /* 12px → 16px */
+  font-size: clamp(0.6875rem, 0.8594vw, 0.875rem); /* 1280px→11px | 1536px→14px */
   letter-spacing: .07rem;
 }
+
 
 @font-face {
   font-family: 'Aktiv';

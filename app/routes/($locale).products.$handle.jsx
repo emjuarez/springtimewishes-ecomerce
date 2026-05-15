@@ -178,7 +178,7 @@ export default function Product() {
           <div className="product_firstSection">
             <div className="product left">
               <div className="price-title">
-                <h1 className="title">{title}</h1>
+                <h1 className="title subtitle">{title}</h1>
                 <ProductPrice
                   price={selectedVariant?.price}
                   compareAtPrice={selectedVariant?.compareAtPrice}
@@ -202,9 +202,6 @@ export default function Product() {
               />
             </div>
           </div>
-          {/* <div className="product_secondSection">
-            <SizeTable />
-          </div> */}
           <div className="mist"></div>
           <Analytics.ProductView
             data={{
@@ -229,7 +226,7 @@ export default function Product() {
           {/* <ProductImage image={selectedVariant?.image} /> */}
           <ProductGallery media={product.media} />
           <div className="price-title">
-            <h1 className="title">{title}</h1>
+            <h1 className="title subtitle">{title}</h1>
             <ProductPrice
               price={selectedVariant?.price}
               compareAtPrice={selectedVariant?.compareAtPrice}
@@ -242,9 +239,6 @@ export default function Product() {
             careInstructions={careInstructions}
             descriptionHtml={descriptionHtml}
           />
-          {/* <div className="product_secondSection seccion">
-            <SizeTable />
-          </div> */}
           <div className="mist"></div>
         </>
       )}

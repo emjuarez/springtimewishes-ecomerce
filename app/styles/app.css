@@ -397,10 +397,11 @@ button.reset:hover:not(:has(> *)) {
 } */
 .title {
   font-family: 'LTC';
-  font-size: clamp(1.125rem, 1.4063vw, 1.275rem); /* 1280px→18px | 1536px→22px */
+  font-size: clamp(1rem, 1.2813vw, 1.15rem); /* 1280px→16px | 1536px→20px */
   letter-spacing: .1rem;
   font-weight: normal;
 }
+
 
 .subtitle {
   font-size: clamp(0.875rem, 1.1119vw, 1.0625rem); /* 1280px→14px | 1536px→17px */

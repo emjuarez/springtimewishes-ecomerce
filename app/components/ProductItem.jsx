@@ -54,13 +54,13 @@ export function ProductItem({product, loading}) {
               availableSizes.map((size, index) => (
                 <span
                   key={index}
-                  className={`size-badge ${size.available ? '' : 'unavailable'} title`}
+                  className={`size-badge ${size.available ? '' : 'unavailable'} title subtitle`}
                 >
                   {size.name}
                 </span>
               ))
             ) : (
-              <p className="title">{t('product.one_size')}</p>
+              <p className="title subtitle">{t('product.one_size')}</p>
             )}
           </div>
         </div>

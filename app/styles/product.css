@@ -269,7 +269,7 @@
     transition: all 0.3s;
 }
 .product-item:hover {
-  opacity: .7;
+  opacity: .4;
   text-decoration: none;
 
 }
@@ -340,6 +340,13 @@
   .product-image {
     padding: 20px 14px;
   }
+  /* .product-form-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+  } */
   .imageWrapper{
     position: relative;
     display: inline-block;

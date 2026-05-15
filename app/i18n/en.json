@@ -48,7 +48,7 @@
     "gift_card_placeholder": "Gift card code"
   },
   "appointments": {
-    "studio_hours": "Studio Hours",
+    "studio_hours": "STUDIO HOURS",
     "reservation": "Make a Reservation",
     "subtitle": "Book an appointment to explore our collections in person",
     "name": "Name",
@@ -88,7 +88,7 @@
     "generic": "Something went wrong. Please try again."
   },
   "about": {
-    "text": "Fragments of the past embedded in the present. The lapse of the seasons told through our garments.\n\nFounded in 2025, our small team is based in Mexico City and ship worldwide"
+    "text": "Fragments of the past embedded in the present.\n\nThe lapse of the seasons told through our garments.\n\nFounded in 2025, our small team is based in Mexico City and ship worldwide"
   },
   "aside": {
     "cart": "Cart",

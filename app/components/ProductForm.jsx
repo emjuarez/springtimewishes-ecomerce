@@ -34,7 +34,8 @@ export function ProductForm({
       {sizeOption && sizeOption.optionValues.length > 1 && (
         <p className='info'>Size</p>
       )}
-      <div className="product-form-section seccion">
+      {isDesktop && (
+        <div className="product-form-section seccion">
         {sizeOption && sizeOption.optionValues.length > 1 && (
           <div className="product-form-section ">
             <div className="product-options">
@@ -116,6 +117,89 @@ export function ProductForm({
           </AddToCartButton>
         </div>
       </div>
+      )}
+      {isMobile && (
+        <div className="product-form-section seccion">
+          <SizePopUp />
+          {sizeOption && sizeOption.optionValues.length > 1 && (
+            <div className="product-form-section ">
+              <div className="product-options">
+                <div className="product-options-grid">
+                  {sizeOption.optionValues.map((value) => {
+                    const {
+                      name,
+                      handle,
+                      variantUriQuery,
+                      selected,
+                      available,
+                      exists,
+                      isDifferentProduct,
+                      swatch,
+                    } = value;
+
+                    if (isDifferentProduct) {
+                      return (
+                        <Link
+                          className="product-options-item title"
+                          key={sizeOption.name + name}
+                          prefetch="intent"
+                          preventScrollReset
+                          replace
+                          to={localePath(`/products/${handle}?${variantUriQuery}`)}
+                          style={{
+                            border: selected
+                              ? '1px solid black'
+                              : '1px solid transparent',
+                            opacity: available ? 1 : 0.3,
+                          }}
+                        >
+                          <ProductOptionSwatch swatch={swatch} name={name} />
+                        </Link>
+                      );
+                    } else {
+                      return (
+                        <button
+                          type="button"
+                          className={`product-options-item${exists && !selected ? ' link' : ''} title `}
+                          key={sizeOption.name + name}
+                          style={{
+                            textDecoration: selected ? 'line-through' : 'none',
+                            opacity: available ? 1 : 0.3,
+                          }}
+                          disabled={!exists}
+                          onClick={() => {
+                            if (!selected) {
+                              void navigate(`?${variantUriQuery}`, {
+                                replace: true,
+                                preventScrollReset: true,
+                              });
+                            }
+                          }}
+                        >
+                          <ProductOptionSwatch swatch={swatch} name={name} />
+                        </button>
+                      );
+                    }
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+          <AddToCartButton
+            disabled={!selectedVariant || !selectedVariant.availableForSale}
+            onClick={() => open('cart')}
+            lines={
+              selectedVariant
+                ? [{merchandiseId: selectedVariant.id, quantity: 1, selectedVariant}]
+                : []
+            }
+          >
+            {selectedVariant?.availableForSale
+              ? t('product.add_to_cart')
+              : t('product.sold_out')}
+          </AddToCartButton>
+        </div>
+      )}
       {isDesktop && (
         <>
           {description2?.value && (

@@ -24,11 +24,14 @@
 }
 .locale-dropdown {
   position: absolute;
-  top: calc(100% + 8px);
-  right: 5%;
-  min-width: 180px;
+  top: calc(100% + -27px);
+  right: 1%;
+  min-width: 205px;
   z-index: 9000;
   overflow: hidden;
+  border: 1px solid;
+  border-color: var(--color-darkgray);
+  background-color: var(--color-lightgray);
 }
 
 .locale-option {

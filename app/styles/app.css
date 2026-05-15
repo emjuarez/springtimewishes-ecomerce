@@ -1,5 +1,5 @@
 :root {
-  --aside-width: 400px;
+  --aside-width: 30vw;
   --cart-aside-summary-height-with-discount: 300px;
   --cart-aside-summary-height: 250px;
   --grid-item-width: 355px;
@@ -56,7 +56,7 @@ aside li {
 }
 
 .overlay {
-  background: var(--color-lightgray);
+  /* background: var(--color-lightgray); */
   bottom: 0;
   left: 0;
   opacity: 0;
@@ -71,7 +71,9 @@ aside li {
 }
 
 .overlay .close-outside {
-  background: transparent;
+  /* background: transparent; */
+  background: var(--color-lightgray);
+  opacity: .9;
   border: none;
   color: transparent;
   height: 100%;
@@ -100,6 +102,7 @@ aside li {
 /* reveal aside */
 .overlay.expanded aside {
   transform: translateX(calc(var(--aside-width) * -1));
+  /* width: 30%; */
 }
 
 button.reset {
@@ -395,12 +398,14 @@ button.reset:hover:not(:has(> *)) {
  .title {
   font-family: 'LTC';
   font-size: clamp(1rem, 1.2vw, 1.25rem); /* 14px → 20px */
+  letter-spacing: .1rem;
   font-weight: normal;
 }
 
 .info {
   font-family: 'Aktiv';
   font-size: clamp(0.85rem, 0.95vw, 1rem); /* 12px → 16px */
+  letter-spacing: .07rem;
 }
 
 @font-face {
@@ -412,4 +417,13 @@ button.reset:hover:not(:has(> *)) {
   font-family: 'LTC';
   src: url('./fonts/LTC-Metropolitan-Pro.woff2') format('woff2');
 }
+@font-face {
+  font-family: 'LTC-italic';
+  src: url('./fonts/LTC-Metropolitan-W00-Italic.ttf') format('woff2');
+}
 
+@media (max-width: 768px) {
+  :root {
+  --aside-width: 100vw;
+}
+}

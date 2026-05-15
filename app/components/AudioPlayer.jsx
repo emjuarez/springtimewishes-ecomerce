@@ -77,9 +77,16 @@ export function AudioPlayer() {
           <button
             className="audio-btn audio-btn--main"
             onClick={() => audioManager.toggle()}
-            aria-label={isPlaying ? 'Pause' : 'Play'}
+            aria-label='Play'
           >
-            {isPlaying ? '❚❚' : '▶'}
+            ▶
+          </button>
+          <button
+            className="audio-btn audio-btn--main"
+            onClick={() => audioManager.toggle()}
+            aria-label='Pause'
+          >
+            ❚❚
           </button>
         </div>
         <span className="audio-time info">{formatTime(currentTime)}</span>

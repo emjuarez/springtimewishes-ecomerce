@@ -202,9 +202,9 @@ export default function Product() {
               />
             </div>
           </div>
-          <div className="product_secondSection">
-            {/* <SizeTable /> */}
-          </div>
+          {/* <div className="product_secondSection">
+            <SizeTable />
+          </div> */}
           <div className="mist"></div>
           <Analytics.ProductView
             data={{
@@ -242,9 +242,9 @@ export default function Product() {
             careInstructions={careInstructions}
             descriptionHtml={descriptionHtml}
           />
-          <div className="product_secondSection seccion">
+          {/* <div className="product_secondSection seccion">
             <SizeTable />
-          </div>
+          </div> */}
           <div className="mist"></div>
         </>
       )}

@@ -48,48 +48,53 @@ export function HeaderMenu({menu, primaryDomainUrl, viewport, publicStoreDomain}
   const {isMobile} = useWindowSize();
   const navigate = useNavigate();
 
-  const handleClick = (e, finalUrl) => {
-    e.preventDefault();
-    close();
-    navigate(finalUrl); // ✅ SPA navigation
-  };
+const handleClick = (e, finalUrl, isExternal) => {
+  if (isExternal) return; // ✅ deja que el browser maneje el link externo normalmente
+  e.preventDefault();
+  close();
+  navigate(finalUrl);
+};
 
-  return (
-    <nav className={`header-menu-${viewport}`} role="navigation">
-      {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
-        if (!item.url) return null;
+return (
+  <nav className={`header-menu-${viewport}`} role="navigation">
+    {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
+      if (!item.url) return null;
 
-        const url =
-          item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain) ||
-          item.url.includes(primaryDomainUrl)
-            ? new URL(item.url).pathname
-            : item.url;
+      const isExternal =
+        !item.url.includes('myshopify.com') &&
+        !item.url.includes(publicStoreDomain) &&
+        !item.url.includes(primaryDomainUrl);
 
-        const finalUrl = localePath(url);
+      const url = isExternal
+        ? item.url
+        : new URL(item.url).pathname;
 
-        const isActive =
-          typeof window !== 'undefined' &&
-          window.location.pathname === finalUrl;
+      const finalUrl = isExternal ? url : localePath(url);
 
-        return (
-          <a
-            key={item.id}
-            href={finalUrl}
-            className="header-menu-item title"
-            onClick={(e) => handleClick(e, finalUrl)}
-            style={{
-              textDecoration: isActive ? 'line-through' : undefined,
-              color: 'white',
-            }}
-          >
-            {item.title}
-          </a>
-        );
-      })}
-      {isMobile && <LocaleSelector />}
-    </nav>
-  );
+      const isActive =
+        typeof window !== 'undefined' &&
+        window.location.pathname === finalUrl;
+
+      return (
+        <a
+          key={item.id}
+          href={finalUrl}
+          className="header-menu-item title"
+          onClick={(e) => handleClick(e, finalUrl, isExternal)}
+          target={isExternal ? '_blank' : undefined}        // ✅ nueva pestaña solo externos
+          rel={isExternal ? 'noopener noreferrer' : undefined}
+          style={{
+            textDecoration: isActive ? 'line-through' : undefined,
+            color: 'white',
+          }}
+        >
+          {item.title}
+        </a>
+      );
+    })}
+    {isMobile && <LocaleSelector />}
+  </nav>
+);
 }
 
 function HeaderMenuMobileToggle() {
@@ -126,14 +131,14 @@ function CartBadge({count}) {
         className="title header-menu-item cartBadgeDesktop"
         onClick={handleCartClick}
       >
-        Basket ({count === null ? <span>&nbsp;</span> : count})
+        Basket <span className="cart-parens">({count === null ? <span>&nbsp;</span> : count})</span>
       </a>
       <a
         href="/cart"
         className="title header-menu-item cartBadgeMobile"
         onClick={handleCartClick}
       >
-        ({count === null ? <span>&nbsp;</span> : count})
+        <span className="cart-parens">({count === null ? <span>&nbsp;</span> : count})</span>
       </a>
     </>
   );

@@ -115,15 +115,15 @@
   border-radius: 0px;
   transition: border-color 0.3s;
 }
-/* .form-group input::placeholder {
-  color: black;
+.form-group input::placeholder {
+  text-transform: uppercase;
 }
 .form-group select::placeholder {
-  color: black;
+  text-transform: uppercase;
 }
 .form-group textarea::placeholder {
-  color: black;
-} */
+  text-transform: uppercase;
+}
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {

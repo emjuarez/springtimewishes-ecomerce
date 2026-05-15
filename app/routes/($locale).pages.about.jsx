@@ -3,6 +3,7 @@ import {useEffect} from 'react';
 import {useLoaderData} from 'react-router';
 import {Suspense} from 'react';
 import {useTranslation} from '~/hooks/useTranslation';
+import { ImageCarousel } from '~/components/ImageCarousel';
 
 export async function loader({context}) {
   const {storefront} = context;
@@ -68,6 +69,13 @@ export default function AboutPage() {
             </span>
           ))}
         </p>
+        <ImageCarousel
+          images={[
+            {src: '/images/carousel/1.JPG', alt: 'About 1'},
+            {src: '/images/carousel/2.JPG', alt: 'About 2'},
+            {src: '/images/carousel/3.JPG', alt: 'About 3'},
+          ]}
+        />
         <div className="BlackMist"></div>
       </div>
     </div>

@@ -56,7 +56,7 @@ export function ImageCarousel({images, autoplay = true, loop = true}) {
       </Swiper>
 
       {/* Navegación custom */}
-      <div className="carousel-navigation">
+      {/* <div className="carousel-navigation">
         <button ref={prevRef} className="carousel-arrow carousel-arrow-prev" aria-label="Previous slide">
             <img src={"../../public/images/carousel/leftArrow.png"} alt="" className='arrowImg'/>
         </button>
@@ -64,7 +64,7 @@ export function ImageCarousel({images, autoplay = true, loop = true}) {
         <button ref={nextRef} className="carousel-arrow carousel-arrow-next" aria-label="Next slide">
             <img src={"../../public/images/carousel/rightArrow.png"} alt="" className='arrowImg'/>
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

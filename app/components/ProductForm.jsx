@@ -55,7 +55,7 @@ export function ProductForm({
                   if (isDifferentProduct) {
                     return (
                       <Link
-                        className="product-options-item title"
+                        className="product-options-item title subtitle"
                         key={sizeOption.name + name}
                         prefetch="intent"
                         preventScrollReset
@@ -75,7 +75,7 @@ export function ProductForm({
                     return (
                       <button
                         type="button"
-                        className={`product-options-item${exists && !selected ? ' link' : ''} title `}
+                        className={`product-options-item${exists && !selected ? ' link' : ''} title subtitle`}
                         key={sizeOption.name + name}
                         style={{
                           textDecoration: selected ? 'line-through' : 'none',
@@ -140,7 +140,7 @@ export function ProductForm({
                     if (isDifferentProduct) {
                       return (
                         <Link
-                          className="product-options-item title"
+                          className="product-options-item title subtitle"
                           key={sizeOption.name + name}
                           prefetch="intent"
                           preventScrollReset
@@ -160,7 +160,7 @@ export function ProductForm({
                       return (
                         <button
                           type="button"
-                          className={`product-options-item${exists && !selected ? ' link' : ''} title `}
+                          className={`product-options-item${exists && !selected ? ' link' : ''} title subtitle`}
                           key={sizeOption.name + name}
                           style={{
                             textDecoration: selected ? 'line-through' : 'none',

@@ -116,7 +116,7 @@ useEffect(() => {
           <HeroVideo src="/videos/stw.mp4" />
           <DiscountPopup />
         </div>
-        <div className="secondSection">
+        <div className="secondSection" id="shop">
           <AllCollections collections={data.collections} />
         </div>
         <div className='mist'></div>

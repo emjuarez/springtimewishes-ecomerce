@@ -154,7 +154,7 @@ export default function AppointmentsPage() {
                     {timeSlots.map((slot) => {
                       const id = `time-${slot.replace(':', '')}`;
                       return (
-                        <label key={slot} htmlFor={id} className="time-slot">
+                        <label key={slot} htmlFor={id} className="time-slot info">
                           <input
                             type="radio"
                             id={id}

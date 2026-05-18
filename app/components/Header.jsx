@@ -48,54 +48,73 @@ export function HeaderMenu({menu, primaryDomainUrl, viewport, publicStoreDomain}
   const {isMobile} = useWindowSize();
   const navigate = useNavigate();
 
-const handleClick = (e, finalUrl, isExternal) => {
-  if (isExternal) return; // ✅ deja que el browser maneje el link externo normalmente
-  e.preventDefault();
-  close();
-  navigate(finalUrl);
-};
+  const handleClick = (e, finalUrl, isExternal, isAnchor) => {
+    if (isExternal) return;
+    e.preventDefault();
+    close();
 
-return (
-  <nav className={`header-menu-${viewport}`} role="navigation">
-    {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
-      if (!item.url) return null;
+    // ✅ Maneja anchors del home
+    if (isAnchor) {
+      const hash = finalUrl.replace('/#', '').replace('#', '');
+      navigate(localePath('/'));
+      setTimeout(() => {
+        document.getElementById(hash)?.scrollIntoView({behavior: 'smooth'});
+      }, 100);
+      return;
+    }
 
-      const isExternal =
-        !item.url.includes('myshopify.com') &&
-        !item.url.includes(publicStoreDomain) &&
-        !item.url.includes(primaryDomainUrl);
+    navigate(finalUrl);
+  };
 
-      const url = isExternal
-        ? item.url
-        : new URL(item.url).pathname;
+  return (
+    <nav className={`header-menu-${viewport}`} role="navigation">
+      {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
+        if (!item.url) return null;
 
-      const finalUrl = isExternal ? url : localePath(url);
+        // ✅ Detecta anchors
+        const isAnchor =
+          item.url.startsWith('/#') || item.url.startsWith('#');
 
-      const isActive =
-        typeof window !== 'undefined' &&
-        window.location.pathname === finalUrl;
+        const isExternal =
+          !isAnchor &&
+          !item.url.includes('myshopify.com') &&
+          !item.url.includes(publicStoreDomain) &&
+          !item.url.includes(primaryDomainUrl);
 
-      return (
-        <a
-          key={item.id}
-          href={finalUrl}
-          className="header-menu-item title"
-          onClick={(e) => handleClick(e, finalUrl, isExternal)}
-          target={isExternal ? '_blank' : undefined}        // ✅ nueva pestaña solo externos
-          rel={isExternal ? 'noopener noreferrer' : undefined}
-          style={{
-            textDecoration: isActive ? 'line-through' : undefined,
-            color: 'white',
-          }}
-        >
-          {item.title}
-        </a>
-      );
-    })}
-    {isMobile && <LocaleSelector />}
-  </nav>
-);
+        const url = isExternal
+          ? item.url
+          : isAnchor
+          ? item.url
+          : new URL(item.url).pathname;
+
+        const finalUrl = isExternal || isAnchor ? url : localePath(url);
+
+        const isActive =
+          typeof window !== 'undefined' &&
+          window.location.pathname === finalUrl;
+
+        return (
+          <a
+            key={item.id}
+            href={finalUrl}
+            className="header-menu-item title"
+            onClick={(e) => handleClick(e, finalUrl, isExternal, isAnchor)}
+            target={isExternal ? '_blank' : undefined}
+            rel={isExternal ? 'noopener noreferrer' : undefined}
+            style={{
+              textDecoration: isActive ? 'line-through' : undefined,
+              color: 'white',
+            }}
+          >
+            {item.title}
+          </a>
+        );
+      })}
+      {isMobile && <LocaleSelector />}
+    </nav>
+  );
 }
+
 
 function HeaderMenuMobileToggle() {
   const {open} = useAside();

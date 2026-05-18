@@ -75,7 +75,8 @@ background: linear-gradient(
 .homeKey{
   position: fixed;
   width: 50px;
-  top: 45%;
+  top: calc(50% - 54px);
+  left: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   cursor: pointer;
@@ -134,6 +135,7 @@ background: linear-gradient(
 @media (min-width:1600px) {
   .homeKey {
     width: 65px;
+    top: calc(50% - 70px);
   }
 }
 @media (max-width: 768px) {
@@ -143,11 +145,11 @@ background: linear-gradient(
   .mist1 {
     height: 100vh;
     z-index: 5;
-    pointer-events: all; /* ✅ bloquea clicks mientras está visible */
+    pointer-events: all;
   }
 
   .mist1.reveal {
-    pointer-events: none; /* ✅ cuando se va, deja de bloquear */
+    pointer-events: none; 
   }
   .image-carousel {
     height: 300px;

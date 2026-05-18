@@ -36,10 +36,10 @@ export function SizePopUp() {
           >
             <button
               type="button"
-              className="product-popup-close"
+              className="product-popup-close info"
               onClick={() => setIsOpen(false)}
             >
-              ✕
+              Close X
             </button>
             <table className="size-table info" role="table" aria-label={t('product.size_table')}>
               <thead>

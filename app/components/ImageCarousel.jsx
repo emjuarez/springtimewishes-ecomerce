@@ -20,7 +20,7 @@ export function ImageCarousel({images, autoplay = true, loop = true}) {
   return (
     <div className="image-carousel-container">
       <Swiper
-        modules={[Navigation, Pagination, Autoplay]}
+        modules={[Navigation, Pagination]}
         spaceBetween={0}
         slidesPerView={1}
         loop={loop}
@@ -28,14 +28,6 @@ export function ImageCarousel({images, autoplay = true, loop = true}) {
           clickable: true,
           el: '.custom-pagination',
         }}
-        autoplay={
-          autoplay
-            ? {
-                delay: 3000,
-                disableOnInteraction: false,
-              }
-            : false
-        }
         navigation={{
           prevEl: prevRef.current,
           nextEl: nextRef.current,
@@ -56,7 +48,7 @@ export function ImageCarousel({images, autoplay = true, loop = true}) {
       </Swiper>
 
       {/* Navegación custom */}
-      {/* <div className="carousel-navigation">
+      <div className="carousel-navigation">
         <button ref={prevRef} className="carousel-arrow carousel-arrow-prev" aria-label="Previous slide">
             <img src={"../../public/images/carousel/leftArrow.png"} alt="" className='arrowImg'/>
         </button>
@@ -64,7 +56,7 @@ export function ImageCarousel({images, autoplay = true, loop = true}) {
         <button ref={nextRef} className="carousel-arrow carousel-arrow-next" aria-label="Next slide">
             <img src={"../../public/images/carousel/rightArrow.png"} alt="" className='arrowImg'/>
         </button>
-      </div> */}
+      </div>
     </div>
   );
 }

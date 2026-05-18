@@ -161,9 +161,12 @@ export function Layout({children}) {
   const data = useRouteLoaderData('root');
   const lang = data?.selectedLocale?.language?.toLowerCase() || 'es';
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   audioManager.init('/audio/el-bosque-bounce-para-web-2.mp3');
+  // }, []);
+  if (typeof window !== 'undefined' && !window.__audioInstance) {
     audioManager.init('/audio/el-bosque-bounce-para-web-2.mp3');
-  }, []);
+  }
 
   return (
     <html lang={lang}>

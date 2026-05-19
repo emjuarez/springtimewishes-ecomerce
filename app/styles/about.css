@@ -92,6 +92,7 @@
   padding: 1rem 0;
   position: fixed;
   top: var(--header-height);
+  z-index: 9;
 }
 
 .marquee-content {
@@ -99,6 +100,16 @@
   gap: .5rem;
   animation: marquee 30s linear infinite;
   white-space: nowrap;
+}
+.marquee-content {
+  .title {
+  color: var(--color-lightgray);
+  font-size: 1.2rem;
+  font-weight: 200;
+  letter-spacing: 0.1em;
+  position: relative;
+
+  }
 }
 .spider {
     width: 22px;

@@ -55,12 +55,13 @@ export default function AboutPage() {
 
   return (
     <div className="about-page">
-      <Suspense fallback={<div>{t('common.loading')}</div>}>
+      {/* <Suspense fallback={<div>{t('common.loading')}</div>}>
         <CollectionsMarquee collections={collections ?? []} />
-      </Suspense>
+      </Suspense> */}
+      <TextMarquee/>
       <div className="mist"></div>
       <div className="about-hero">
-        <img className="key-image" src="/images/about/llave.png" alt="key" />
+        {/* <img className="key-image" src="/images/about/llave.png" alt="key" />
         <p className="parrafo title">
           {t('about.text').split('\n').map((line, i) => (
             <span key={i}>
@@ -68,7 +69,7 @@ export default function AboutPage() {
               <br />
             </span>
           ))}
-        </p>
+        </p> */}
         <ImageCarousel
           images={[
             {src: '/images/carousel/1.JPG', alt: 'About 1'},
@@ -104,6 +105,24 @@ function CollectionsMarquee({collections}) {
             </span>
           )),
         )}
+      </div>
+    </div>
+  );
+}
+function TextMarquee() {
+  const {t} = useTranslation(); // ✅ Hook de traducción
+  return (
+    <div className="marquee-container">
+      <div className="marquee-content">
+        <p className="title">
+          {t('about.text2')}
+        </p>
+        <p className="title">
+          {t('about.text2')}
+        </p>
+        <p className="title">
+          {t('about.text2')}
+        </p>
       </div>
     </div>
   );

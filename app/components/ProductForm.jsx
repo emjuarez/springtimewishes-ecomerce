@@ -254,7 +254,7 @@ export function ProductForm({
                           className={`color-options-item${exists && !selected ? ' link' : ''}`}
                           style={{
                             outline: selected
-                              ? '5px solid white'
+                              ? '2px solid white'
                               : '1px solid transparent',
                             opacity: available ? 1 : 0.3,
                             backgroundColor: name,

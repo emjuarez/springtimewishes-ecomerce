@@ -40,7 +40,7 @@
     "checkout": "購入手続きへ",
     "empty_message": "まだ何も追加されていません。さっそく始めましょう！",
     "continue_shopping": "買い物を続ける",
-    "remove": "削除",
+    "remove": "x- 削除",
     "discounts": "割引コード",
     "discount_placeholder": "割引コードを入力",
     "apply": "適用",

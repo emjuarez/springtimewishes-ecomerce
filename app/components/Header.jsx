@@ -15,8 +15,11 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain, collections
 
   const handleHomeClick = (e) => {
     e.preventDefault();
-    navigate(pathPrefix ? `${pathPrefix}/` : '/'); // ✅ SPA navigation
+    const target = pathPrefix ? `${pathPrefix}/` : '/';
+    // ✅ Hard navigation — evita problemas de contexto SSR tras cambio de locale
+    window.location.href = target;
   };
+
 
   return (
     <header className="header">
@@ -53,13 +56,18 @@ export function HeaderMenu({menu, primaryDomainUrl, viewport, publicStoreDomain}
     e.preventDefault();
     close();
 
-    // ✅ Maneja anchors del home
     if (isAnchor) {
       const hash = finalUrl.replace('/#', '').replace('#', '');
       navigate(localePath('/'));
       setTimeout(() => {
         document.getElementById(hash)?.scrollIntoView({behavior: 'smooth'});
       }, 100);
+      return;
+    }
+
+    const isHome = finalUrl === '/' || /^\/[a-z]{2}-[a-z]{2}\/?$/.test(finalUrl);
+    if (isHome) {
+      window.location.href = finalUrl;
       return;
     }
 
@@ -70,6 +78,7 @@ export function HeaderMenu({menu, primaryDomainUrl, viewport, publicStoreDomain}
     <nav className={`header-menu-${viewport}`} role="navigation">
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
         if (!item.url) return null;
+          console.log('item:', item.title, '| url:', item.url);
 
         // ✅ Detecta anchors
         const isAnchor =
@@ -114,7 +123,6 @@ export function HeaderMenu({menu, primaryDomainUrl, viewport, publicStoreDomain}
     </nav>
   );
 }
-
 
 function HeaderMenuMobileToggle() {
   const {open} = useAside();

@@ -45,17 +45,18 @@ function CartEmpty({hidden = false}) {
   const navigate = useNavigate(); // ✅
 
   return (
-    <div hidden={hidden}>
+    <div hidden={hidden} className='emptycart'>
       <br />
-      <p>{t('cart.empty_message')}</p>
+      <p className='info'>{t('cart.empty_message')}</p>
       <br />
       <a
-        href={localePath('/collections')}
+        href={localePath('/#shop')}
         onClick={(e) => {
           e.preventDefault();
           close();
-          navigate(localePath('/collections')); // ✅ SPA navigation
+          navigate(localePath('/#shop')); // ✅ SPA navigation
         }}
+        className='info'
       >
         {t('cart.continue_shopping')} →
       </a>

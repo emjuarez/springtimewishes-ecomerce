@@ -165,7 +165,11 @@ aside header h2 {
   gap: 1rem;
   padding: 25% 0% 0% 5%;
 }
-
+.header-menu-mobile-toggle{
+  img {
+    width: 30px;
+  }
+}
 /* Desktop */
 @media (min-width: 768px) {
   
@@ -207,7 +211,7 @@ aside header h2 {
   }
   .headerLink {
     width: 100%;
-    grid-column: 3 / 8;
+    grid-column: 4 / 7;
   }
   .headerLogo {
     width: 100%;

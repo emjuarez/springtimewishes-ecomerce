@@ -66,6 +66,9 @@ export function CartLineItem({layout, line, originalTitles}) {
           <CartLineQuantity line={line} />
         </div>
       </div>
+      <div className='row bottom'>
+        <CartLineRemoveButton lineIds={[id]} disabled={!!line.isOptimistic} />
+      </div>
     </li>
   );
 }
@@ -115,7 +118,7 @@ function CartLineRemoveButton({lineIds, disabled}) {
       action={CartForm.ACTIONS.LinesRemove}
       inputs={{lineIds}}
     >
-      <button disabled={disabled} type="submit">
+      <button disabled={disabled} type="submit" className='cart-remove-button info'>
         {t('cart.remove')}
       </button>
     </CartForm>

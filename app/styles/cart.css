@@ -10,6 +10,9 @@
   width: auto;
   padding: 84px 0px;
 }
+.emptycart {
+  padding: 10px;
+}
 .cart-line {
   margin-bottom: 20px;
 
@@ -30,6 +33,14 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 5px;
+  }
+  .bottom{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 5px;
+    align-items: center;
   }
 }
 
@@ -112,6 +123,11 @@
   align-items: center;
   border-top: 1px solid rgb(167, 167, 167);
   padding-top: 10px;
+}
+.cart-remove-button {
+  border: none;
+  background: none;
+
 }
 .checkoutbutton {
   width: 95%;

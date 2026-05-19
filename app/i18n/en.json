@@ -40,7 +40,7 @@
     "checkout": "Checkout",
     "empty_message": "Looks like you haven't added anything yet, let's get you started!",
     "continue_shopping": "Continue shopping",
-    "remove": "Remove",
+    "remove": "x- Remove",
     "discounts": "Discount(s)",
     "discount_placeholder": "Discount code",
     "apply": "Apply",

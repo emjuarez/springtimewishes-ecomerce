@@ -34,31 +34,37 @@ export function LocaleSelector() {
     return matched?.[0] || 'es-MX'; // Default es-MX
   })();
 
-  const handleLocaleChange = (newLocaleKey) => {
-    if (newLocaleKey === currentLocaleKey) {
-      setIsOpen(false);
-      return;
-    }
-
-    const newLocale = locales[newLocaleKey];
-    const currentLocale = locales[currentLocaleKey];
-
-    // ✅ Limpiar prefijo actual de la URL
-    let cleanPath = location.pathname;
-    if (currentLocale?.pathPrefix) {
-      cleanPath = cleanPath.startsWith(currentLocale.pathPrefix)
-        ? cleanPath.slice(currentLocale.pathPrefix.length) || '/'
-        : cleanPath;
-    }
-
-    // ✅ Construir nueva ruta
-    const newPath = newLocale?.pathPrefix
-      ? newLocale.pathPrefix + (cleanPath === '/' ? '' : cleanPath)
-      : cleanPath;
-
-    window.location.href = newPath;
+const handleLocaleChange = (newLocaleKey) => {
+  if (newLocaleKey === currentLocaleKey) {
     setIsOpen(false);
-  };
+    return;
+  }
+
+  const newLocale = locales[newLocaleKey];
+  const currentLocale = locales[currentLocaleKey];
+
+  let cleanPath = location.pathname;
+  if (currentLocale?.pathPrefix) {
+    cleanPath = cleanPath.startsWith(currentLocale.pathPrefix)
+      ? cleanPath.slice(currentLocale.pathPrefix.length) || '/'
+      : cleanPath;
+  }
+
+  // ✅ Normaliza cleanPath — siempre empieza con /
+  if (!cleanPath.startsWith('/')) cleanPath = '/' + cleanPath;
+
+  // ✅ Construir nueva ruta sin trailing slash excepto en home
+ const newPath = newLocale?.pathPrefix
+  ? newLocale.pathPrefix + (cleanPath === '/' ? '/' : cleanPath)
+  : cleanPath;
+
+// ✅ Asegura que el home siempre tenga trailing slash
+const finalPath = newPath.endsWith('/') ? newPath : newPath;
+
+window.location.href = finalPath;
+
+};
+
 
 
   return (

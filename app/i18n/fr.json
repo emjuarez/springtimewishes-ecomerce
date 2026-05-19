@@ -40,7 +40,7 @@
     "checkout": "Passer la commande",
     "empty_message": "Il semble que vous n'ayez encore rien ajouté, commençons!",
     "continue_shopping": "Continuer vos achats",
-    "remove": "Supprimer",
+    "remove": "x- Supprimer",
     "discounts": "Réduction(s)",
     "discount_placeholder": "Code de réduction",
     "apply": "Appliquer",

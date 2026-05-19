@@ -34,7 +34,7 @@ export function Aside({children, heading, type}) {
       <button className="close-outside" onClick={close} />
       <aside>
         <header>
-          <h3 className="info">{asideHeading}</h3>
+          <h3 className="info asideheading">{asideHeading}</h3>
           <button
             className="close reset info"
             onClick={close}

@@ -400,17 +400,20 @@ button.reset:hover:not(:has(> *)) {
   font-size: clamp(1rem, 1.2813vw, 1.15rem); /* 1280px→16px | 1536px→20px */
   letter-spacing: .1rem;
   font-weight: normal;
+  color: #000 !important;
 }
 
 
 .subtitle {
   font-size: clamp(0.875rem, 1.1119vw, 1.0625rem); /* 1280px→14px | 1536px→17px */
+  color: #000 !important;
 }
 
 .info {
   font-family: 'Aktiv';
   font-size: clamp(0.5625rem, 0.7344vw, 0.75rem); /* 1280px→9px | 1536px→12px */
   letter-spacing: .07rem;
+  color: #000 !important;
 }
 
 

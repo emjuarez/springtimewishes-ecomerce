@@ -152,4 +152,15 @@
       height: 18px;
     }
   }
+  .cart-subtotal{
+    width: 100%;
+    padding: 0px 10px;
+    box-sizing: border-box;
+  }
+  .cart-summary-aside{
+    padding-bottom: 2rem;
+  }
+  .asideheading {
+    font-size: 16px;
+  }
 }

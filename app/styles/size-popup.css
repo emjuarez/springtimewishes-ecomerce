@@ -89,3 +89,28 @@
 
   /* grid look: equal-width middle columns */
   .size-table thead th.col { width:17%; }
+
+@media (max-width: 768px){
+    .product-popup-overlay {
+      box-sizing: border-box;
+    }
+    .product-popup-content {
+      box-sizing: border-box;
+      padding: 10px;
+    }
+      .size-table tbody td,
+    .size-table tbody th{
+      font-size:unset;
+    }
+    .size-table thead th{
+      padding:55px 8px;
+    }
+    .size-table thead th.size-label{
+      padding:55px 8px;
+    }
+    .product-popup-close {
+      top: 2rem;
+      right: 1rem;
+      font-size: .9rem;
+    }
+  }

@@ -369,7 +369,7 @@ export function ProductForm({
               className="info"
             />
            {selectedVariant?.availableForSale && (
-            <button className="shop-now-button title" type="button">
+            <button className="shop-now-button title subtitle" type="button">
               {t('product.shop_now')}
             </button>
             )}

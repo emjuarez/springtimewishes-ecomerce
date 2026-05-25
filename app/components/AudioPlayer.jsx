@@ -72,21 +72,21 @@ export function AudioPlayer() {
       <div className="player-topdiv">
         <div className="audio-controls">
           <button className="audio-btn" onClick={handleStop} aria-label="Stop">
-            ■
+            <img src="/images/Layout/stop.png" alt="" className="audiosign" />
           </button>
           <button
             className="audio-btn audio-btn--main"
             onClick={() => audioManager.toggle()}
             aria-label='Play'
           >
-            ▶
+            <img src="/images/Layout/play.png" alt="" className="audiosign" />
           </button>
           <button
             className="audio-btn audio-btn--main"
             onClick={() => audioManager.toggle()}
             aria-label='Pause'
           >
-            ❚❚
+            <img src="/images/Layout/pause.png" alt="" className="audiosign" />
           </button>
         </div>
         <span className="audio-time info">{formatTime(currentTime)}</span>

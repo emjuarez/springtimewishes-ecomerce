@@ -70,8 +70,7 @@
 .audio-btn {
   background: none;
   border: none;
-  color: #999999;
-  font-size: 1.1rem;
+  width: 25px;
   cursor: pointer;
   border-radius: 50%;
   transition: background-color 0.2s, transform 0.1s;
@@ -82,6 +81,9 @@
 
 .audio-btn:hover {
   transform: scale(1.1);
+}
+.audiosign {
+  width: 100%;
 }
 
 /* .audio-btn--main {

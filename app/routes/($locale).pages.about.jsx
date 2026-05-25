@@ -114,13 +114,13 @@ function TextMarquee() {
   return (
     <div className="marquee-container">
       <div className="marquee-content">
-        <p className="title">
+        <p className="info">
           {t('about.text2')}
         </p>
-        <p className="title">
+        <p className="info">
           {t('about.text2')}
         </p>
-        <p className="title">
+        <p className="info">
           {t('about.text2')}
         </p>
       </div>

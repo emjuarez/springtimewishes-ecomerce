@@ -70,7 +70,7 @@
 .audio-btn {
   background: none;
   border: none;
-  width: 25px;
+  width: 22px;
   cursor: pointer;
   border-radius: 50%;
   transition: background-color 0.2s, transform 0.1s;

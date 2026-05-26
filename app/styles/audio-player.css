@@ -135,8 +135,10 @@
     padding: 1rem 0rem 0rem;
     box-sizing: border-box;
   }
-
   .audio-volume {
     width: 60px;
+  }
+  .audiosign{
+    width: 10px;
   }
 }

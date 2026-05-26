@@ -79,7 +79,8 @@ async function loadCriticalData({context, request}) {
       cache: storefront.CacheLong(),
       variables: {
         headerMenuHandle: 'main-menu-1',
-        // ✅ Hydrogen los inyecta automáticamente desde i18n
+        language: storefront.i18n.language, 
+        country: storefront.i18n.country,
       },
     }),
   ]);

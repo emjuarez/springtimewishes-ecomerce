@@ -13,6 +13,9 @@ body {
   background-color: var(--color-lightgray);
   cursor: url('public/images/Layout/STW_cursoro.png');
 }
+h1 {
+  font-weight: normal;
+}
 /*
 * --------------------------------------------------
 * Non anchor links

@@ -22,7 +22,15 @@ export function ImageCarousel({images, autoplay = false, loop = true}) {
         spaceBetween={0}
         slidesPerView={1}
         loop={loop}
-        onSwiper={(swiper) => (swiperRef.current = swiper)} // ✅ guarda instancia
+        onSwiper={(swiper) => (swiperRef.current = swiper)} 
+        breakpoints={{
+          0: {
+            direction: 'vertical', // ✅ mobile → scroll vertical
+          },
+          769: {
+            direction: 'horizontal', // ✅ desktop → horizontal
+          },
+        }}
         pagination={{
           clickable: true,
           el: '.custom-pagination',

@@ -19,6 +19,7 @@ import {CustomCursor} from '~/components/CustomCursor';
 import {AudioPlayer} from '~/components/AudioPlayer';
 import {useEffect} from 'react';
 import {audioManager} from '~/lib/audioManager';
+import {useWindowSize} from '~/hooks/useWindowSize';
 
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
   if (formMethod && formMethod !== 'GET') return true;
@@ -161,10 +162,8 @@ export function Layout({children}) {
   const nonce = useNonce();
   const data = useRouteLoaderData('root');
   const lang = data?.selectedLocale?.language?.toLowerCase() || 'es';
+  const {isDesktop} = useWindowSize();
 
-  // useEffect(() => {
-  //   audioManager.init('/audio/el-bosque-bounce-para-web-2.mp3');
-  // }, []);
   if (typeof window !== 'undefined' && !window.__audioInstance) {
     audioManager.init('/audio/el-bosque-bounce-para-web-2.mp3');
   }
@@ -182,9 +181,11 @@ export function Layout({children}) {
       <body>
         <CustomCursor src="/images/Layout/cursor.png" size={42} />
         {children}
-        <div className="audio-player-fixed">
-          <AudioPlayer />  {/* ← sin src, usa el manager */}
-        </div>
+        {isDesktop && (
+          <div className="audio-player-fixed">
+            <AudioPlayer />  {/* ← sin src, usa el manager */}
+          </div>
+        )}
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
       </body>

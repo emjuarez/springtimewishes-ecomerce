@@ -76,13 +76,15 @@
 }
 @media (max-width: 480px) {
   .locale-button {
-    padding: 6px 0px;
+    padding:  0px;
   }
   .locale-dropdown {
     position: absolute;
     top: unset;
-    right: unset;
-    min-width: 180px;
+    right: 0%;
+    padding: 1% 5% 20%;
+    width: 100%;
+    box-sizing: border-box;
     z-index: 9000;
     overflow: hidden;
   }

@@ -271,4 +271,26 @@ img{
     left: 50%;
     z-index: 9;
   }
+   .image-carousel-container {
+    height: 100vh; /* ✅ necesario para direction vertical */
+  }
+
+  .image-carousel {
+    height: 100%;
+  }
+
+  .carousel-slide {
+    height: 100%;
+  }
+
+  .carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .marquee-content {
+    .info {
+      font-size: clamp(0.5625rem, 0.7344vw, 0.75rem);
+    }
+  }
 }

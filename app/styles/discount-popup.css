@@ -59,12 +59,13 @@
   border: none;
   font-size: 1rem;
   cursor: pointer;
-  color: white;
+  color: var(--color-lightgray) !important;
   line-height: 1;
   padding: 0;
   width: fit-content;
   height: 30px;
   transition: color 0.3s;
+
 }
 .popup-close.active {
   color: #000;
@@ -167,7 +168,7 @@
 @media (max-width: 768px) {
   .popup-content {
     width: 90%;
-    transform: translate(5%, -17%);
+    transform: translate(3%, -17%);
     grid-template-columns: repeat(1, 2fr);
     height: 70%;
     .left {

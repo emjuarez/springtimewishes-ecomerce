@@ -3,7 +3,7 @@ import {Form} from 'react-router';
 import '../styles/discount-popup.css';
 
 export function DiscountPopup() {
-  const [isOpen, setIsOpen] = useState(true);// debe de ir el false
+  const [isOpen, setIsOpen] = useState(false);// debe de ir el false
   const [email, setEmail] = useState('');
   const [showCode, setShowCode] = useState(false);// debe de ir el false
   const [isCloseActive, setIsCloseActive] = useState(false); // debe de ir el false

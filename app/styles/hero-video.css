@@ -131,17 +131,29 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .hero-video-section{
+  .hero-video-section {
     height: 80vh;
   }
+
   .hero-video-wrapper {
     width: 90%;
+    cursor: default; 
   }
+
   .hero-video-wrapper.expanded {
-    width: 100%;
+    width: 90%; 
+    border-radius: 0;
+    box-shadow: none;
   }
+
+  .hero-video-section:has(.hero-video-wrapper.expanded) {
+    height: 80vh;
+    min-height: unset;
+    padding: 4rem 0;
+    align-items: center;
+  }
+
   .hero-video-close {
-    top: unset;
-    bottom: 1rem;
+    display: none;
   }
 }

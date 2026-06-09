@@ -389,10 +389,13 @@
       font-size: 13px;
     }
   }
+  .product-item:hover {
+    opacity: 1;
+    text-decoration: none;
+  }
   .product-image {
     padding: 20px 14px;
   }
-
   .imageWrapper{
     position: relative;
     display: inline-block;
@@ -404,7 +407,6 @@
     box-shadow: inset 0 0 20px 7px #d5d5d5;
     pointer-events: none;
   }
- 
   .productInfo {
     .left{
       width: 100%;
@@ -428,69 +430,69 @@
     }
   }
  .product_secondSection {
-  min-height: unset;
-  box-sizing: border-box;
-  padding-top: 50px;
-  .size-table{
-    width:100%;
-    max-width: 1300px;
-    border-collapse:collapse;
-    box-shadow: 0 0 0 1px #211F1F inset;
-    background:var(--bg);
+    min-height: unset;
+    box-sizing: border-box;
+    padding-top: 50px;
+    .size-table{
+      width:100%;
+      max-width: 1300px;
+      border-collapse:collapse;
+      box-shadow: 0 0 0 1px #211F1F inset;
+      background:var(--bg);
+    }
+
+    /* top area: big cells */
+    .size-table thead th{
+      background:var(--cell-bg);
+      border-right:1px solid #211F1F;
+      border-bottom:1px solid #211F1F;
+      padding: 15px 8px;
+      text-align:center;
+      vertical-align:middle;
+      font-weight:400;
+      letter-spacing:2px;
+      font-size:13px;
+
+    }
+
+    /* left "SIZE" cell should be taller and vertically centered */
+    .size-table thead th.size-label{
+      width:15%;
+      padding: 15px 8px;
+      font-weight:600;
+      letter-spacing:3px;
+    }
+
+    /* Remove right border for last header */
+    .size-table thead th:last-child{ border-right: none; }
+
+    /* body rows (measurements) */
+    .size-table tbody td,
+    .size-table tbody th{
+      border-top: none;
+      border-right:1px solid #211F1F;
+      border-bottom:1px solid #211F1F;
+      padding:15px 1px;
+      text-align:center;
+      vertical-align:middle;
+      font-size:11px;
+    }
+
+    .size-table tbody th{
+      text-align:left;
+      padding:8px;
+      width:15%;
+      font-weight:600;
+      background:var(--cell-bg);
+    }
+
+    .size-table tbody td:last-child,
+    .size-table tbody th + td:last-child{
+      border-right: none;
+    }
+
+    /* grid look: equal-width middle columns */
+    .size-table thead th.col { width:17%; }
   }
-
-  /* top area: big cells */
-  .size-table thead th{
-    background:var(--cell-bg);
-    border-right:1px solid #211F1F;
-    border-bottom:1px solid #211F1F;
-    padding: 15px 8px;
-    text-align:center;
-    vertical-align:middle;
-    font-weight:400;
-    letter-spacing:2px;
-    font-size:13px;
-
-  }
-
-  /* left "SIZE" cell should be taller and vertically centered */
-  .size-table thead th.size-label{
-    width:15%;
-    padding: 15px 8px;
-    font-weight:600;
-    letter-spacing:3px;
-  }
-
-  /* Remove right border for last header */
-  .size-table thead th:last-child{ border-right: none; }
-
-  /* body rows (measurements) */
-  .size-table tbody td,
-  .size-table tbody th{
-    border-top: none;
-    border-right:1px solid #211F1F;
-    border-bottom:1px solid #211F1F;
-    padding:15px 1px;
-    text-align:center;
-    vertical-align:middle;
-    font-size:11px;
-  }
-
-  .size-table tbody th{
-    text-align:left;
-    padding:8px;
-    width:15%;
-    font-weight:600;
-    background:var(--cell-bg);
-  }
-
-  .size-table tbody td:last-child,
-  .size-table tbody th + td:last-child{
-    border-right: none;
-  }
-
-  /* grid look: equal-width middle columns */
-  .size-table thead th.col { width:17%; }
-}
-
+  
 }

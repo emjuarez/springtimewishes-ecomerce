@@ -224,4 +224,7 @@ aside header h2 {
   .header-menu-item {
     font-size: 25px;
   }
+  aside header .close {
+    width: max-content;
+  }
 }

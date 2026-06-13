@@ -87,6 +87,7 @@
     box-sizing: border-box;
     z-index: 9000;
     overflow: hidden;
+    border-width: 1px 0px 0px 0px;
   }
   .locale-option {
     padding: 5px 0px;

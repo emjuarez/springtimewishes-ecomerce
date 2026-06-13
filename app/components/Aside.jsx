@@ -33,7 +33,7 @@ export function Aside({children, heading, type}) {
     >
       <button className="close-outside" onClick={close} />
       <aside>
-        <header>
+        <header className='asideHeader'>
           <h3 className="info asideheading">{asideHeading}</h3>
           <button
             className="close reset info"

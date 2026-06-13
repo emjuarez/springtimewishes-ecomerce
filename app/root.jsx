@@ -35,25 +35,15 @@ export function links() {
   ];
 }
 
-/**
- * @param {Route.LoaderArgs} args
- */
 export async function loader(args) {
-  // ✅ Obtener locale aquí
   const locale = getLocaleFromRequest(args.request);
-
-  // Start fetching non-critical data without blocking time to first byte
   const deferredData = loadDeferredData(args);
-
-  // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
-
   const {storefront, env} = args.context;
 
   return {
     ...deferredData,
     ...criticalData,
-    // ✅ Agregar locale aquí
     selectedLocale: locale,
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
     shop: getShopAnalytics({
@@ -70,23 +60,34 @@ export async function loader(args) {
   };
 }
 
-async function loadCriticalData({context, request}) {
+async function loadCriticalData({context}) {
   const {storefront} = context;
-  // ✅ El storefront ya tiene i18n configurado desde context.js
-  // No necesitas pasar language/country manualmente
 
-  const [header] = await Promise.all([
+  const [header, socialLinks] = await Promise.all([
     storefront.query(HEADER_QUERY, {
       cache: storefront.CacheLong(),
       variables: {
         headerMenuHandle: 'main-menu-1',
-        language: storefront.i18n.language, 
+        language: storefront.i18n.language,
         country: storefront.i18n.country,
       },
     }),
+    storefront.query(SOCIAL_LINKS_QUERY, {
+      cache: storefront.CacheLong(),
+    }),
   ]);
 
-  return {header};
+  // ✅ Temporal
+  console.log('socialLinks raw:', JSON.stringify(socialLinks, null, 2));
+
+  const socialFields = socialLinks?.metaobjects?.nodes?.[0]?.fields ?? [];
+  const social = Object.fromEntries(
+    socialFields.map(({key, value}) => [key, value]),
+  );
+
+  console.log('social parsed:', social);
+
+  return {header, social};
 }
 
 function loadDeferredData({context}) {
@@ -95,9 +96,7 @@ function loadDeferredData({context}) {
   const footer = storefront
     .query(FOOTER_QUERY, {
       cache: storefront.CacheLong(),
-      variables: {
-        footerMenuHandle: 'footer',
-      },
+      variables: {footerMenuHandle: 'footer'},
     })
     .catch((error) => {
       console.error(error);
@@ -109,7 +108,6 @@ function loadDeferredData({context}) {
     .then((res) => res.collections.nodes)
     .catch(() => []);
 
-  // ✅ Cart con títulos en inglés
   const cartWithTitles = cart.get().then(async (cartData) => {
     if (!cartData?.lines?.nodes?.length) {
       return {...cartData, originalTitles: {}};
@@ -120,8 +118,6 @@ function loadDeferredData({context}) {
         cartData.lines.nodes.map((line) => line.merchandise.product.id),
       ),
     ];
-
-    console.log('🛒 productIds:', productIds);
 
     try {
       const {nodes: productsEN} = await storefront.query(
@@ -134,14 +130,10 @@ function loadDeferredData({context}) {
         },
       );
 
-      console.log('🇬🇧 productsEN:', productsEN);
-
       const originalTitles = {};
       productsEN?.forEach((product) => {
         if (product) originalTitles[product.id] = product.title;
       });
-
-      console.log('✅ originalTitles:', originalTitles);
 
       return {...cartData, originalTitles};
     } catch (e) {
@@ -151,7 +143,7 @@ function loadDeferredData({context}) {
   });
 
   return {
-    cart: cartWithTitles, // ✅ Reemplaza cart: cart.get()
+    cart: cartWithTitles,
     isLoggedIn: customerAccount.isLoggedIn(),
     footer,
     collections,
@@ -183,7 +175,7 @@ export function Layout({children}) {
         {children}
         {isDesktop && (
           <div className="audio-player-fixed">
-            <AudioPlayer />  {/* ← sin src, usa el manager */}
+            <AudioPlayer />
           </div>
         )}
         <ScrollRestoration nonce={nonce} />
@@ -196,9 +188,7 @@ export function Layout({children}) {
 export default function App() {
   const data = useRouteLoaderData('root');
 
-  if (!data) {
-    return <Outlet />;
-  }
+  if (!data) return <Outlet />;
 
   return (
     <Analytics.Provider
@@ -209,11 +199,6 @@ export default function App() {
       <PageLayout {...data}>
         <Outlet />
       </PageLayout>
-      {/* <div className="audio-player-fixed">
-        <AudioPlayer 
-          src="/audio/el-bosque-bounce-para-web-2.mp3"
-        />
-      </div> */}
     </Analytics.Provider>
   );
 }
@@ -243,7 +228,6 @@ export function ErrorBoundary() {
   );
 }
 
-// app/root.jsx
 export const COLLECTIONS_QUERY = `#graphql
   query Collections(
     $country: CountryCode
@@ -252,17 +236,15 @@ export const COLLECTIONS_QUERY = `#graphql
     collections(first: 20) {
       nodes {
         id
-        title       # ← Traducido automáticamente
-        description # ← Traducido automáticamente
+        title
+        description
         handle
-        image {
-          url
-          altText
-        }
+        image { url altText }
       }
     }
   }
 `;
+
 const CART_PRODUCTS_TITLES_QUERY = `#graphql
   query CartProductTitlesRoot(
     $ids: [ID!]!
@@ -276,6 +258,20 @@ const CART_PRODUCTS_TITLES_QUERY = `#graphql
     }
   }
 `;
+
+const SOCIAL_LINKS_QUERY = `#graphql
+  query SocialLinks {
+    metaobjects(type: "social_links", first: 1) {
+      nodes {
+        fields {
+          key
+          value
+        }
+      }
+    }
+  }
+`;
+
 /** @typedef {LoaderReturnData} RootLoader */
 /** @typedef {import('react-router').ShouldRevalidateFunction} ShouldRevalidateFunction */
 /** @typedef {import('./+types/root').Route} Route */

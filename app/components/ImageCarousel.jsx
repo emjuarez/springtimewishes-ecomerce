@@ -20,15 +20,16 @@ export function ImageCarousel({images, autoplay = false, loop = true}) {
       <Swiper
         modules={[Pagination, Autoplay]}
         spaceBetween={0}
-        slidesPerView={1}
         loop={loop}
         onSwiper={(swiper) => (swiperRef.current = swiper)} 
         breakpoints={{
           0: {
             direction: 'vertical', // ✅ mobile → scroll vertical
+            slidesPerView: "3"
           },
           769: {
             direction: 'horizontal', // ✅ desktop → horizontal
+            slidesPerView: "1"
           },
         }}
         pagination={{

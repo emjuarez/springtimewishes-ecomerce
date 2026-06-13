@@ -414,7 +414,8 @@ button.reset:hover:not(:has(> *)) {
 
 .info {
   font-family: 'Aktiv';
-  font-size: clamp(0.5625rem, 0.7344vw, 0.75rem); /* 1280px→9px | 1536px→12px */
+  font-size: clamp(0.5625rem, 0.7344vw, 0.75rem); 
+  font-size: 0.75rem;
   letter-spacing: .07rem;
   color: #000 !important;
 }

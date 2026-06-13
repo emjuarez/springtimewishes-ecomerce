@@ -7,7 +7,7 @@ import {useLocalePath} from '~/hooks/useLocalePath';
 import {LocaleSelector} from '~/components/LocaleSelector';
 import {useWindowSize} from '~/hooks/useWindowSize';
 
-export function Header({header, isLoggedIn, cart, publicStoreDomain, collections}) {
+export function Header({header, isLoggedIn, cart, publicStoreDomain, collections, social}) {
   const {shop, menu} = header;
   const {localePath, pathPrefix} = useLocalePath();
   const {isDesktop} = useWindowSize();
@@ -16,10 +16,8 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain, collections
   const handleHomeClick = (e) => {
     e.preventDefault();
     const target = pathPrefix ? `${pathPrefix}/` : '/';
-    // ✅ Hard navigation — evita problemas de contexto SSR tras cambio de locale
     window.location.href = target;
   };
-
 
   return (
     <header className="header">
@@ -36,6 +34,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain, collections
         viewport="desktop"
         primaryDomainUrl={header.shop.primaryDomain.url}
         publicStoreDomain={publicStoreDomain}
+        social={social} // ✅ se pasa correctamente
       />
       <div className="selector-cart_div">
         {isDesktop && <LocaleSelector />}
@@ -45,7 +44,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain, collections
   );
 }
 
-export function HeaderMenu({menu, primaryDomainUrl, viewport, publicStoreDomain}) {
+export function HeaderMenu({menu, primaryDomainUrl, viewport, publicStoreDomain, social}) {
   const {close} = useAside();
   const {localePath} = useLocalePath();
   const {isMobile} = useWindowSize();
@@ -78,9 +77,7 @@ export function HeaderMenu({menu, primaryDomainUrl, viewport, publicStoreDomain}
     <nav className={`header-menu-${viewport}`} role="navigation">
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
         if (!item.url) return null;
-          console.log('item:', item.title, '| url:', item.url);
 
-        // ✅ Detecta anchors
         const isAnchor =
           item.url.startsWith('/#') || item.url.startsWith('#');
 
@@ -119,7 +116,58 @@ export function HeaderMenu({menu, primaryDomainUrl, viewport, publicStoreDomain}
           </a>
         );
       })}
+
       {isMobile && <LocaleSelector />}
+
+      {isMobile && (
+        <div className='header-mobilefooter'>
+          <div className="header-social-links">
+            {social?.tiktok_url && (
+              <a
+                href={social.tiktok_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="header-social-link info"
+              >
+                TikTok:Springtimewishes
+              </a>
+            )}
+            {social?.instagram_url && (
+              <a
+                href={social.instagram_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="header-social-link info"
+              >
+                IG: @springtimewishes
+              </a>
+            )}
+
+          </div>
+          <div className='header-returnpolicy'>
+            {social?.instagram_url && (
+              <a
+                href={social.instagram_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="header-social-link title"
+              >
+                Store Policy
+              </a>
+            )}
+            {social?.tiktok_url && (
+              <a
+                href={social.tiktok_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="header-social-link title"
+              >
+                Shippings & Returns
+              </a>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
@@ -158,14 +206,19 @@ function CartBadge({count}) {
         className="title header-menu-item cartBadgeDesktop"
         onClick={handleCartClick}
       >
-        Basket <span className="cart-parens">({count === null ? <span>&nbsp;</span> : count})</span>
+        Basket{' '}
+        <span className="cart-parens">
+          ({count === null ? <span>&nbsp;</span> : count})
+        </span>
       </a>
       <a
         href="/cart"
         className="title header-menu-item cartBadgeMobile"
         onClick={handleCartClick}
       >
-        <span className="cart-parens">({count === null ? <span>&nbsp;</span> : count})</span>
+        <span className="cart-parens">
+          ({count === null ? <span>&nbsp;</span> : count})
+        </span>
       </a>
     </>
   );
@@ -196,31 +249,3 @@ const FALLBACK_HEADER_MENU = {
     {id: 'gid://shopify/MenuItem/461609599032', title: 'About', url: '/pages/about'},
   ],
 };
-
-function activeLinkStyle({isActive, isPending}) {
-  return {
-    textDecoration: isActive ? 'line-through' : undefined,
-    color: isPending ? 'white' : 'white',
-  };
-}
-
-const ALL_COLLECTIONS_QUERY = `#graphql
-  query AllCollections($country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {
-    collections(first: 50, sortKey: UPDATED_AT) {
-      nodes {
-        id
-        title
-        handle
-        description
-        image { url altText width height }
-        products(first: 10) {
-          nodes {
-            id title handle
-            priceRange { minVariantPrice { amount currencyCode } }
-            featuredImage { url altText width height }
-          }
-        }
-      }
-    }
-  }
-`;

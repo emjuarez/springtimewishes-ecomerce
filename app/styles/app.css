@@ -12,6 +12,7 @@
 body {
   background-color: var(--color-lightgray);
   cursor: url('public/images/Layout/STW_cursoro.png');
+  font-weight: normal !important;
 }
 h1 {
   font-weight: normal;

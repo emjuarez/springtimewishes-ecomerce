@@ -173,7 +173,8 @@
 .product-form-section button {
   background: none;
   border: none;
-  color: black
+  color: black;
+  font-weight: normal;
 }
 .product-form-section {
   display: flex;

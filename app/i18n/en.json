@@ -14,9 +14,9 @@
   },
   "product": {
     "size": "Size",
-    "bust": "BUST",
-    "waist": "WAIST",
-    "hips": "HIPS",
+    "bust": "Bust",
+    "waist": "Waist",
+    "hips": "Hips",
     "size_table": "Size chart",
     "color": "Color",
     "quantity": "Quantity",

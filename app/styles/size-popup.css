@@ -98,9 +98,10 @@
       box-sizing: border-box;
       padding: 10px;
     }
-      .size-table tbody td,
+    .size-table tbody td,
     .size-table tbody th{
-      font-size:unset;
+      font-size:10px;
+      font-weight: normal !important;
     }
     .size-table thead th{
       padding:55px 8px;

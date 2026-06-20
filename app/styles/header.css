@@ -1,3 +1,18 @@
+.header {
+  background: rgba(255,0,0,.1);
+}
+
+.headerLink {
+  background: rgba(0,255,0,.3);
+}
+
+.selector-cart_div {
+  background: rgba(0,0,255,.3);
+}
+
+.header-menu-mobile-toggle {
+  background: rgba(255,255,0,.3);
+}
 aside {
   background-color: #E2E1DE;;
   height: 100vh;

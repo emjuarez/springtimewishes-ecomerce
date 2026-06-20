@@ -47,7 +47,7 @@
     padding:180px 8px;
     text-align:center;
     vertical-align:middle;
-    font-weight:400;
+    font-weight:normal;
     letter-spacing:2px;
   }
 
@@ -55,7 +55,7 @@
   .size-table thead th.size-label{
     width:15%;
     padding:180px 8px;
-    font-weight:600;
+    font-weight:normal;
     letter-spacing:3px;
   }
 
@@ -78,7 +78,7 @@
     text-align:left;
     padding-left:18px;
     width:15%;
-    font-weight:600;
+    font-weight:normal;
     background:var(--cell-bg);
   }
 
